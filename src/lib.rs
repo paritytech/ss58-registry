@@ -171,9 +171,11 @@ fn create_ss58_registry(json: &str) -> Result<TokenStream, String> {
 
     let output = quote! {
         use core::convert::TryFrom;
+        use core::sync::atomic::{Ordering, AtomicU16};
 
         #[cfg(feature = "std")]
-        static DEFAULT_VERSION: Ss58AddressFormat = Ss58AddressFormat::SubstrateAccount;
+        /// Default prefix number
+        static DEFAULT_VERSION: AtomicU16 = AtomicU16::new(42 /*substrate*/);
 
         /// A known address (sub)format/network ID for SS58.
         #[derive(Copy, Clone, PartialEq, Eq, RuntimeDebug)]
@@ -219,11 +221,9 @@ fn create_ss58_registry(json: &str) -> Result<TokenStream, String> {
             }
         }
 
-        impl TryFrom<u8> for Ss58AddressFormat {
-            type Error = ();
-
-            fn try_from(x: u8) -> Result<Ss58AddressFormat, ()> {
-                Ss58AddressFormat::try_from(x as u16)
+        impl From<u8> for Ss58AddressFormat {
+            fn from(x: u8) -> Ss58AddressFormat {
+                Ss58AddressFormat::from(x as u16)
             }
         }
 
@@ -236,13 +236,11 @@ fn create_ss58_registry(json: &str) -> Result<TokenStream, String> {
             }
         }
 
-        impl TryFrom<u16> for Ss58AddressFormat {
-            type Error = ();
-
-            fn try_from(x: u16) -> Result<Ss58AddressFormat, ()> {
+        impl From<u16> for Ss58AddressFormat {
+            fn from(x: u16) -> Ss58AddressFormat {
                 match x {
-                    #(#number => Ok(Ss58AddressFormat::#identifier)),*,
-                    _ => Ok(Ss58AddressFormat::Custom(x)),
+                    #(#number => Ss58AddressFormat::#identifier),*,
+                    _ => Ss58AddressFormat::Custom(x),
                 }
             }
         }
@@ -282,7 +280,15 @@ fn create_ss58_registry(json: &str) -> Result<TokenStream, String> {
         #[cfg(feature = "std")]
         impl Default for Ss58AddressFormat {
             fn default() -> Self {
-                DEFAULT_VERSION//.lock() - do we need it really?
+                DEFAULT_VERSION.load(Ordering::Relaxed).into()
+            }
+        }
+
+        #[cfg(feature = "std")]
+        impl Ss58AddressFormat {
+            fn set_default(new_default: Self) {
+                let prefix : u16 = new_default.into();
+                DEFAULT_VERSION.store(prefix, Ordering::Relaxed);
             }
         }
 
