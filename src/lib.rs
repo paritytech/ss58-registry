@@ -14,6 +14,8 @@
 // limitations under the License.
 
 //! List of wellknown SS58 account types as an enum.
+#![deny(missing_docs)]
+
 use proc_macro::TokenStream;
 use quote::{format_ident, quote};
 use serde::{self, Deserialize};
@@ -117,6 +119,7 @@ impl AccountType {
                 name
             },
         );
+        let is_reserved = name.starts_with("reserved");
         if name.ends_with("net") {
             name.truncate(name.len() - 3);
         }
@@ -124,7 +127,9 @@ impl AccountType {
         name.get_mut(0..1)
             .expect("name should not be empty")
             .make_ascii_uppercase();
-        format!("{}Account", rust_valid_id(name))
+
+        let postfix = if is_reserved { "" } else { "Account" };
+        format!("{}{}", rust_valid_id(name), postfix)
     }
 }
 
@@ -133,6 +138,7 @@ fn rust_valid_id(name: String) -> String {
     name.chars().filter(|c| c.is_alphanumeric()).collect()
 }
 
+/// Creates the Ss58AddressFormat enum from the ss58-registry.json file
 #[proc_macro]
 pub fn ss58_registry(input: TokenStream) -> TokenStream {
     assert!(input.is_empty(), "No arguments are expected");
@@ -154,6 +160,20 @@ fn create_ss58_registry(json: &str) -> Result<TokenStream, String> {
         .map(|r| format_ident!("{}", r.name()))
         .collect();
 
+    let reserved_identifiers: Vec<_> = registry
+        .registry
+        .iter()
+        .filter(|r| r.network.as_ref().filter(|r|r.starts_with("reserved")).is_some())
+        .map(|r| format_ident!("{}", r.name()))
+        .collect();
+
+    let reserved_numbers: Vec<_> = registry
+        .registry
+        .iter()
+        .filter(|r| r.network.as_ref().filter(|r|r.starts_with("reserved")).is_some())
+        .map(|r| r.prefix)
+        .collect();
+
     let number: Vec<_> = registry.registry.iter().map(|r| r.prefix).collect();
     let count = registry.registry.len();
     let name: Vec<_> = registry
@@ -170,21 +190,19 @@ fn create_ss58_registry(json: &str) -> Result<TokenStream, String> {
     });
 
     let output = quote! {
-        use core::convert::TryFrom;
-        use core::sync::atomic::{Ordering, AtomicU16};
-
-        #[cfg(feature = "std")]
         /// Default prefix number
-        static DEFAULT_VERSION: AtomicU16 = AtomicU16::new(42 /*substrate*/);
+        #[cfg(feature = "std")]
+        static DEFAULT_VERSION: core::sync::atomic::AtomicU16 = core::sync::atomic::AtomicU16::new(42 /*substrate*/);
 
         /// A known address (sub)format/network ID for SS58.
-        #[derive(Copy, Clone, PartialEq, Eq, RuntimeDebug)]
+        #[derive(Copy, Clone, PartialEq, Eq, crate::RuntimeDebug)]
         pub enum Ss58AddressFormat {
             #(#[doc = #desc] #identifier),*,
             /// Use a manually provided numeric value as a standard identifier
             Custom(u16),
         }
 
+        /// Display the name of the address format (not the description).
         #[cfg(feature = "std")]
         impl std::fmt::Display for Ss58AddressFormat {
             fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
@@ -203,6 +221,8 @@ fn create_ss58_registry(json: &str) -> Result<TokenStream, String> {
              #(Ss58AddressFormat::#identifier),*,
         ];
 
+        /// An enumeration of unique networks.
+        /// Some are reserved.
         impl Ss58AddressFormat {
             /// names of all address formats
             pub fn all_names() -> &'static [&'static str] {
@@ -218,6 +238,26 @@ fn create_ss58_registry(json: &str) -> Result<TokenStream, String> {
             /// Whether the address is custom.
             pub fn is_custom(&self) -> bool {
                 matches!(self, Self::Custom(_))
+            }
+
+            /// Network/AddressType is reserved for future use.
+            pub fn is_reserved(&self) -> bool {
+                match self {
+                    #(#reserved_identifiers => true),*,
+                    Ss58AddressFormat::Custom(prefix) => {
+                        match prefix {
+                            #(#reserved_numbers => true),*,
+                            _ => false,
+                        }
+                    },
+                    _ => false,
+                }
+            }
+
+            /// Is this address format the current default?
+            #[cfg(feature = "std")]
+            pub fn is_default(&self) -> bool {
+                self == &Self::default()
             }
         }
 
@@ -250,7 +290,7 @@ fn create_ss58_registry(json: &str) -> Result<TokenStream, String> {
         #[derive(Copy, Clone, PartialEq, Eq, crate::RuntimeDebug)]
         pub struct ParseError;
 
-        impl<'a> TryFrom<&'a str> for Ss58AddressFormat {
+        impl<'a> core::convert::TryFrom<&'a str> for Ss58AddressFormat {
             type Error = ParseError;
 
             fn try_from(x: &'a str) -> Result<Ss58AddressFormat, Self::Error> {
@@ -266,7 +306,7 @@ fn create_ss58_registry(json: &str) -> Result<TokenStream, String> {
             type Err = ParseError;
 
             fn from_str(data: &str) -> Result<Self, Self::Err> {
-                Self::try_from(data)
+                core::convert::TryFrom::try_from(data)
             }
         }
 
@@ -280,16 +320,17 @@ fn create_ss58_registry(json: &str) -> Result<TokenStream, String> {
         #[cfg(feature = "std")]
         impl Default for Ss58AddressFormat {
             fn default() -> Self {
-                DEFAULT_VERSION.load(Ordering::Relaxed).into()
+                DEFAULT_VERSION.load(core::sync::atomic::Ordering::Relaxed).into()
             }
         }
 
+        /// Set the default "version" (actually, this is a bit of a misnomer and the version byte is
+        /// typically used not just to encode format/version but also network identity) that is used for
+        /// encoding and decoding SS58 addresses.
         #[cfg(feature = "std")]
-        impl Ss58AddressFormat {
-            fn set_default(new_default: Self) {
-                let prefix : u16 = new_default.into();
-                DEFAULT_VERSION.store(prefix, Ordering::Relaxed);
-            }
+        pub fn set_default_ss58_version(new_default: Ss58AddressFormat) {
+            let prefix : u16 = new_default.into();
+            DEFAULT_VERSION.store(prefix, core::sync::atomic::Ordering::Relaxed);
         }
 
         #[cfg(feature = "std")]
