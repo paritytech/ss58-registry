@@ -199,138 +199,138 @@ fn create_ss58_registry(json: &str) -> Result<TokenStream, String> {
     });
 
     let output = quote! {
-        /// A known address (sub)format/network ID for SS58.
-        #[derive(Copy, Clone, PartialEq, Eq, crate::RuntimeDebug)]
-        pub enum Ss58AddressFormat {
-            #(#[doc = #desc] #identifier),*,
-            /// Use a manually provided numeric value as a standard identifier
-            Custom(u16),
-        }
-
-        /// Display the name of the address format (not the description).
-        #[cfg(feature = "std")]
-        impl std::fmt::Display for Ss58AddressFormat {
-            fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-                match self {
-                    #(
-                        Ss58AddressFormat::#identifier => write!(f, "{}", #name),
-                    )*
-                    Ss58AddressFormat::Custom(x) => write!(f, "{}", x),
-                }
-
-            }
-        }
-
-        /// All non-custom address formats.
-        static ALL_SS58_ADDRESS_FORMATS: [Ss58AddressFormat; #count] = [
-             #(Ss58AddressFormat::#identifier),*,
-        ];
-
-        /// An enumeration of unique networks.
-        /// Some are reserved.
-        impl Ss58AddressFormat {
-            /// names of all address formats
-            pub fn all_names() -> &'static [&'static str] {
-                &[
-                    #(#name),*,
-                ]
-            }
-            /// All known address formats.
-            pub fn all() -> &'static [Ss58AddressFormat] {
-                &ALL_SS58_ADDRESS_FORMATS
+            /// A known address (sub)format/network ID for SS58.
+            #[derive(Copy, Clone, PartialEq, Eq, crate::RuntimeDebug)]
+            pub enum Ss58AddressFormat {
+                #(#[doc = #desc] #identifier),*,
+                /// Use a manually provided numeric value as a standard identifier
+                Custom(u16),
             }
 
-            /// Whether the address is custom.
-            pub fn is_custom(&self) -> bool {
-                matches!(self, Self::Custom(_))
-            }
+            /// Display the name of the address format (not the description).
+            #[cfg(feature = "std")]
+            impl std::fmt::Display for Ss58AddressFormat {
+                fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+                    match self {
+                        #(
+                            Ss58AddressFormat::#identifier => write!(f, "{}", #name),
+                        )*
+                        Ss58AddressFormat::Custom(x) => write!(f, "{}", x),
+                    }
 
-            /// Network/AddressType is reserved for future use.
-            pub fn is_reserved(&self) -> bool {
-                match self {
-                    #(#reserved_identifiers => true),*,
-                    Ss58AddressFormat::Custom(prefix) => {
-                        match prefix {
-                            #(#reserved_numbers => true),*,
-                            _ => false,
-                        }
-                    },
-                    _ => false,
                 }
             }
 
-//             /// Is this address format the current default?
-//             #[cfg(feature = "std")]
-//             pub fn is_default(&self) -> bool
-//                 where Self: Default
-//             {
-// //                self == &Self::default()
-//             }
-        }
+            /// All non-custom address formats.
+            static ALL_SS58_ADDRESS_FORMATS: [Ss58AddressFormat; #count] = [
+                 #(Ss58AddressFormat::#identifier),*,
+            ];
 
-        impl From<u8> for Ss58AddressFormat {
-            fn from(x: u8) -> Ss58AddressFormat {
-                Ss58AddressFormat::from(x as u16)
+            /// An enumeration of unique networks.
+            /// Some are reserved.
+            impl Ss58AddressFormat {
+                /// names of all address formats
+                pub fn all_names() -> &'static [&'static str] {
+                    &[
+                        #(#name),*,
+                    ]
+                }
+                /// All known address formats.
+                pub fn all() -> &'static [Ss58AddressFormat] {
+                    &ALL_SS58_ADDRESS_FORMATS
+                }
+
+                /// Whether the address is custom.
+                pub fn is_custom(&self) -> bool {
+                    matches!(self, Self::Custom(_))
+                }
+
+                /// Network/AddressType is reserved for future use.
+                pub fn is_reserved(&self) -> bool {
+                    match self {
+                        #(#reserved_identifiers => true),*,
+                        Ss58AddressFormat::Custom(prefix) => {
+                            match prefix {
+                                #(#reserved_numbers => true),*,
+                                _ => false,
+                            }
+                        },
+                        _ => false,
+                    }
+                }
+
+    //             /// Is this address format the current default?
+    //             #[cfg(feature = "std")]
+    //             pub fn is_default(&self) -> bool
+    //                 where Self: Default
+    //             {
+    // //                self == &Self::default()
+    //             }
             }
-        }
 
-        impl From<Ss58AddressFormat> for u16 {
-            fn from(x: Ss58AddressFormat) -> u16 {
-                match x {
-                    #(Ss58AddressFormat::#identifier => #number),*,
-                    Ss58AddressFormat::Custom(n) => n,
+            impl From<u8> for Ss58AddressFormat {
+                fn from(x: u8) -> Ss58AddressFormat {
+                    Ss58AddressFormat::from(x as u16)
                 }
             }
-        }
 
-        impl From<u16> for Ss58AddressFormat {
-            fn from(x: u16) -> Ss58AddressFormat {
-                match x {
-                    #(#number => Ss58AddressFormat::#identifier),*,
-                    _ => Ss58AddressFormat::Custom(x),
+            impl From<Ss58AddressFormat> for u16 {
+                fn from(x: Ss58AddressFormat) -> u16 {
+                    match x {
+                        #(Ss58AddressFormat::#identifier => #number),*,
+                        Ss58AddressFormat::Custom(n) => n,
+                    }
                 }
             }
-        }
 
-        /// Error encountered while parsing `Ss58AddressFormat` from &'_ str
-        /// unit struct for now.
-        #[derive(Copy, Clone, PartialEq, Eq, crate::RuntimeDebug)]
-        pub struct ParseError;
-
-        impl<'a> core::convert::TryFrom<&'a str> for Ss58AddressFormat {
-            type Error = ParseError;
-
-            fn try_from(x: &'a str) -> Result<Ss58AddressFormat, Self::Error> {
-                match x {
-                    #(#name => Ok(Ss58AddressFormat::#identifier)),*,
-                    a => a.parse::<u16>().map(Ss58AddressFormat::Custom).map_err(|_| ParseError),
+            impl From<u16> for Ss58AddressFormat {
+                fn from(x: u16) -> Ss58AddressFormat {
+                    match x {
+                        #(#number => Ss58AddressFormat::#identifier),*,
+                        _ => Ss58AddressFormat::Custom(x),
+                    }
                 }
             }
-        }
 
-        #[cfg(feature = "std")]
-        impl std::str::FromStr for Ss58AddressFormat {
-            type Err = ParseError;
+            /// Error encountered while parsing `Ss58AddressFormat` from &'_ str
+            /// unit struct for now.
+            #[derive(Copy, Clone, PartialEq, Eq, crate::RuntimeDebug)]
+            pub struct ParseError;
 
-            fn from_str(data: &str) -> Result<Self, Self::Err> {
-                core::convert::TryFrom::try_from(data)
+            impl<'a> core::convert::TryFrom<&'a str> for Ss58AddressFormat {
+                type Error = ParseError;
+
+                fn try_from(x: &'a str) -> Result<Ss58AddressFormat, Self::Error> {
+                    match x {
+                        #(#name => Ok(Ss58AddressFormat::#identifier)),*,
+                        a => a.parse::<u16>().map(Ss58AddressFormat::Custom).map_err(|_| ParseError),
+                    }
+                }
             }
-        }
 
-        #[cfg(feature = "std")]
-        impl std::fmt::Display for ParseError {
-            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-                write!(f, "failed to parse network value as u16")
-            }
-        }
+            #[cfg(feature = "std")]
+            impl std::str::FromStr for Ss58AddressFormat {
+                type Err = ParseError;
 
-        #[cfg(feature = "std")]
-        impl From<Ss58AddressFormat> for String {
-            fn from(x: Ss58AddressFormat) -> String {
-                x.to_string()
+                fn from_str(data: &str) -> Result<Self, Self::Err> {
+                    core::convert::TryFrom::try_from(data)
+                }
             }
-        }
-    };
+
+            #[cfg(feature = "std")]
+            impl std::fmt::Display for ParseError {
+                fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                    write!(f, "failed to parse network value as u16")
+                }
+            }
+
+            #[cfg(feature = "std")]
+            impl From<Ss58AddressFormat> for String {
+                fn from(x: Ss58AddressFormat) -> String {
+                    x.to_string()
+                }
+            }
+        };
 
     Ok(output.into())
 }
