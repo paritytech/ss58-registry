@@ -3,6 +3,7 @@ name = "ss58-registry"
 version = "0.1.0"
 edition = "2018"
 description = "Registry of wellknown SS58 id types"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
