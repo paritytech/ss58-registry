@@ -43,7 +43,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.3.4
-        working-directory: ./example
 
       - name: Install Rust stable toolchain
         uses: actions-rs/toolchain@v1.0.7
@@ -56,4 +55,4 @@ jobs:
         uses: actions-rs/cargo@v1.0.3
         with:
           command: build
-          args: --no-default-features --target wasm32-unknown-unknown
+          args: --manifest-path ./example/Cargo.toml --no-default-features --target wasm32-unknown-unknown
