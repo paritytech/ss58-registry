@@ -1,11 +1,6 @@
 name: "CI"
 on:
-  push:
-    paths-ignore:
-      - 'README.md'
   pull_request:
-    branches:
-      - main
 jobs:
   ci:
     name: CI
