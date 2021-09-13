@@ -163,14 +163,24 @@ fn create_ss58_registry(json: &str) -> Result<TokenStream, String> {
     let reserved_identifiers: Vec<_> = registry
         .registry
         .iter()
-        .filter(|r| r.network.as_ref().filter(|r|r.starts_with("reserved")).is_some())
+        .filter(|r| {
+            r.network
+                .as_ref()
+                .filter(|r| r.starts_with("reserved"))
+                .is_some()
+        })
         .map(|r| format_ident!("{}", r.name()))
         .collect();
 
     let reserved_numbers: Vec<_> = registry
         .registry
         .iter()
-        .filter(|r| r.network.as_ref().filter(|r|r.starts_with("reserved")).is_some())
+        .filter(|r| {
+            r.network
+                .as_ref()
+                .filter(|r| r.starts_with("reserved"))
+                .is_some()
+        })
         .map(|r| r.prefix)
         .collect();
 

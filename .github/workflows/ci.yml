@@ -40,6 +40,6 @@ jobs:
           command: test
       - name: cargo check as wasm32
         uses: actions-rs/cargo@v1.0.3
-        working-directory: ./example
         with:
           command: check --no-default-features --target wasm32-unknown-unknown
+          working-directory: ./example
