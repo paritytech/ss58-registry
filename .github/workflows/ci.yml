@@ -1,6 +1,15 @@
 name: "CI"
 on:
+  push:
+    branches:
+      - main
+    tags:
+      - v*
+    paths-ignore:
+      - 'README.md'
   pull_request:
+    branches:
+      - main
 jobs:
   ci:
     name: CI
