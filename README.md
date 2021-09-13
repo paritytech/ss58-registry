@@ -18,6 +18,7 @@ This is driven from the [json data file](src/ss58-registry.json) which contains 
 
 (Typically used by the Polkadot, Kusama or Substrate ecosystems.)
 
+
 ## Process:
 
 If you wish to add an additional account type then please raise a pull request adding to the json file.
