@@ -1,4 +1,4 @@
-#![cfg_attr(not(feature="std"),feature(lang_items))]
+#![cfg_attr(not(feature="std"),feature(lang_items,start))]
 #![cfg_attr(not(feature="std"),no_std)]
 #![warn(missing_docs)]
 //! Example of macro with 'std' feature enabled by default.
@@ -19,6 +19,13 @@ fn panic(_panic: &PanicInfo<'_>) -> ! {
 #[cfg(not(feature="std"))]
 #[lang = "eh_personality"]
 extern "C" fn eh_personality() {}
+
+#[cfg(not(feature="std"))]
+#[start]
+fn start(_argc: isize, _argv: *const *const u8) -> isize {
+    main();
+    0
+}
 
 /// Example
 pub fn main() {
