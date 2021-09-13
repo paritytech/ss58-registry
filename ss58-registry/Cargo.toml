@@ -1,5 +1,5 @@
 [package]
-name = "ss58-registry-example"
+name = "ss58-registry"
 version = "0.0.1"
 edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -9,5 +9,5 @@ default = ["std"]
 std = []
 
 [dependencies]
-ss58-registry = { path=".." }
+ss58-registry-derive = { path="../ss58-registry-derive" }
 sp-debug-derive = "3.0.0"

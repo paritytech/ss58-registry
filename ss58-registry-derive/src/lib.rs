@@ -15,7 +15,6 @@
 
 //! List of wellknown SS58 account types as an enum.
 #![deny(missing_docs)]
-
 use proc_macro::TokenStream;
 use quote::{format_ident, quote};
 use serde::{self, Deserialize};
@@ -140,7 +139,7 @@ fn rust_valid_id(name: String) -> String {
 
 /// Creates the Ss58AddressFormat enum from the ss58-registry.json file
 #[proc_macro]
-pub fn ss58_registry(input: TokenStream) -> TokenStream {
+pub fn ss58_registry_derive(input: TokenStream) -> TokenStream {
     assert!(input.is_empty(), "No arguments are expected");
 
     match create_ss58_registry(include_str!("ss58-registry.json")) {
@@ -260,11 +259,13 @@ fn create_ss58_registry(json: &str) -> Result<TokenStream, String> {
                 }
             }
 
-            /// Is this address format the current default?
-            #[cfg(feature = "std")]
-            pub fn is_default(&self) -> bool {
-                self == &Self::default()
-            }
+//             /// Is this address format the current default?
+//             #[cfg(feature = "std")]
+//             pub fn is_default(&self) -> bool
+//                 where Self: Default
+//             {
+// //                self == &Self::default()
+//             }
         }
 
         impl From<u8> for Ss58AddressFormat {
