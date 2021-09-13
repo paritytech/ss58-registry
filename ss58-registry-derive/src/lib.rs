@@ -258,14 +258,6 @@ fn create_ss58_registry(json: &str) -> Result<TokenStream, String> {
                         _ => false,
                     }
                 }
-
-    //             /// Is this address format the current default?
-    //             #[cfg(feature = "std")]
-    //             pub fn is_default(&self) -> bool
-    //                 where Self: Default
-    //             {
-    // //                self == &Self::default()
-    //             }
             }
 
             impl From<u8> for Ss58AddressFormat {
