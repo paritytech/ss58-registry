@@ -19,7 +19,6 @@ use proc_macro::TokenStream;
 use quote::{format_ident, quote};
 use serde::{self, Deserialize};
 use std::collections::HashSet;
-use std::iter::FromIterator;
 
 #[derive(Deserialize)]
 struct Registry {
@@ -28,50 +27,34 @@ struct Registry {
 
 impl Registry {
     pub fn is_valid(&self) -> Result<(), String> {
-        let unique_ids: HashSet<u16> = self.registry.iter().map(|r| r.prefix).collect();
-        if unique_ids.len() != self.registry.len() {
-            return Err("prefixes must be unique.".to_owned());
-        }
-
-        let unreserved_networks: Vec<String> = self
-            .registry
-            .iter()
-            .filter_map(|r| r.network.clone())
-            .collect();
-        let unique_networks: HashSet<&String> = HashSet::from_iter(unreserved_networks.iter());
-        if unique_networks.len() != unreserved_networks.len() {
-            return Err("networks must be unique.".to_owned());
-        }
+        let mut used_prefixes = HashSet::<u16>::new();
+        let mut used_networks = HashSet::<String>::new();
 
         for account_type in &self.registry {
-            if let Some(network) = &account_type.network {
-                if network.chars().any(|c| c.is_whitespace()) {
-                    return Err(format!(
-                        "network can not have whitespace in: {:?}",
-                        account_type
-                    ));
-                }
-            }
-
-            if let Some(symbols) = &account_type.symbols {
-                if account_type
-                    .decimals
-                    .as_ref()
-                    .filter(|decimals| symbols.len() == decimals.len())
-                    .is_none()
-                {
-                    return Err(format!(
-                        "decimals must be specified for each symbol: {:?}",
-                        account_type
-                    ));
-                }
-            } else if account_type.decimals.is_some() {
+            if !used_prefixes.insert(account_type.prefix) {
                 return Err(format!(
-                    "decimals can't be specified without symbols: {:?}",
+                    "prefixes must be unique but this account's prefix clashes: {:#?}.",
                     account_type
                 ));
             }
-
+            if !used_networks.insert(account_type.network.clone()) {
+                return Err(format!(
+                    "networks must be unique but this account's network clashes: {:#?}.",
+                    account_type
+                ));
+            }
+            if account_type.network.chars().any(|c| c.is_whitespace()) {
+                return Err(format!(
+                    "network can not have whitespace in: {:?}",
+                    account_type
+                ));
+            }
+            if account_type.decimals.len() != account_type.symbols.len() {
+                return Err(format!(
+                    "decimals must be specified for each symbol: {:?}",
+                    account_type
+                ));
+            }
             if let Some(sig_type) = &account_type.standard_account {
                 match sig_type.as_str() {
                     "Sr25519"| "Ed25519" | "secp256k1" | "*25519" => {},
@@ -88,53 +71,24 @@ impl Registry {
 #[derive(Deserialize, Debug)]
 struct AccountType {
     prefix: u16,
-    network: Option<String>,
+    network: String,
     #[serde(rename = "displayName")]
     display_name: String,
+    /// If standard account is None then the network is reserved.
     #[serde(rename = "standardAccount")]
     standard_account: Option<String>,
+    symbols: Vec<String>,
+    decimals: Vec<u8>,
     website: Option<String>,
-    symbols: Option<Vec<String>>,
-    decimals: Option<Vec<u8>>,
 }
 
 impl AccountType {
     fn name(&self) -> String {
-        let mut name = self.network.clone().unwrap_or(
-            if let Some(standard_account) = &self.standard_account {
-                format!("Bare{}", standard_account)
-            } else {
-                let name = self
-                    .network
-                    .as_ref()
-                    .expect("network should not be empty if no account specified")
-                    .to_string();
-
-                assert!(
-                    name.starts_with("reserved"),
-                    "If no account specified, network should start `reserved` not:{}",
-                    name
-                );
-                name
-            },
-        );
-        let is_reserved = name.starts_with("reserved");
-        if name.ends_with("net") {
-            name.truncate(name.len() - 3);
-        }
-        // Capitalise
-        name.get_mut(0..1)
-            .expect("name should not be empty")
-            .make_ascii_uppercase();
-
-        let postfix = if is_reserved { "" } else { "Account" };
-        format!("{}{}", rust_valid_id(name), postfix)
+        format!(
+            "{}Account",
+            inflector::cases::pascalcase::to_pascal_case(&self.network)
+        )
     }
-}
-
-fn rust_valid_id(name: String) -> String {
-    // TODO find function that already does this. `-` are excluded in particular.
-    name.chars().filter(|c| c.is_alphanumeric()).collect()
 }
 
 /// Creates the Ss58AddressFormat enum from the ss58-registry.json file
@@ -142,55 +96,38 @@ fn rust_valid_id(name: String) -> String {
 pub fn ss58_registry_derive(input: TokenStream) -> TokenStream {
     assert!(input.is_empty(), "No arguments are expected");
 
-    match create_ss58_registry(include_str!("ss58-registry.json")) {
-        Ok(result) => result,
+    match create_ss58_registry(include_str!("../../ss58-registry.json")) {
+        Ok(result) => result.into(),
         Err(msg) => panic!("{}", msg),
     }
 }
 
-fn create_ss58_registry(json: &str) -> Result<TokenStream, String> {
+fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> {
     let registry: Registry = serde_json::from_str(json).expect("valid json file");
-
     registry.is_valid()?;
 
+    let registry = registry.registry;
+
+    // Variables to insert into quote template:
     let identifier: Vec<_> = registry
-        .registry
         .iter()
         .map(|r| format_ident!("{}", r.name()))
         .collect();
 
-    let reserved_identifiers: Vec<_> = registry
-        .registry
+    let reserved_identifiers = registry
         .iter()
-        .filter(|r| {
-            r.network
-                .as_ref()
-                .filter(|r| r.starts_with("reserved"))
-                .is_some()
-        })
-        .map(|r| format_ident!("{}", r.name()))
-        .collect();
+        .filter(|r| r.standard_account.is_none())
+        .map(|r| format_ident!("{}", r.name()));
 
-    let reserved_numbers: Vec<_> = registry
-        .registry
+    let reserved_numbers = registry
         .iter()
-        .filter(|r| {
-            r.network
-                .as_ref()
-                .filter(|r| r.starts_with("reserved"))
-                .is_some()
-        })
-        .map(|r| r.prefix)
-        .collect();
+        .filter(|r| r.standard_account.is_none())
+        .map(|r| r.prefix);
 
-    let number: Vec<_> = registry.registry.iter().map(|r| r.prefix).collect();
-    let count = registry.registry.len();
-    let name: Vec<_> = registry
-        .registry
-        .iter()
-        .map(|r| r.network.clone().unwrap_or_else(|| "Bare".to_string()))
-        .collect();
-    let desc = registry.registry.iter().map(|r| {
+    let count = registry.len();
+    let number: Vec<_> = registry.iter().map(|r| r.prefix).collect();
+    let name: Vec<_> = registry.iter().map(|r| r.network.clone()).collect();
+    let desc = registry.iter().map(|r| {
         if let Some(website) = &r.website {
             format!("{} - <{}>", r.display_name, website)
         } else {
@@ -198,139 +135,228 @@ fn create_ss58_registry(json: &str) -> Result<TokenStream, String> {
         }
     });
 
-    let output = quote! {
-            /// A known address (sub)format/network ID for SS58.
-            #[derive(Copy, Clone, PartialEq, Eq, crate::RuntimeDebug)]
-            pub enum Ss58AddressFormat {
-                #(#[doc = #desc] #identifier),*,
-                /// Use a manually provided numeric value as a standard identifier
-                Custom(u16),
+    Ok(quote! {
+        /// A known address (sub)format/network ID for SS58.
+        #[derive(Copy, Clone, PartialEq, Eq, crate::RuntimeDebug)]
+        pub enum Ss58AddressFormat {
+            #(#[doc = #desc] #identifier),*,
+            /// Use a manually provided numeric value as a standard identifier
+            Custom(u16),
+        }
+
+        /// Display the name of the address format (not the description).
+        #[cfg(feature = "std")]
+        impl std::fmt::Display for Ss58AddressFormat {
+            fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+                match self {
+                    #(
+                        Ss58AddressFormat::#identifier => write!(f, "{}", #name),
+                    )*
+                    Ss58AddressFormat::Custom(x) => write!(f, "{}", x),
+                }
+
+            }
+        }
+
+        /// All non-custom address formats.
+        static ALL_SS58_ADDRESS_FORMATS: [Ss58AddressFormat; #count] = [
+             #(Ss58AddressFormat::#identifier),*,
+        ];
+
+        /// An enumeration of unique networks.
+        /// Some are reserved.
+        impl Ss58AddressFormat {
+            /// names of all address formats
+            pub fn all_names() -> &'static [&'static str] {
+                &[
+                    #(#name),*,
+                ]
+            }
+            /// All known address formats.
+            pub fn all() -> &'static [Ss58AddressFormat] {
+                &ALL_SS58_ADDRESS_FORMATS
             }
 
-            /// Display the name of the address format (not the description).
-            #[cfg(feature = "std")]
-            impl std::fmt::Display for Ss58AddressFormat {
-                fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-                    match self {
-                        #(
-                            Ss58AddressFormat::#identifier => write!(f, "{}", #name),
-                        )*
-                        Ss58AddressFormat::Custom(x) => write!(f, "{}", x),
-                    }
-
-                }
+            /// Whether the address is custom.
+            pub fn is_custom(&self) -> bool {
+                matches!(self, Self::Custom(_))
             }
 
-            /// All non-custom address formats.
-            static ALL_SS58_ADDRESS_FORMATS: [Ss58AddressFormat; #count] = [
-                 #(Ss58AddressFormat::#identifier),*,
-            ];
-
-            /// An enumeration of unique networks.
-            /// Some are reserved.
-            impl Ss58AddressFormat {
-                /// names of all address formats
-                pub fn all_names() -> &'static [&'static str] {
-                    &[
-                        #(#name),*,
-                    ]
-                }
-                /// All known address formats.
-                pub fn all() -> &'static [Ss58AddressFormat] {
-                    &ALL_SS58_ADDRESS_FORMATS
-                }
-
-                /// Whether the address is custom.
-                pub fn is_custom(&self) -> bool {
-                    matches!(self, Self::Custom(_))
-                }
-
-                /// Network/AddressType is reserved for future use.
-                pub fn is_reserved(&self) -> bool {
-                    match self {
-                        #(#reserved_identifiers => true),*,
-                        Ss58AddressFormat::Custom(prefix) => {
-                            match prefix {
-                                #(#reserved_numbers => true),*,
-                                _ => false,
-                            }
-                        },
-                        _ => false,
-                    }
-                }
-
-    //             /// Is this address format the current default?
-    //             #[cfg(feature = "std")]
-    //             pub fn is_default(&self) -> bool
-    //                 where Self: Default
-    //             {
-    // //                self == &Self::default()
-    //             }
-            }
-
-            impl From<u8> for Ss58AddressFormat {
-                fn from(x: u8) -> Ss58AddressFormat {
-                    Ss58AddressFormat::from(x as u16)
+            /// Network/AddressType is reserved for future use.
+            pub fn is_reserved(&self) -> bool {
+                match self {
+                    #(#reserved_identifiers => true),*,
+                    Ss58AddressFormat::Custom(prefix) => {
+                        match prefix {
+                            #(#reserved_numbers => true),*,
+                            _ => false,
+                        }
+                    },
+                    _ => false,
                 }
             }
+        }
 
-            impl From<Ss58AddressFormat> for u16 {
-                fn from(x: Ss58AddressFormat) -> u16 {
-                    match x {
-                        #(Ss58AddressFormat::#identifier => #number),*,
-                        Ss58AddressFormat::Custom(n) => n,
-                    }
+        impl From<u8> for Ss58AddressFormat {
+            fn from(x: u8) -> Ss58AddressFormat {
+                Ss58AddressFormat::from(x as u16)
+            }
+        }
+
+        impl From<Ss58AddressFormat> for u16 {
+            fn from(x: Ss58AddressFormat) -> u16 {
+                match x {
+                    #(Ss58AddressFormat::#identifier => #number),*,
+                    Ss58AddressFormat::Custom(n) => n,
                 }
             }
+        }
 
-            impl From<u16> for Ss58AddressFormat {
-                fn from(x: u16) -> Ss58AddressFormat {
-                    match x {
-                        #(#number => Ss58AddressFormat::#identifier),*,
-                        _ => Ss58AddressFormat::Custom(x),
-                    }
+        impl From<u16> for Ss58AddressFormat {
+            fn from(x: u16) -> Ss58AddressFormat {
+                match x {
+                    #(#number => Ss58AddressFormat::#identifier),*,
+                    _ => Ss58AddressFormat::Custom(x),
                 }
             }
+        }
 
-            /// Error encountered while parsing `Ss58AddressFormat` from &'_ str
-            /// unit struct for now.
-            #[derive(Copy, Clone, PartialEq, Eq, crate::RuntimeDebug)]
-            pub struct ParseError;
+        /// Error encountered while parsing `Ss58AddressFormat` from &'_ str
+        /// unit struct for now.
+        #[derive(Copy, Clone, PartialEq, Eq, crate::RuntimeDebug)]
+        pub struct ParseError;
 
-            impl<'a> core::convert::TryFrom<&'a str> for Ss58AddressFormat {
-                type Error = ParseError;
+        impl<'a> core::convert::TryFrom<&'a str> for Ss58AddressFormat {
+            type Error = ParseError;
 
-                fn try_from(x: &'a str) -> Result<Ss58AddressFormat, Self::Error> {
-                    match x {
-                        #(#name => Ok(Ss58AddressFormat::#identifier)),*,
-                        a => a.parse::<u16>().map(Ss58AddressFormat::Custom).map_err(|_| ParseError),
-                    }
+            fn try_from(x: &'a str) -> Result<Ss58AddressFormat, Self::Error> {
+                match x {
+                    #(#name => Ok(Ss58AddressFormat::#identifier)),*,
+                    a => a.parse::<u16>().map(Ss58AddressFormat::Custom).map_err(|_| ParseError),
                 }
             }
+        }
 
-            #[cfg(feature = "std")]
-            impl std::str::FromStr for Ss58AddressFormat {
-                type Err = ParseError;
+        #[cfg(feature = "std")]
+        impl std::str::FromStr for Ss58AddressFormat {
+            type Err = ParseError;
 
-                fn from_str(data: &str) -> Result<Self, Self::Err> {
-                    core::convert::TryFrom::try_from(data)
-                }
+            fn from_str(data: &str) -> Result<Self, Self::Err> {
+                core::convert::TryFrom::try_from(data)
             }
+        }
 
-            #[cfg(feature = "std")]
-            impl std::fmt::Display for ParseError {
-                fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-                    write!(f, "failed to parse network value as u16")
-                }
+        #[cfg(feature = "std")]
+        impl std::fmt::Display for ParseError {
+            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                write!(f, "failed to parse network value as u16")
             }
+        }
 
-            #[cfg(feature = "std")]
-            impl From<Ss58AddressFormat> for String {
-                fn from(x: Ss58AddressFormat) -> String {
-                    x.to_string()
-                }
+        #[cfg(feature = "std")]
+        impl From<Ss58AddressFormat> for String {
+            fn from(x: Ss58AddressFormat) -> String {
+                x.to_string()
             }
-        };
+        }
+    })
+}
 
-    Ok(output.into())
+#[cfg(test)]
+mod tests {
+    use super::create_ss58_registry;
+
+    #[test]
+    fn normal_account() {
+        assert!(create_ss58_registry(
+            r#"
+        {
+            "registry": [
+                {
+                    "prefix": 0,
+                    "network": "polkadot",
+                    "displayName": "Polkadot Relay Chain",
+                    "symbols": ["DOT"],
+                    "decimals": [10],
+                    "standardAccount": "*25519",
+                    "website": "https://polkadot.network"
+                }
+            ]
+        }
+        "#
+        )
+        .is_ok());
+    }
+
+    #[test]
+    fn prefix_clash() {
+        let result = create_ss58_registry(
+            r#"
+        {
+            "registry": [
+                {
+                    "prefix": 0,
+                    "network": "polkadot",
+                    "displayName": "Polkadot Relay Chain",
+                    "symbols": ["DOT"],
+                    "decimals": [10],
+                    "standardAccount": "*25519",
+                    "website": "https://polkadot.network"
+                },
+                {
+                    "prefix": 0,
+                    "network": "polkadot2",
+                    "displayName": "Polkadot Relay Chain2",
+                    "symbols": ["DOT2"],
+                    "decimals": [10],
+                    "standardAccount": "*25519",
+                    "website": "https://polkadot2.network"
+                }
+            ]
+        }
+        "#,
+        );
+
+        let err_msg = &result.unwrap_err();
+        assert!(err_msg.starts_with(
+            "prefixes must be unique but this account's prefix clashes: AccountType {"
+        ));
+        assert!(err_msg.contains("prefix: 0"));
+    }
+
+    #[test]
+    fn network_clash() {
+        let result = create_ss58_registry(
+            r#"
+        {
+            "registry": [
+                {
+                    "prefix": 0,
+                    "network": "polkadot",
+                    "displayName": "Polkadot Relay Chain",
+                    "symbols": ["DOT"],
+                    "decimals": [10],
+                    "standardAccount": "*25519",
+                    "website": "https://dot.network"
+                },
+                {
+                    "prefix": 1,
+                    "network": "polkadot",
+                    "displayName": "Polkadot Relay Chain2",
+                    "symbols": ["DOT2"],
+                    "decimals": [10],
+                    "standardAccount": "*25519",
+                    "website": "https://dot2.network"
+                }
+            ]
+        }
+        "#,
+        );
+
+        let err_msg = &result.unwrap_err();
+        assert!(err_msg.starts_with(
+            "networks must be unique but this account's network clashes: AccountType {"
+        ));
+        assert!(err_msg.contains("polkadot"));
+    }
 }

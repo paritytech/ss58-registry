@@ -34,7 +34,7 @@ jobs:
         uses: actions-rs/cargo@v1.0.3
         with:
           command: clippy
-      - name: cargo test --manifest-path ./ss58-registry-derive/Cargo.toml
+      - name: cargo test --manifest-path ./ss58-registry/Cargo.toml
         uses: actions-rs/cargo@v1.0.3
         with:
           command: test

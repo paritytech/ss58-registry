@@ -9,5 +9,5 @@ default = ["std"]
 std = []
 
 [dependencies]
-ss58-registry-derive = { path="../ss58-registry-derive" }
+ss58-registry-derive = { path = "../ss58-registry-derive" }
 sp-debug-derive = "3.0.0"

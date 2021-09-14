@@ -1,7 +1,4 @@
 [workspace]
 resolver = "2"
 
-members = [
-	"ss58-registry",
-	"ss58-registry-derive",
-]
+members = ["ss58-registry", "ss58-registry-derive"]
