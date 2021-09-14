@@ -205,10 +205,15 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 
         impl From<Ss58AddressFormat> for u16 {
             fn from(x: Ss58AddressFormat) -> u16 {
-                match x {
-                    #(Ss58AddressFormat::#identifier => #number),*,
-                    Ss58AddressFormat::Custom(n) => n,
-                }
+                from_address_format(x)
+            }
+        }
+
+        /// const function to convert Ss58AddressFormat to u16
+        pub const fn from_address_format(x: Ss58AddressFormat) -> u16 {
+            match x {
+                #(Ss58AddressFormat::#identifier => #number),*,
+                Ss58AddressFormat::Custom(n) => n,
             }
         }
 
