@@ -89,6 +89,10 @@ impl AccountType {
             inflector::cases::pascalcase::to_pascal_case(&self.network)
         )
     }
+
+    fn is_reserved(&self) -> bool {
+        self.standard_account.is_none()
+    }
 }
 
 /// Creates the Ss58AddressFormat enum from the ss58-registry.json file
@@ -116,12 +120,12 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 
     let reserved_identifiers = registry
         .iter()
-        .filter(|r| r.standard_account.is_none())
+        .filter(|r| r.is_reserved())
         .map(|r| format_ident!("{}", r.name()));
 
     let reserved_numbers = registry
         .iter()
-        .filter(|r| r.standard_account.is_none())
+        .filter(|r| r.is_reserved())
         .map(|r| r.prefix);
 
     let count = registry.len();
