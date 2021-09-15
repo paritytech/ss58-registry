@@ -15,10 +15,12 @@
 
 //! List of wellknown SS58 account types as an enum.
 #![deny(missing_docs)]
-use proc_macro::TokenStream;
 use quote::{format_ident, quote};
 use serde::{self, Deserialize};
 use std::collections::HashSet;
+use std::env;
+use std::fs;
+use std::path::Path;
 
 #[derive(Deserialize)]
 struct Registry {
@@ -94,17 +96,6 @@ impl AccountType {
     }
 }
 
-/// Creates the Ss58AddressFormat enum from the ss58-registry.json file
-#[proc_macro]
-pub fn ss58_registry_derive(input: TokenStream) -> TokenStream {
-    assert!(input.is_empty(), "No arguments are expected");
-
-    match create_ss58_registry(include_str!("../../ss58-registry.json")) {
-        Ok(result) => result.into(),
-        Err(msg) => panic!("{}", msg),
-    }
-}
-
 fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> {
     let registry: Registry = serde_json::from_str(json).expect("valid json file");
     registry.is_valid()?;
@@ -139,6 +130,8 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
     });
 
     Ok(quote! {
+        use sp_debug_derive::RuntimeDebug;
+
         /// A known address (sub)format/network ID for SS58.
         #[derive(Copy, Clone, PartialEq, Eq, crate::RuntimeDebug)]
         pub enum Ss58AddressFormat {
@@ -188,13 +181,8 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
             /// Network/AddressType is reserved for future use.
             pub fn is_reserved(&self) -> bool {
                 match self {
-                    #(#reserved_identifiers => true),*,
-                    Ss58AddressFormat::Custom(prefix) => {
-                        match prefix {
-                            #(#reserved_numbers => true),*,
-                            _ => false,
-                        }
-                    },
+                    #(Ss58AddressFormat::#reserved_identifiers)|* => true,
+                    Ss58AddressFormat::Custom(prefix) => matches!(prefix, #(#reserved_numbers)|*),
                     _ => false,
                 }
             }
@@ -270,101 +258,15 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
     })
 }
 
-#[cfg(test)]
-mod tests {
-    use super::create_ss58_registry;
+fn main() {
+    let out_dir = env::var_os("OUT_DIR").expect("OUT_DIR should exist");
 
-    #[test]
-    fn normal_account() {
-        assert!(create_ss58_registry(
-            r#"
-        {
-            "registry": [
-                {
-                    "prefix": 0,
-                    "network": "polkadot",
-                    "displayName": "Polkadot Relay Chain",
-                    "symbols": ["DOT"],
-                    "decimals": [10],
-                    "standardAccount": "*25519",
-                    "website": "https://polkadot.network"
-                }
-            ]
-        }
-        "#
-        )
-        .is_ok());
-    }
+    let result: String = match create_ss58_registry(include_str!("ss58-registry.json")) {
+        Ok(result) => result.to_string(),
+        Err(msg) => panic!("{}", msg),
+    };
 
-    #[test]
-    fn prefix_clash() {
-        let result = create_ss58_registry(
-            r#"
-        {
-            "registry": [
-                {
-                    "prefix": 0,
-                    "network": "polkadot",
-                    "displayName": "Polkadot Relay Chain",
-                    "symbols": ["DOT"],
-                    "decimals": [10],
-                    "standardAccount": "*25519",
-                    "website": "https://polkadot.network"
-                },
-                {
-                    "prefix": 0,
-                    "network": "polkadot2",
-                    "displayName": "Polkadot Relay Chain2",
-                    "symbols": ["DOT2"],
-                    "decimals": [10],
-                    "standardAccount": "*25519",
-                    "website": "https://polkadot2.network"
-                }
-            ]
-        }
-        "#,
-        );
-
-        let err_msg = result.unwrap_err();
-        assert!(err_msg.starts_with(
-            "prefixes must be unique but this account's prefix clashes: AccountType {"
-        ));
-        assert!(err_msg.contains("prefix: 0"));
-    }
-
-    #[test]
-    fn network_clash() {
-        let result = create_ss58_registry(
-            r#"
-        {
-            "registry": [
-                {
-                    "prefix": 0,
-                    "network": "polkadot",
-                    "displayName": "Polkadot Relay Chain",
-                    "symbols": ["DOT"],
-                    "decimals": [10],
-                    "standardAccount": "*25519",
-                    "website": "https://dot.network"
-                },
-                {
-                    "prefix": 1,
-                    "network": "polkadot",
-                    "displayName": "Polkadot Relay Chain2",
-                    "symbols": ["DOT2"],
-                    "decimals": [10],
-                    "standardAccount": "*25519",
-                    "website": "https://dot2.network"
-                }
-            ]
-        }
-        "#,
-        );
-
-        let err_msg = &result.unwrap_err();
-        assert!(err_msg.starts_with(
-            "networks must be unique but this account's network clashes: AccountType {"
-        ));
-        assert!(err_msg.contains("polkadot"));
-    }
+    let dest_path = Path::new(&out_dir).join("account_type_enum.rs");
+    fs::write(&dest_path, result).unwrap();
+    println!("cargo:rerun-if-changed=build.rs");
 }
