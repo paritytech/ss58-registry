@@ -326,7 +326,7 @@ mod tests {
         "#,
         );
 
-        let err_msg = &result.unwrap_err();
+        let err_msg = result.unwrap_err();
         assert!(err_msg.starts_with(
             "prefixes must be unique but this account's prefix clashes: AccountType {"
         ));
