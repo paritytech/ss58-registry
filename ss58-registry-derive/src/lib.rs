@@ -73,10 +73,8 @@ impl Registry {
 struct AccountType {
     prefix: u16,
     network: String,
-    #[serde(rename = "displayName")]
     display_name: String,
     /// If standard account is None then the network is reserved.
-    #[serde(rename = "standardAccount")]
     standard_account: Option<String>,
     symbols: Vec<String>,
     decimals: Vec<u8>,
