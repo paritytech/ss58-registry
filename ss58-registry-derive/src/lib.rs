@@ -69,6 +69,7 @@ impl Registry {
 }
 
 #[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
 struct AccountType {
     prefix: u16,
     network: String,
