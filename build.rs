@@ -17,38 +17,65 @@
 #![deny(missing_docs)]
 use quote::{format_ident, quote};
 use serde::{self, Deserialize};
-use std::collections::HashSet;
+use std::collections::HashMap;
 use std::env;
 use std::fs;
 use std::path::Path;
+use unicode_xid::UnicodeXID;
 
 #[derive(Deserialize)]
 struct Registry {
     registry: Vec<AccountType>,
 }
 
+fn is_valid_rust_identifier(id: &str) -> Result<(), String> {
+    if let Some(ch) = id.chars().next() {
+        if ch.is_xid_start() {
+            for ch in id.chars().skip(1) {
+                if !ch.is_xid_continue() {
+                    return Err(format!("Invalid char `{}` in `{}`", ch, id));
+                }
+            }
+            Ok(())
+        } else {
+            Err(format!(
+                "`{}` starts with `{}` which is not valid at the start",
+                id, ch
+            ))
+        }
+    } else {
+        Err("empty identifier".into())
+    }
+}
+
 impl Registry {
     pub fn is_valid(&self) -> Result<(), String> {
-        let mut used_prefixes = HashSet::<u16>::new();
-        let mut used_networks = HashSet::<String>::new();
-
+        let mut used_prefixes = HashMap::<u16, AccountType>::new();
+        let mut used_networks = HashMap::<String, AccountType>::new();
         for account_type in &self.registry {
-            if !used_prefixes.insert(account_type.prefix) {
+            if let Some(clash) = used_prefixes.insert(account_type.prefix, (*account_type).clone())
+            {
                 return Err(format!(
-                    "prefixes must be unique but this account's prefix clashes: {:#?}.",
-                    account_type
+                    "prefixes must be unique but this account's prefix:\n{:#?}\nclashed with\n{:#?}",
+                    account_type,
+                    clash
                 ));
             }
-            if !used_networks.insert(account_type.network.clone()) {
+            if let Some(clash) = used_networks.insert(account_type.name(), account_type.clone()) {
                 return Err(format!(
-                    "networks must be unique but this account's network clashes: {:#?}.",
-                    account_type
+                    "networks must be unique but this account's network:\n{:#?}\nclashed with\n:{:#?}",
+                    account_type,
+                    clash
                 ));
             }
-            if account_type.network.chars().any(|c| c.is_whitespace()) {
+            if account_type.network.is_empty() {
+                return Err("network is mandatory.".into());
+            }
+
+            if let Err(err) = is_valid_rust_identifier(&account_type.name()) {
                 return Err(format!(
-                    "network can not have whitespace in: {:?}",
-                    account_type
+                    "network not valid: {} for {:#?}",
+                    err, account_type
                 ));
             }
             if account_type.decimals.len() != account_type.symbols.len() {
@@ -70,7 +97,7 @@ impl Registry {
     }
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
 struct AccountType {
     prefix: u16,
@@ -181,6 +208,7 @@ fn main() {
     };
 
     let dest_path = Path::new(&out_dir).join("account_type_enum.rs");
-    fs::write(&dest_path, result).unwrap();
+    fs::write(&dest_path, result).unwrap_or_else(|_| panic!("failed to write to {:?}", &dest_path));
     println!("cargo:rerun-if-changed=build.rs");
+    println!("cargo:rerun-if-changed=ss58-registry.json");
 }
