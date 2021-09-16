@@ -15,7 +15,7 @@
 
 #![warn(missing_docs)]
 
-//! List of wellknown SS58 account types as an enum.
+//! List of well-known SS58 account types as an enum.
 use core::convert::TryFrom;
 use sp_debug_derive::RuntimeDebug;
 
