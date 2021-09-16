@@ -16,8 +16,137 @@
 #![warn(missing_docs)]
 
 //! List of wellknown SS58 account types as an enum.
+use core::convert::TryFrom;
+use sp_debug_derive::RuntimeDebug;
 
 include!(concat!(
     env!("OUT_DIR"),
     concat!("/", "account_type_enum", ".rs")
 ));
+
+/// Error encountered while parsing `Ss58AddressFormat` from &'_ str
+/// unit struct for now.
+#[derive(Copy, Clone, PartialEq, Eq, crate::RuntimeDebug)]
+pub struct ParseError;
+
+/// A custom address format. See also KnownSs58AddressFormat
+#[non_exhaustive]
+#[derive(Copy, Clone, PartialEq, Eq, crate::RuntimeDebug)]
+pub struct Ss58AddressFormat {
+    prefix: u16,
+}
+
+/// An enumeration of unique networks.
+/// Some are reserved.
+impl Ss58AddressFormat {
+    /// names of all address formats
+    pub fn all_names() -> &'static [&'static str] {
+        &ALL_SS58_ADDRESS_FORMAT_NAMES
+    }
+    /// All known address formats.
+    pub fn all() -> &'static [KnownSs58AddressFormat] {
+        &ALL_SS58_ADDRESS_FORMATS[..]
+    }
+
+    /// Whether the address is custom.
+    pub fn is_custom(&self) -> bool {
+        PREFIX_TO_INDEX
+            .binary_search_by_key(&self.prefix, |(prefix, _)| *prefix)
+            .is_err()
+    }
+}
+
+/// Display the name of the address format (not the description).
+#[cfg(feature = "std")]
+impl std::fmt::Display for Ss58AddressFormat {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        if let Ok(lookup) =
+            PREFIX_TO_INDEX.binary_search_by_key(&self.prefix, |(prefix, _)| *prefix)
+        {
+            let (_, idx) = PREFIX_TO_INDEX[lookup];
+            write!(f, "{}", ALL_SS58_ADDRESS_FORMAT_NAMES[idx])
+        } else {
+            write!(f, "{}", self.prefix)
+        }
+    }
+}
+
+impl TryFrom<Ss58AddressFormat> for KnownSs58AddressFormat {
+    type Error = ParseError;
+
+    fn try_from(x: Ss58AddressFormat) -> Result<KnownSs58AddressFormat, ParseError> {
+        PREFIX_TO_INDEX
+            .binary_search_by_key(&x.prefix, |(prefix, _)| *prefix)
+            .map(|lookup| {
+                let (_, idx) = PREFIX_TO_INDEX[lookup];
+                ALL_SS58_ADDRESS_FORMATS[idx]
+            })
+            .map_err(|_| ParseError)
+    }
+}
+
+impl From<KnownSs58AddressFormat> for Ss58AddressFormat {
+    fn from(x: KnownSs58AddressFormat) -> Ss58AddressFormat {
+        Ss58AddressFormat { prefix: x as u16 }
+    }
+}
+
+impl From<u8> for Ss58AddressFormat {
+    fn from(x: u8) -> Ss58AddressFormat {
+        Ss58AddressFormat::from(x as u16)
+    }
+}
+
+impl From<Ss58AddressFormat> for u16 {
+    fn from(x: Ss58AddressFormat) -> u16 {
+        from_address_format(x)
+    }
+}
+
+/// const function to convert Ss58AddressFormat to u16
+pub const fn from_address_format(x: Ss58AddressFormat) -> u16 {
+    x.prefix
+}
+
+impl From<u16> for Ss58AddressFormat {
+    fn from(prefix: u16) -> Ss58AddressFormat {
+        Ss58AddressFormat { prefix }
+    }
+}
+
+impl<'a> TryFrom<&'a str> for KnownSs58AddressFormat {
+    type Error = ParseError;
+
+    fn try_from(x: &'a str) -> Result<KnownSs58AddressFormat, Self::Error> {
+        ALL_SS58_ADDRESS_FORMAT_NAMES
+            .binary_search(&x)
+            .map(|lookup| {
+                let (_, idx) = PREFIX_TO_INDEX[lookup];
+                ALL_SS58_ADDRESS_FORMATS[idx]
+            })
+            .map_err(|_| ParseError)
+    }
+}
+
+#[cfg(feature = "std")]
+impl std::fmt::Display for ParseError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "failed to parse network value as u16")
+    }
+}
+
+#[cfg(feature = "std")]
+impl From<Ss58AddressFormat> for String {
+    fn from(x: Ss58AddressFormat) -> String {
+        x.to_string()
+    }
+}
+
+#[cfg(feature = "std")]
+impl std::str::FromStr for KnownSs58AddressFormat {
+    type Err = ParseError;
+
+    fn from_str(data: &str) -> Result<Self, Self::Err> {
+        TryFrom::try_from(data)
+    }
+}
