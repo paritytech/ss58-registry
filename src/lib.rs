@@ -39,6 +39,11 @@ pub struct Ss58AddressFormat {
 /// An enumeration of unique networks.
 /// Some are reserved.
 impl Ss58AddressFormat {
+    /// Custom constructor
+    pub fn custom(prefix: u16) -> Self {
+        Ss58AddressFormat { prefix }
+    }
+
     /// names of all address formats
     pub fn all_names() -> &'static [&'static str] {
         &ALL_SS58_ADDRESS_FORMAT_NAMES
@@ -85,6 +90,16 @@ impl TryFrom<Ss58AddressFormat> for KnownSs58AddressFormat {
     }
 }
 
+/// const function to convert Ss58AddressFormat to u16
+pub const fn from_address_format(x: Ss58AddressFormat) -> u16 {
+    x.prefix
+}
+
+/// const function to convert Ss58AddressFormat to u16
+pub const fn from_known_address_format(x: KnownSs58AddressFormat) -> u16 {
+    x as u16
+}
+
 impl From<KnownSs58AddressFormat> for Ss58AddressFormat {
     fn from(x: KnownSs58AddressFormat) -> Ss58AddressFormat {
         Ss58AddressFormat { prefix: x as u16 }
@@ -103,14 +118,17 @@ impl From<Ss58AddressFormat> for u16 {
     }
 }
 
-/// const function to convert Ss58AddressFormat to u16
-pub const fn from_address_format(x: Ss58AddressFormat) -> u16 {
-    x.prefix
-}
-
 impl From<u16> for Ss58AddressFormat {
     fn from(prefix: u16) -> Ss58AddressFormat {
         Ss58AddressFormat { prefix }
+    }
+}
+
+impl<'a> TryFrom<&'a str> for Ss58AddressFormat {
+    type Error = ParseError;
+
+    fn try_from(x: &'a str) -> Result<Ss58AddressFormat, Self::Error> {
+        KnownSs58AddressFormat::try_from(x).map(|a| a.into())
     }
 }
 
