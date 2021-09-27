@@ -1,0 +1,12 @@
+{
+  "name": "@substrate/ss58-registry",
+  "version": "0.1",
+  "license": "Apache-2",
+  "description": "Registry for SS58 account types",
+  "author": "Parity Technologies <admin@parity.io>",
+  "main": "ss58-registry-derive/src/ss58-registry.json",
+  "repository": "https://github.com/paritytech/ss58-registry",
+  "scripts": {},
+  "devDependencies": {},
+  "dependencies": {}
+}
