@@ -202,7 +202,7 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 fn main() {
     let out_dir = env::var_os("OUT_DIR").expect("OUT_DIR should exist");
 
-    let result: String = match create_ss58_registry(include_str!("ss58-registry.json")) {
+    let result = match create_ss58_registry(include_str!("ss58-registry.json")) {
         Ok(result) => result.to_string(),
         Err(msg) => panic!("{}", msg),
     };
