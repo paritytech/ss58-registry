@@ -21,7 +21,7 @@ use sp_debug_derive::RuntimeDebug;
 
 include!(concat!(
     env!("OUT_DIR"),
-    concat!("/", "account_type_enum", ".rs")
+    "/account_type_enum.rs"
 ));
 
 /// Error encountered while parsing `Ss58AddressFormat` from &'_ str
