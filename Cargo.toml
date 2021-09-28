@@ -2,7 +2,7 @@
 name = "ss58-registry"
 version = "0.0.1"
 edition = "2018"
-description = "Registry of wellknown SS58 id types"
+description = "Registry of wellknown SS58 addresses"
 
 [features]
 default = ["std"]
