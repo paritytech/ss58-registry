@@ -14,6 +14,7 @@
 // limitations under the License.
 
 //! List of wellknown SS58 account types as an enum.
+#![allow(clippy::expect_fun_call)]
 #![deny(missing_docs)]
 use quote::{format_ident, quote};
 use serde::{self, Deserialize};
@@ -144,15 +145,14 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 
     let count = registry.len();
     let number: Vec<_> = registry.iter().map(|r| r.prefix).collect();
-    let enumeration: Vec<_> = (0..registry.len()).collect();
 
-    let mut prefix_to_idx: Vec<_> = number.iter().enumerate().collect();
+    let mut prefix_to_idx: Vec<_> = number.iter().enumerate().map(|(a, b)| (b, a)).collect();
     prefix_to_idx.sort_by_key(|(prefix, _)| *prefix);
     let prefix_to_idx = prefix_to_idx
         .iter()
         .map(|(prefix, idx)| quote! { (#prefix, #idx) });
 
-    let name: Vec<_> = registry.iter().map(|r| r.network.clone()).collect();
+    let name = registry.iter().map(|r| r.network.clone());
     let desc = registry.iter().map(|r| {
         if let Some(website) = &r.website {
             format!("{} - <{}>", r.display_name, website)
@@ -166,7 +166,7 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
         /// A known address (sub)format/network ID for SS58.
         #[non_exhaustive]
         #[repr(u16)]
-        #[derive(Copy, Clone, PartialEq, Eq, crate::RuntimeDebug)]
+        #[derive(Copy, Clone, PartialEq, Eq, Debug)]
         pub enum KnownSs58AddressFormat {
             #(#[doc = #desc] #identifier = #number),*,
         }
@@ -208,7 +208,7 @@ fn main() {
     };
 
     let dest_path = Path::new(&out_dir).join("account_type_enum.rs");
-    fs::write(&dest_path, result).unwrap_or_else(|_| panic!("failed to write to {:?}", &dest_path));
+    fs::write(&dest_path, result).expect(&format!("failed to write to {:?}", &dest_path));
     println!("cargo:rerun-if-changed=build.rs");
     println!("cargo:rerun-if-changed=ss58-registry.json");
 }

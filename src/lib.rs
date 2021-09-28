@@ -12,26 +12,21 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 #![warn(missing_docs)]
 
 //! List of well-known SS58 account types as an enum.
 use core::convert::TryFrom;
-use sp_debug_derive::RuntimeDebug;
 
-include!(concat!(
-    env!("OUT_DIR"),
-    "/account_type_enum.rs"
-));
+include!(concat!(env!("OUT_DIR"), "/account_type_enum.rs"));
 
 /// Error encountered while parsing `Ss58AddressFormat` from &'_ str
 /// unit struct for now.
-#[derive(Copy, Clone, PartialEq, Eq, crate::RuntimeDebug)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub struct ParseError;
 
 /// A custom address format. See also KnownSs58AddressFormat
 #[non_exhaustive]
-#[derive(Copy, Clone, PartialEq, Eq, crate::RuntimeDebug)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub struct Ss58AddressFormat {
     prefix: u16,
 }
