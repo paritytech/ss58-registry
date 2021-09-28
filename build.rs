@@ -129,7 +129,7 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
     registry.is_valid()?;
 
     let mut registry = registry.registry;
-    // The names are assumed to be sorted.
+    // Sort by name so that we can later binary search by name
     registry.sort_by_key(|a| a.name());
 
     // Variables to insert into quote template:
