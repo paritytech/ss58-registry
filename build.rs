@@ -146,7 +146,7 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
     let number: Vec<_> = registry.iter().map(|r| r.prefix).collect();
     let enumeration: Vec<_> = (0..registry.len()).collect();
 
-    let mut prefix_to_idx: Vec<_> = number.iter().zip(enumeration).collect();
+    let mut prefix_to_idx: Vec<_> = number.iter().enumerate().collect();
     prefix_to_idx.sort_by_key(|(prefix, _)| *prefix);
     let prefix_to_idx = prefix_to_idx
         .iter()
