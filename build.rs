@@ -14,8 +14,6 @@
 // limitations under the License.
 
 //! List of wellknown SS58 account types as an enum.
-#![allow(clippy::expect_fun_call)]
-#![deny(missing_docs)]
 use quote::{format_ident, quote};
 use serde::{self, Deserialize};
 use std::collections::HashMap;
