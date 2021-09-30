@@ -1,4 +1,4 @@
-// Copyright (C) 2017-2021 Parity Technologies (UK) Ltd.
+// Copyright (C) 2021 Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -122,13 +122,35 @@ impl AccountType {
     }
 }
 
+fn consecutive_runs(data: &[u16]) -> (Vec<u16>, Vec<u16>) {
+    let mut slice_start = 0_u16;
+    let (mut starts, mut ends) = (Vec::new(), Vec::new());
+    for i in 1..data.len() {
+        if data[i - 1] + 1 != data[i] {
+            starts.push(slice_start);
+            ends.push(data[(i - 1)]);
+            slice_start = data[i];
+        }
+    }
+    if !data.is_empty() {
+        starts.push(slice_start);
+        ends.push(data[data.len() - 1]);
+    }
+    (starts, ends)
+}
+
 fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> {
-    let registry: Registry = serde_json::from_str(json).expect("valid json file");
+    let registry: Registry =
+        serde_json::from_str(json).map_err(|e| format!("json parsing error: {}", e))?;
     registry.is_valid()?;
 
     let mut registry = registry.registry;
-    // Sort by name so that we can later binary search by name
-    registry.sort_by_key(|a| a.name());
+
+    let mut ordered_prefixes = registry.iter().map(|i| i.prefix).collect::<Vec<_>>();
+    ordered_prefixes.sort_unstable();
+
+    // Sort by name so that we can later binary search by network
+    registry.sort_by_key(|a| a.network.clone());
 
     // Variables to insert into quote template:
     let identifier: Vec<_> = registry
@@ -136,15 +158,15 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
         .map(|r| format_ident!("{}", r.name()))
         .collect();
 
-    let reserved_identifiers = registry
+    let reserved_prefixes = registry
         .iter()
         .filter(|r| r.is_reserved())
-        .map(|r| format_ident!("{}", r.name()));
+        .map(|r| r.prefix);
 
     let count = registry.len();
-    let number: Vec<_> = registry.iter().map(|r| r.prefix).collect();
+    let prefix: Vec<_> = registry.iter().map(|r| r.prefix).collect();
 
-    let mut prefix_to_idx: Vec<_> = number.iter().enumerate().map(|(a, b)| (b, a)).collect();
+    let mut prefix_to_idx: Vec<_> = prefix.iter().enumerate().map(|(a, b)| (b, a)).collect();
     prefix_to_idx.sort_by_key(|(prefix, _)| *prefix);
     let prefix_to_idx = prefix_to_idx
         .iter()
@@ -159,22 +181,23 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
         }
     });
 
-    Ok(quote! {
+    let (prefix_starts, prefix_ends) = consecutive_runs(ordered_prefixes.as_slice());
 
+    Ok(quote! {
         /// A known address (sub)format/network ID for SS58.
         #[non_exhaustive]
         #[repr(u16)]
         #[derive(Copy, Clone, PartialEq, Eq, Debug)]
-        pub enum KnownSs58AddressFormat {
-            #(#[doc = #desc] #identifier = #number),*,
+        pub enum Ss58AddressFormatRegistry {
+            #(#[doc = #desc] #identifier = #prefix),*,
         }
 
-        /// All non-custom address formats (Sorted by name)
-        static ALL_SS58_ADDRESS_FORMATS: [KnownSs58AddressFormat; #count] = [
-             #(KnownSs58AddressFormat::#identifier),*,
+        /// All non-custom address formats (Sorted by network)
+        static ALL_SS58_ADDRESS_FORMATS: [Ss58AddressFormatRegistry; #count] = [
+             #(Ss58AddressFormatRegistry::#identifier),*,
         ];
 
-        /// Names of all address formats (Sorted by name)
+        /// Names of all address formats (Sorted by network)
         static ALL_SS58_ADDRESS_FORMAT_NAMES: [&str; #count] = [
             #(#name),*,
         ];
@@ -187,17 +210,23 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
         impl Ss58AddressFormat {
             /// Network/AddressType is reserved for future use.
             pub fn is_reserved(&self) -> bool {
-                if let Ok(known) = KnownSs58AddressFormat::try_from(*self) {
-                    matches!(known, #(KnownSs58AddressFormat::#reserved_identifiers)|*)
-                } else {
-                    false
-                }
+                self.prefix > 16384 || matches!(self.prefix, #(#reserved_prefixes)|*)
+            }
+
+            /// A custom format is one that is not already known.
+            pub fn is_custom(&self) -> bool {
+                // A match is faster than bin search
+                // as most hits will be in the first group.
+                !matches!(self.prefix, #(#prefix_starts..=#prefix_ends)|*)
             }
         }
     })
 }
 
 fn main() {
+    println!("cargo:rerun-if-changed=build.rs");
+    println!("cargo:rerun-if-changed=ss58-registry.json");
+
     let out_dir = env::var_os("OUT_DIR").expect("OUT_DIR should exist");
 
     let result = match create_ss58_registry(include_str!("ss58-registry.json")) {
@@ -206,7 +235,11 @@ fn main() {
     };
 
     let dest_path = Path::new(&out_dir).join("account_type_enum.rs");
-    fs::write(&dest_path, result).expect(&format!("failed to write to {:?}", &dest_path));
-    println!("cargo:rerun-if-changed=build.rs");
-    println!("cargo:rerun-if-changed=ss58-registry.json");
+    if let Err(err) = fs::write(&dest_path, result) {
+        eprintln!(
+            "failed to write generated code to {:?}: {}",
+            &dest_path, err
+        );
+        std::process::exit(-1);
+    }
 }

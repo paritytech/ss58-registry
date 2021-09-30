@@ -1,4 +1,4 @@
-// Copyright (C) 2017-2021 Parity Technologies (UK) Ltd.
+// Copyright (C) 2021 Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +24,7 @@ include!(concat!(env!("OUT_DIR"), "/account_type_enum.rs"));
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub struct ParseError;
 
-/// A custom address format. See also KnownSs58AddressFormat
+/// A custom address format. See also Ss58AddressFormatRegistry
 #[non_exhaustive]
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub struct Ss58AddressFormat {
@@ -35,6 +35,7 @@ pub struct Ss58AddressFormat {
 /// Some are reserved.
 impl Ss58AddressFormat {
     /// Custom constructor
+    #[inline]
     pub fn custom(prefix: u16) -> Self {
         Ss58AddressFormat { prefix }
     }
@@ -44,15 +45,8 @@ impl Ss58AddressFormat {
         &ALL_SS58_ADDRESS_FORMAT_NAMES
     }
     /// All known address formats.
-    pub fn all() -> &'static [KnownSs58AddressFormat] {
-        &ALL_SS58_ADDRESS_FORMATS[..]
-    }
-
-    /// Whether the address is custom.
-    pub fn is_custom(&self) -> bool {
-        PREFIX_TO_INDEX
-            .binary_search_by_key(&self.prefix, |(prefix, _)| *prefix)
-            .is_err()
+    pub fn all() -> &'static [Ss58AddressFormatRegistry] {
+        &ALL_SS58_ADDRESS_FORMATS
     }
 }
 
@@ -71,10 +65,21 @@ impl std::fmt::Display for Ss58AddressFormat {
     }
 }
 
-impl TryFrom<Ss58AddressFormat> for KnownSs58AddressFormat {
+#[cfg(feature = "std")]
+impl std::fmt::Display for Ss58AddressFormatRegistry {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        let lookup = PREFIX_TO_INDEX
+            .binary_search_by_key(&from_known_address_format(*self), |(prefix, _)| *prefix)
+            .expect("always be found");
+        let (_, idx) = PREFIX_TO_INDEX[lookup];
+        write!(f, "{}", ALL_SS58_ADDRESS_FORMAT_NAMES[idx])
+    }
+}
+
+impl TryFrom<Ss58AddressFormat> for Ss58AddressFormatRegistry {
     type Error = ParseError;
 
-    fn try_from(x: Ss58AddressFormat) -> Result<KnownSs58AddressFormat, ParseError> {
+    fn try_from(x: Ss58AddressFormat) -> Result<Ss58AddressFormatRegistry, ParseError> {
         PREFIX_TO_INDEX
             .binary_search_by_key(&x.prefix, |(prefix, _)| *prefix)
             .map(|lookup| {
@@ -91,29 +96,32 @@ pub const fn from_address_format(x: Ss58AddressFormat) -> u16 {
 }
 
 /// const function to convert Ss58AddressFormat to u16
-pub const fn from_known_address_format(x: KnownSs58AddressFormat) -> u16 {
+pub const fn from_known_address_format(x: Ss58AddressFormatRegistry) -> u16 {
     x as u16
 }
 
-impl From<KnownSs58AddressFormat> for Ss58AddressFormat {
-    fn from(x: KnownSs58AddressFormat) -> Ss58AddressFormat {
+impl From<Ss58AddressFormatRegistry> for Ss58AddressFormat {
+    fn from(x: Ss58AddressFormatRegistry) -> Ss58AddressFormat {
         Ss58AddressFormat { prefix: x as u16 }
     }
 }
 
 impl From<u8> for Ss58AddressFormat {
+    #[inline]
     fn from(x: u8) -> Ss58AddressFormat {
         Ss58AddressFormat::from(x as u16)
     }
 }
 
 impl From<Ss58AddressFormat> for u16 {
+    #[inline]
     fn from(x: Ss58AddressFormat) -> u16 {
         from_address_format(x)
     }
 }
 
 impl From<u16> for Ss58AddressFormat {
+    #[inline]
     fn from(prefix: u16) -> Ss58AddressFormat {
         Ss58AddressFormat { prefix }
     }
@@ -123,20 +131,17 @@ impl<'a> TryFrom<&'a str> for Ss58AddressFormat {
     type Error = ParseError;
 
     fn try_from(x: &'a str) -> Result<Ss58AddressFormat, Self::Error> {
-        KnownSs58AddressFormat::try_from(x).map(|a| a.into())
+        Ss58AddressFormatRegistry::try_from(x).map(|a| a.into())
     }
 }
 
-impl<'a> TryFrom<&'a str> for KnownSs58AddressFormat {
+impl<'a> TryFrom<&'a str> for Ss58AddressFormatRegistry {
     type Error = ParseError;
 
-    fn try_from(x: &'a str) -> Result<KnownSs58AddressFormat, Self::Error> {
+    fn try_from(x: &'a str) -> Result<Ss58AddressFormatRegistry, Self::Error> {
         ALL_SS58_ADDRESS_FORMAT_NAMES
             .binary_search(&x)
-            .map(|lookup| {
-                let (_, idx) = PREFIX_TO_INDEX[lookup];
-                ALL_SS58_ADDRESS_FORMATS[idx]
-            })
+            .map(|lookup| ALL_SS58_ADDRESS_FORMATS[lookup])
             .map_err(|_| ParseError)
     }
 }
@@ -156,10 +161,46 @@ impl From<Ss58AddressFormat> for String {
 }
 
 #[cfg(feature = "std")]
-impl std::str::FromStr for KnownSs58AddressFormat {
+impl std::str::FromStr for Ss58AddressFormatRegistry {
     type Err = ParseError;
 
     fn from_str(data: &str) -> Result<Self, Self::Err> {
         TryFrom::try_from(data)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{Ss58AddressFormat, Ss58AddressFormatRegistry};
+    use std::convert::TryInto;
+
+    #[test]
+    fn is_reserved() {
+        let reserved: Ss58AddressFormat = Ss58AddressFormatRegistry::Reserved46Account.into();
+        assert!(reserved.is_reserved());
+
+        let not_reserved: Ss58AddressFormat = Ss58AddressFormatRegistry::PolkadexAccount.into();
+        assert!(!not_reserved.is_reserved());
+
+        assert!(!Ss58AddressFormat::custom(100).is_reserved());
+    }
+
+    #[test]
+    fn is_custom() {
+        assert!(Ss58AddressFormat::custom(432).is_custom());
+
+        let reserved: Ss58AddressFormat = Ss58AddressFormatRegistry::Reserved46Account.into();
+        assert!(!reserved.is_custom());
+
+        let not_reserved: Ss58AddressFormat = Ss58AddressFormatRegistry::PolkadexAccount.into();
+        assert!(!not_reserved.is_custom());
+    }
+
+    #[test]
+    fn enum_to_name_and_back() {
+        for name in Ss58AddressFormat::all_names() {
+            let val: Ss58AddressFormatRegistry = (*name).try_into().expect(&format!("{}", name));
+            assert_eq!(name, &val.to_string());
+        }
     }
 }
