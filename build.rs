@@ -211,7 +211,10 @@ fn main() {
 
 	let result = match create_ss58_registry(include_str!("ss58-registry.json")) {
 		Ok(result) => result.to_string(),
-		Err(msg) => panic!("{}", msg),
+		Err(msg) => {
+			eprintln!("failed to generate code from json: {}", &msg);
+			std::process::exit(-1);
+		},
 	};
 
 	let dest_path = Path::new(&out_dir).join("account_type_enum.rs");
