@@ -15,7 +15,7 @@
 
 //! List of wellknown SS58 account types as an enum.
 use quote::{format_ident, quote};
-use serde::{self, Deserialize};
+use serde::Deserialize;
 use std::collections::HashMap;
 use std::env;
 use std::fs;
