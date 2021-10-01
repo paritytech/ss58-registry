@@ -25,7 +25,6 @@ include!(concat!(env!("OUT_DIR"), "/account_type_enum.rs"));
 pub struct ParseError;
 
 /// A custom address format. See also Ss58AddressFormatRegistry
-#[non_exhaustive]
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub struct Ss58AddressFormat {
     prefix: u16,
