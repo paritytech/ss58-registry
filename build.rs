@@ -135,7 +135,7 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 	let mut registry = registry.registry;
 
 	let mut ordered_prefixes = registry.iter().map(|i| i.prefix).collect::<Vec<_>>();
-	ordered_prefixes.sort_unstable();
+	ordered_prefixes.sort();
 
 	// Sort by name so that we can later binary search by network
 	registry.sort_by_key(|a| a.network.clone());
