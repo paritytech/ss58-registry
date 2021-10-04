@@ -648,6 +648,15 @@
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://bsx.fi"
+    },
+    {
+      "prefix": 11820,
+      "network": "contextfree",
+      "displayName": "Automata ContextFree",
+      "symbols": ["CTX"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://ata.network"
     }
   ]
 }
