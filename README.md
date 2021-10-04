@@ -16,6 +16,7 @@ This is driven from the [json data file](src/ss58-registry.json) which contains 
 },
 ```
 
+
 (Typically used by the Polkadot, Kusama or Substrate ecosystems.)
 
 ## Process:
