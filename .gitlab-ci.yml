@@ -68,13 +68,13 @@ fmt:
   image:                           "${CI_IMAGE}"
   <<:                              *kubernetes-env
   script:
-    - cargo +nightly fmt --all -- --check --config merge_imports=true
+    - cargo +nightly fmt --all -- --check
 
 clippy:
   stage:                           lint
   <<:                              *docker-env
   script:
-    - RUSTFLAGS="-D warnings" cargo +nightly clippy --all-targets --verbose
+    - cargo +nightly clippy --all-targets --verbose
 
 #### stage:                       test
 
