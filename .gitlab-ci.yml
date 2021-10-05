@@ -88,7 +88,6 @@ deny:
     - mkdir -p ./artifacts
     - echo "___Complete logs can be found in the artifacts___"
     - cargo deny check --hide-inclusion-graph 2> cargo_deny.log
-  allow_failure:                   true
 
 test:
   stage:                           test
