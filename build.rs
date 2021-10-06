@@ -189,11 +189,13 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 
 		impl Ss58AddressFormat {
 			/// Network/AddressType is reserved for future use.
+			#[must_use]
 			pub fn is_reserved(&self) -> bool {
 				self.prefix > 16384 || matches!(self.prefix, #(#reserved_prefixes)|*)
 			}
 
 			/// A custom format is one that is not already known.
+			#[must_use]
 			pub fn is_custom(&self) -> bool {
 				// A match is faster than bin search
 				// as most hits will be in the first group.
@@ -219,7 +221,7 @@ fn main() {
 
 	let dest_path = Path::new(&out_dir).join("account_type_enum.rs");
 	if let Err(err) = fs::write(&dest_path, result) {
-		eprintln!("failed to write generated code to {:?}: {}", &dest_path, err);
+		eprintln!("failed to write generated code to {}: {}", &dest_path.display(), err);
 		std::process::exit(-1);
 	}
 }

@@ -22,7 +22,7 @@ fn is_custom(b: &mut Bencher) {
 	let v: Vec<Ss58AddressFormat> =
 		(0..BENCH_SIZE).map(ss58_registry::Ss58AddressFormat::custom).collect();
 	b.iter(|| {
-		for i in v.iter() {
+		for i in &v {
 			let _ = i.is_custom();
 		}
 	})
@@ -33,7 +33,7 @@ fn is_reserved(b: &mut Bencher) {
 	let v: Vec<Ss58AddressFormat> =
 		(0..BENCH_SIZE).map(ss58_registry::Ss58AddressFormat::custom).collect();
 	b.iter(|| {
-		for i in v.iter() {
+		for i in &v {
 			let _ = i.is_reserved();
 		}
 	})
@@ -44,7 +44,7 @@ fn to_string(b: &mut Bencher) {
 	let v: Vec<Ss58AddressFormat> =
 		(0..BENCH_SIZE).map(ss58_registry::Ss58AddressFormat::custom).collect();
 	b.iter(|| {
-		for i in v.iter() {
+		for i in &v {
 			let _ = i.to_string();
 		}
 	})
