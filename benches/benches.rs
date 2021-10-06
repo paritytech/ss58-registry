@@ -3,7 +3,6 @@
 extern crate test;
 use std::hint::black_box;
 
-use ss58_registry;
 use test::Bencher;
 static BENCH_SIZE: u16 = 100;
 use ss58_registry::{from_address_format, Ss58AddressFormat, Ss58AddressFormatRegistry};
@@ -21,7 +20,7 @@ fn new(b: &mut Bencher) {
 #[bench]
 fn is_custom(b: &mut Bencher) {
 	let v: Vec<Ss58AddressFormat> =
-		(0..BENCH_SIZE).map(|i| ss58_registry::Ss58AddressFormat::custom(i)).collect();
+		(0..BENCH_SIZE).map(ss58_registry::Ss58AddressFormat::custom).collect();
 	b.iter(|| {
 		for i in v.iter() {
 			let _ = i.is_custom();
@@ -32,7 +31,7 @@ fn is_custom(b: &mut Bencher) {
 #[bench]
 fn is_reserved(b: &mut Bencher) {
 	let v: Vec<Ss58AddressFormat> =
-		(0..BENCH_SIZE).map(|i| ss58_registry::Ss58AddressFormat::custom(i)).collect();
+		(0..BENCH_SIZE).map(ss58_registry::Ss58AddressFormat::custom).collect();
 	b.iter(|| {
 		for i in v.iter() {
 			let _ = i.is_reserved();
@@ -43,7 +42,7 @@ fn is_reserved(b: &mut Bencher) {
 #[bench]
 fn to_string(b: &mut Bencher) {
 	let v: Vec<Ss58AddressFormat> =
-		(0..BENCH_SIZE).map(|i| ss58_registry::Ss58AddressFormat::custom(i)).collect();
+		(0..BENCH_SIZE).map(ss58_registry::Ss58AddressFormat::custom).collect();
 	b.iter(|| {
 		for i in v.iter() {
 			let _ = i.to_string();
@@ -65,7 +64,8 @@ fn known_to_prefix(b: &mut Bencher) {
 fn name_to_enum(b: &mut Bencher) {
 	b.iter(|| {
 		for name in ss58_registry::Ss58AddressFormat::all_names() {
-			let _: Ss58AddressFormatRegistry = (*name).try_into().expect(&format!("{}", name));
+			let _: Ss58AddressFormatRegistry =
+				(*name).try_into().unwrap_or_else(|_| panic!("{}", name));
 		}
 	})
 }

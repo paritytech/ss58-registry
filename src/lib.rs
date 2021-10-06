@@ -198,7 +198,7 @@ mod tests {
 	#[test]
 	fn enum_to_name_and_back() {
 		for name in Ss58AddressFormat::all_names() {
-			let val: Ss58AddressFormatRegistry = (*name).try_into().expect(&format!("{}", name));
+			let val: Ss58AddressFormatRegistry = (*name).try_into().expect(name);
 			assert_eq!(name, &val.to_string());
 		}
 	}

@@ -1,8 +1,6 @@
 [package]
 name = "ss58-registry"
-authors = [
-	"Parity Technologies <admin@parity.io>",
-]
+authors = ["Parity Technologies <admin@parity.io>"]
 version = "0.0.1"
 edition = "2018"
 description = "Registry of known SS58 address types"
