@@ -39,22 +39,6 @@ variables:                         &default-vars
   - bash --version
   - sccache -s
 
-.docker-env:                       &docker-env
-  image:                           "${CI_IMAGE}"
-  before_script:
-    - *rust-info-script
-    - ./scripts/ci/pre_cache.sh
-    - sccache -s
-  retry:
-    max: 2
-    when:
-      - runner_system_failure
-      - unknown_failure
-      - api_failure
-  interruptible:                   true
-  tags:
-    - linux-docker
-
 .kubernetes-env:                   &kubernetes-env
   retry:
     max: 2
@@ -85,7 +69,7 @@ fmt:
 
 clippy:
   stage:                           lint
-  <<:                              *docker-env
+  <<:                              *kubernetes-env
   script:
     - cargo +nightly clippy --all-targets --verbose
 
@@ -93,7 +77,7 @@ clippy:
 
 deny:
   stage:                           test
-  <<:                              *docker-env
+  <<:                              *kubernetes-env
   <<:                              *collect-artifacts
   script:
     - cargo deny check --hide-inclusion-graph -c .maintain/deny.toml
@@ -104,13 +88,13 @@ deny:
 
 test:
   stage:                           test
-  <<:                              *docker-env
+  <<:                              *kubernetes-env
   script:
     - cargo test --all  --verbose
 
 check:
   stage:                           test
-  <<:                              *docker-env
+  <<:                              *kubernetes-env
   script:
     - cargo check --all  --verbose
 
@@ -119,7 +103,7 @@ check:
 build:
   stage:                           build
   <<:                              *build-refs
-  <<:                              *docker-env
+  <<:                              *kubernetes-env
   script:
     - cargo build --no-default-features --target wasm32-unknown-unknown --verbose
 
