@@ -40,6 +40,7 @@ variables:                         &default-vars
   - sccache -s
 
 .kubernetes-env:                   &kubernetes-env
+  image:                           $CI_IMAGE
   retry:
     max: 2
     when:
@@ -62,7 +63,6 @@ variables:                         &default-vars
 
 fmt:
   stage:                           lint
-  image:                           "${CI_IMAGE}"
   <<:                              *kubernetes-env
   script:
     - cargo +nightly fmt --all -- --check
