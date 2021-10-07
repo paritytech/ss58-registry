@@ -39,8 +39,24 @@ variables:                         &default-vars
   - bash --version
   - sccache -s
 
+.docker-env:                       &docker-env
+  image:                           "${CI_IMAGE}"
+  before_script:
+    - *rust-info-script
+    - ./scripts/ci/pre_cache.sh
+    - sccache -s
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - unknown_failure
+      - api_failure
+  interruptible:                   true
+  tags:
+    - linux-docker
+
 .kubernetes-env:                   &kubernetes-env
-  image:                           $CI_IMAGE
+  image:                           "${CI_IMAGE}"
   retry:
     max: 2
     when:
@@ -69,7 +85,7 @@ fmt:
 
 clippy:
   stage:                           lint
-  <<:                              *kubernetes-env
+  <<:                              *docker-env
   script:
     - cargo +nightly clippy --all-targets --verbose
 
@@ -77,7 +93,7 @@ clippy:
 
 deny:
   stage:                           test
-  <<:                              *kubernetes-env
+  <<:                              *docker-env
   <<:                              *collect-artifacts
   script:
     - cargo deny check --hide-inclusion-graph -c .maintain/deny.toml
@@ -88,13 +104,13 @@ deny:
 
 test:
   stage:                           test
-  <<:                              *kubernetes-env
+  <<:                              *docker-env
   script:
     - cargo test --all  --verbose
 
 check:
   stage:                           test
-  <<:                              *kubernetes-env
+  <<:                              *docker-env
   script:
     - cargo check --all  --verbose
 
@@ -103,7 +119,7 @@ check:
 build:
   stage:                           build
   <<:                              *build-refs
-  <<:                              *kubernetes-env
+  <<:                              *docker-env
   script:
     - cargo build --no-default-features --target wasm32-unknown-unknown --verbose
 
@@ -111,7 +127,7 @@ build:
 
 unleash-to-crates-io:
   stage:                           publish
-  <<:                              *kubernetes-env
+  <<:                              *docker-env
   <<:                              *vault-secrets
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^ci-release-.*$/
