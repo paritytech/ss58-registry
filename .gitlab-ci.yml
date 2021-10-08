@@ -79,7 +79,7 @@ clippy:
   stage:                           lint
   <<:                              *docker-env
   script:
-    - cargo +nightly clippy --verbose -- -D warnings
+    - cargo +nightly clippy --all --verbose
 
 #### stage:                       test
 
@@ -120,4 +120,3 @@ unleash-to-crates-io:
   script:
     - cargo install cargo-unleash ${CARGO_UNLEASH_INSTALL_PARAMS}
     - cargo unleash em-dragons --no-check --owner github:paritytech:core-devs ${CARGO_UNLEASH_PKG_DEF}
-
