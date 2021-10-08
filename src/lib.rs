@@ -90,7 +90,7 @@ impl TryFrom<Ss58AddressFormat> for Ss58AddressFormatRegistry {
 	}
 }
 
-/// const function to convert `Ss58AddressFormat` to u16
+/// const function to convert [`Ss58AddressFormat`] to u16
 pub const fn from_address_format(x: Ss58AddressFormat) -> u16 {
 	x.prefix
 }
