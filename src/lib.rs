@@ -24,7 +24,7 @@ include!(concat!(env!("OUT_DIR"), "/account_type_enum.rs"));
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub struct ParseError;
 
-/// A custom address format. See also Ss58AddressFormatRegistry
+/// A custom address format. See also [`Ss58AddressFormatRegistry`]
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub struct Ss58AddressFormat {
 	prefix: u16,
@@ -43,6 +43,7 @@ impl Ss58AddressFormat {
 	pub fn all_names() -> &'static [&'static str] {
 		&ALL_SS58_ADDRESS_FORMAT_NAMES
 	}
+
 	/// All known address formats.
 	pub fn all() -> &'static [Ss58AddressFormatRegistry] {
 		&ALL_SS58_ADDRESS_FORMATS
@@ -89,12 +90,12 @@ impl TryFrom<Ss58AddressFormat> for Ss58AddressFormatRegistry {
 	}
 }
 
-/// const function to convert Ss58AddressFormat to u16
+/// const function to convert [`Ss58AddressFormat`] to u16
 pub const fn from_address_format(x: Ss58AddressFormat) -> u16 {
 	x.prefix
 }
 
-/// const function to convert Ss58AddressFormat to u16
+/// const function to convert [`Ss58AddressFormat`] to u16
 pub const fn from_known_address_format(x: Ss58AddressFormatRegistry) -> u16 {
 	x as u16
 }
@@ -108,7 +109,7 @@ impl From<Ss58AddressFormatRegistry> for Ss58AddressFormat {
 impl From<u8> for Ss58AddressFormat {
 	#[inline]
 	fn from(x: u8) -> Ss58AddressFormat {
-		Ss58AddressFormat::from(x as u16)
+		Ss58AddressFormat::from(u16::from(x))
 	}
 }
 
@@ -198,7 +199,7 @@ mod tests {
 	#[test]
 	fn enum_to_name_and_back() {
 		for name in Ss58AddressFormat::all_names() {
-			let val: Ss58AddressFormatRegistry = (*name).try_into().expect(&format!("{}", name));
+			let val: Ss58AddressFormatRegistry = (*name).try_into().expect(name);
 			assert_eq!(name, &val.to_string());
 		}
 	}

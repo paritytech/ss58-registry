@@ -219,7 +219,7 @@ fn main() {
 
 	let dest_path = Path::new(&out_dir).join("account_type_enum.rs");
 	if let Err(err) = fs::write(&dest_path, result) {
-		eprintln!("failed to write generated code to {:?}: {}", &dest_path, err);
+		eprintln!("failed to write generated code to {}: {}", &dest_path.display(), err);
 		std::process::exit(-1);
 	}
 }
