@@ -79,7 +79,7 @@ clippy:
   stage:                           lint
   <<:                              *docker-env
   script:
-    - cargo +nightly clippy --all-targets --verbose -- -D warnings
+    - cargo +nightly clippy --verbose -- -D warnings
 
 #### stage:                       test
 
