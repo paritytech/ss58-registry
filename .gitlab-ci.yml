@@ -23,14 +23,6 @@ variables:                         &default-vars
       vault:                       cicd/gitlab/$CI_PROJECT_PATH/CRATES_TOKEN@kv
       file:                        false
 
-.build-refs:                     &build-refs
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-    - if: $CI_PIPELINE_SOURCE == "web"
-    - if: $CI_COMMIT_REF_NAME == "main"
-    - if: $CI_COMMIT_REF_NAME =~ /^v[0-9]+\.[0-9]+.*$/              # i.e. v1.0, v2.1rc1
-
-
 .rust-info-script:                 &rust-info-script
   - rustup show
   - cargo --version
@@ -87,7 +79,7 @@ clippy:
   stage:                           lint
   <<:                              *docker-env
   script:
-    - cargo +nightly clippy --all-targets --verbose
+    - cargo +nightly clippy --all --verbose
 
 #### stage:                       test
 
@@ -108,17 +100,10 @@ test:
   script:
     - cargo test --all  --verbose
 
-check:
-  stage:                           test
-  <<:                              *docker-env
-  script:
-    - cargo check --all  --verbose
-
 #### stage:                       build
 
 build:
   stage:                           build
-  <<:                              *build-refs
   <<:                              *docker-env
   script:
     - cargo build --no-default-features --target wasm32-unknown-unknown --verbose
