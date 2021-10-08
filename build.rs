@@ -189,13 +189,11 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 
 		impl Ss58AddressFormat {
 			/// Network/AddressType is reserved for future use.
-			#[must_use]
 			pub fn is_reserved(&self) -> bool {
 				self.prefix > 16384 || matches!(self.prefix, #(#reserved_prefixes)|*)
 			}
 
 			/// A custom format is one that is not already known.
-			#[must_use]
 			pub fn is_custom(&self) -> bool {
 				// A match is faster than bin search
 				// as most hits will be in the first group.

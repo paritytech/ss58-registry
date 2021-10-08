@@ -35,19 +35,16 @@ pub struct Ss58AddressFormat {
 impl Ss58AddressFormat {
 	/// Custom constructor
 	#[inline]
-	#[must_use]
 	pub fn custom(prefix: u16) -> Self {
 		Ss58AddressFormat { prefix }
 	}
 
 	/// names of all address formats
-	#[must_use]
 	pub fn all_names() -> &'static [&'static str] {
 		&ALL_SS58_ADDRESS_FORMAT_NAMES
 	}
 
 	/// All known address formats.
-	#[must_use]
 	pub fn all() -> &'static [Ss58AddressFormatRegistry] {
 		&ALL_SS58_ADDRESS_FORMATS
 	}
@@ -94,13 +91,11 @@ impl TryFrom<Ss58AddressFormat> for Ss58AddressFormatRegistry {
 }
 
 /// const function to convert `Ss58AddressFormat` to u16
-#[must_use]
 pub const fn from_address_format(x: Ss58AddressFormat) -> u16 {
 	x.prefix
 }
 
 /// const function to convert `Ss58AddressFormat` to u16
-#[must_use]
 pub const fn from_known_address_format(x: Ss58AddressFormatRegistry) -> u16 {
 	x as u16
 }
