@@ -28,7 +28,7 @@ This is driven from the [json data file](ss58-registry.json) which contains entr
 
 3. Bump the patch (middle) version number of the `Cargo.toml` by running:
 ```
-cargo install cargo-bump && cargo bump patch
+cargo install cargo-bump && cargo bump minor
 ```
 4. git stage, commit, push and then raise a pull request
 
