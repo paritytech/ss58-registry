@@ -95,7 +95,7 @@ pub const fn from_address_format(x: Ss58AddressFormat) -> u16 {
 	x.prefix
 }
 
-/// const function to convert `Ss58AddressFormat` to u16
+/// const function to convert [`Ss58AddressFormat`] to u16
 pub const fn from_known_address_format(x: Ss58AddressFormatRegistry) -> u16 {
 	x as u16
 }
