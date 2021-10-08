@@ -26,7 +26,7 @@ This is driven from the [json data file](ss58-registry.json) which contains entr
 
 2. Add an additional account type to `ss58-registry.json` (contiguous prefixes are better)
 
-3. Bump the patch (middle) version number of the `Cargo.toml` by running:
+3. Bump the minor (middle) version number of the `Cargo.toml` by running:
 ```
 cargo install cargo-bump && cargo bump minor
 ```
