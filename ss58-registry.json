@@ -560,6 +560,15 @@
       "website": "https://polkadex.trade"
     },
     {
+      "prefix": 92,
+      "network": "anmol",
+      "displayName": "Anmol Network",
+      "symbols": ["ANML"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://anmol.network/"
+    },
+    {
       "prefix": 98,
       "network": "polkasmith",
       "displayName": "PolkaSmith Canary Network",
@@ -576,6 +585,15 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://polkafoundry.com"
+    },
+    {
+      "prefix": 100,
+      "network": "ibtida",
+      "displayName": "Anmol Network Ibtida testnet",
+      "symbols": ["tANML"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://anmol.network/"
     },
     {
       "prefix": 101,
@@ -720,7 +738,7 @@
       "decimals": [12],
       "standardAccount": "Sr25519",
       "website": "https://ajuna.io"
-    },    
+    },
     {
       "prefix": 2007,
       "network": "kapex",
