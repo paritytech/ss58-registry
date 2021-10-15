@@ -589,8 +589,8 @@
     {
       "prefix": 100,
       "network": "ibtida",
-      "displayName": "Anmol Network Ibtida testnet",
-      "symbols": ["tANML"],
+      "displayName": "Anmol Network Ibtida Canary network",
+      "symbols": ["IANML"],
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://anmol.network/"
