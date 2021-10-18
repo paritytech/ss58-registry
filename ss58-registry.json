@@ -651,9 +651,18 @@
     },
     {
       "prefix": 10042,
-      "network": "CESS",
-      "displayName": "CESS",
+      "network": "cess-testnet",
+      "displayName": "CESS Testnet",
       "symbols": ["TCESS"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://cess.cloud"
+    },
+    {
+      "prefix": 10043,
+      "network": "cess",
+      "displayName": "CESS",
+      "symbols": ["CESS"],
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://cess.cloud"
