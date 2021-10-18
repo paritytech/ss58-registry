@@ -623,6 +623,15 @@
       "website": "https://social.network"
     },
     {
+      "prefix": 255,
+      "network": "quartz_mainnet",
+      "displayName": "QUARTZ by UNIQUE",
+      "symbols": ["QTZ"],
+      "decimals": [15],
+      "standardAccount": "*25519",
+      "website": "https://unique.network"
+    },
+    {
       "prefix": 1284,
       "network": "moonbeam",
       "displayName": "Moonbeam",
