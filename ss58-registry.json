@@ -632,6 +632,15 @@
       "website": "https://unique.network"
     },
     {
+      "prefix": 268,
+      "network": "pioneer_network",
+      "displayName": "Pioneer Network by Bit.Country",
+      "symbols": ["NEER"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://bit.country"
+    },
+    {
       "prefix": 1284,
       "network": "moonbeam",
       "displayName": "Moonbeam",
