@@ -497,6 +497,15 @@
       "website": "https://equilibrium.io"
     },
     {
+      "prefix": 67,
+      "network": "genshiro",
+      "displayName": "Genshiro Network",
+      "symbols": ["TOKEN"],
+      "decimals": [9],
+      "standardAccount": "*25519",
+      "website": "https://genshiro.equilibrium.io"
+    },
+    {
       "prefix": 69,
       "network": "sora",
       "displayName": "SORA Network",
