@@ -14,13 +14,13 @@
 // limitations under the License.
 
 export interface RegistryEntry {
-  decimals: number[],
-  displayName: string;
-  network: string;
-  prefix: number;
-  standardAccount: '*25519' | 'Ed25519' | 'Sr25519' | 'secp256k1' | null;
-  symbols: string[];
-  website: string | null;
+	decimals: number[],
+	displayName: string;
+	network: string;
+	prefix: number;
+	standardAccount: '*25519' | 'Ed25519' | 'Sr25519' | 'secp256k1' | null;
+	symbols: string[];
+	website: string | null;
 }
 
 export type Registry = RegistryEntry[];

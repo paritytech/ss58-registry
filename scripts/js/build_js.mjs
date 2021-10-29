@@ -37,15 +37,16 @@ function main () {
 	const pkgJson = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
 	const { registry } = JSON.parse(fs.readFileSync('ss58-registry.json', 'utf-8'));
 	const code = JSON.stringify(registry, null, 2)
-		.replace(/\n    "/g, '\n    ')
+		.replace(/\n    "/g, '\n\t\t')
 		.replace(/":/g, ':')
-		.replace(/"/g, "'");
+		.replace(/"/g, "'")
+		.replace(/  /g, '\t');
 
 	pkgJson.exports = {
 		'.': {
-      require: './index.cjs',
-      default: './index.js'
-    },
+			require: './index.cjs',
+			default: './index.js'
+		},
 	};
 	pkgJson.main = 'index.js';
 	pkgJson.type = 'module';
