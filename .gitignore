@@ -10,3 +10,6 @@ Cargo.lock
 
 # JS modules from npm install
 node_modules/
+
+# JS output location
+npm_dist/
