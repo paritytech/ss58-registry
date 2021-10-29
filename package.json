@@ -7,8 +7,11 @@
   "main": "ss58-registry.json",
   "repository": "https://github.com/paritytech/ss58-registry",
   "scripts": {
+    "alignVersion": "./scripts/js/align_version.mjs && npm install",
     "build": "rm -rf npm_dist && mkdir -p npm_dist && ./scripts/js/build_js.mjs"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "toml": "^3.0.0"
+  },
   "dependencies": {}
 }
