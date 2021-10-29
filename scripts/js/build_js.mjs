@@ -36,11 +36,13 @@ function main () {
 	const typesD = fs.readFileSync('types.d.ts', 'utf-8');
 	const pkgJson = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
 	const { registry } = JSON.parse(fs.readFileSync('ss58-registry.json', 'utf-8'));
+
+	// mangle the code output into something JS-like
 	const code = JSON.stringify(registry, null, 2)
-		.replace(/\n    "/g, '\n\t\t')
-		.replace(/":/g, ':')
-		.replace(/"/g, "'")
-		.replace(/  /g, '\t');
+		.replace(/\n    "/g, '\n\t\t') // change the leading key " into '
+		.replace(/":/g, ':') // change the trailing key ": into :
+		.replace(/"/g, "'") // use single quotes elsewhere
+		.replace(/  /g, '\t'); // change all tabs into spaces
 
 	pkgJson.exports = {
 		'.': {
