@@ -42,7 +42,7 @@ function main () {
 		.replace(/\n    "/g, '\n\t\t') // change the leading key " into '
 		.replace(/":/g, ':') // change the trailing key ": into :
 		.replace(/"/g, "'") // use single quotes elsewhere
-		.replace(/  /g, '\t'); // change all tabs into spaces
+		.replace(/  /g, '\t'); // change all spaces into tabs
 
 	pkgJson.exports = {
 		'.': {
