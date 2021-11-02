@@ -265,11 +265,11 @@
     {
       "prefix": 29,
       "network": "cord",
-      "displayName": "Dhiway CORD Network",
-      "symbols": ["DCU"],
-      "decimals": [18],
+      "displayName": "CORD Network",
+      "symbols": ["DHI", "WAY"],
+      "decimals": [12, 12],
       "standardAccount": "*25519",
-      "website": "https://dhiway.com/"
+      "website": "https://cord.network/"
     },
     {
       "prefix": 30,
