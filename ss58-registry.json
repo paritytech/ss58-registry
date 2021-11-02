@@ -265,9 +265,9 @@
     {
       "prefix": 29,
       "network": "cord",
-      "displayName": "Cord Network",
+      "displayName": "CORD Network",
       "symbols": ["DHI", "WAY"],
-      "decimals": [12],
+      "decimals": [12, 12],
       "standardAccount": "*25519",
       "website": "https://cord.network/"
     },
