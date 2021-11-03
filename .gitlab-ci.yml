@@ -2,6 +2,7 @@ stages:
   - lint
   - test
   - build
+  - tag
   - publish
 
 variables:                         &default-vars
@@ -21,6 +22,12 @@ variables:                         &default-vars
   secrets:
     CRATES_TOKEN:
       vault:                       cicd/gitlab/$CI_PROJECT_PATH/CRATES_TOKEN@kv
+      file:                        false
+    GITHUB_TOKEN:
+      vault:                       cicd/gitlab/$CI_PROJECT_PATH/GITHUB_TOKEN@kv
+      file:                        false
+    GITHUB_USER:
+      vault:                       cicd/gitlab/$CI_PROJECT_PATH/GITHUB_USER@kv
       file:                        false
 
 .rust-info-script:                 &rust-info-script
@@ -108,16 +115,50 @@ build:
   script:
     - cargo build --no-default-features --target wasm32-unknown-unknown --verbose
 
+
+#### stage:                        tag
+# this stage will only create a tag in the repo, not release
+
+tag-job:
+  stage: tag
+  <<:                              *kubernetes-env
+  script:
+    - export CURRENT_TAG=$(git describe --tags --abbrev=0)
+    - export PKG_VER=v$(cat Cargo.toml | grep -A 5 package] | grep version | cut -d '=' -f 2 | tr -d '"' | tr -d " ")
+    - echo $CURRENT_TAG $PKG_VER
+    - git config user.name "$GITHUB_USER"
+    - git config user.email "devops-team@parity.io"
+    - git config remote.origin.url "https://$GITHUB_TOKEN@github.com/paritytech/${CI_PROJECT_NAME}.git"
+    - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+    - if [ $CURRENT_TAG == $PKG_VER  ];
+        then
+          echo "Tag is the same. Nothing to do";
+          export TAG=old;
+        else
+          echo "Tag has changed";
+          git tag -a $PKG_VER -m "new tag";
+          git tag --list;
+          git push origin --tags;
+          export TAG=new;
+        fi
+    - echo "TAG=$TAG" > tag.env;
+  artifacts:
+    reports:
+      dotenv: tag.env
+
 #### stage:                       publish
 
 unleash-to-crates-io:
   stage:                           publish
-  <<:                              *docker-env
+  <<:                              *kubernetes-env
   <<:                              *vault-secrets
-  rules:
-    - if: $CI_COMMIT_REF_NAME =~ /^ci-release-.*$/
-    - if: $CI_COMMIT_REF_NAME =~ /^v[0-9]+\.[0-9]+.*$/              # i.e. v1.0, v2.1rc1
   script:
-    - cargo install cargo-unleash ${CARGO_UNLEASH_INSTALL_PARAMS}
-    - cargo unleash em-dragons --no-check --owner github:paritytech:core-devs ${CARGO_UNLEASH_PKG_DEF}
-
+    - echo $TAG
+    - if [ $TAG == "new"  ];
+      then
+        echo "Publishing to crates.io";
+        cargo install cargo-unleash ${CARGO_UNLEASH_INSTALL_PARAMS};
+        cargo unleash em-dragons --no-check --owner github:paritytech:core-devs ${CARGO_UNLEASH_PKG_DEF};
+      else
+        echo "Tag hasn't changed";
+      fi
