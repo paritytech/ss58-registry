@@ -17,6 +17,13 @@ variables:                         &default-vars
   VAULT_AUTH_PATH:                 "gitlab-parity-io-jwt"
   VAULT_AUTH_ROLE:                 "cicd_gitlab_parity_${CI_PROJECT_NAME}"
 
+.publish-refs:                     &publish-refs
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_COMMIT_REF_NAME == "master"
+    - if: $CI_COMMIT_REF_NAME =~ /^v[0-9]+\.[0-9]+.*$/              # i.e. v1.0, v2.1rc1
+
 #### Vault secrets
 .vault-secrets:                    &vault-secrets
   secrets:
@@ -122,13 +129,15 @@ build:
 tag-job:
   stage: tag
   <<:                              *kubernetes-env
+  <<:                              *vault-secrets
+  <<:                              *publish-refs
   script:
     - export CURRENT_TAG=$(git describe --tags --abbrev=0)
     - export PKG_VER=v$(cat Cargo.toml | grep -A 5 package] | grep version | cut -d '=' -f 2 | tr -d '"' | tr -d " ")
     - echo $CURRENT_TAG $PKG_VER
-    - git config user.name "$GITHUB_USER"
+    - git config user.name "${GITHUB_USER}"
     - git config user.email "devops-team@parity.io"
-    - git config remote.origin.url "https://$GITHUB_TOKEN@github.com/paritytech/${CI_PROJECT_NAME}.git"
+    - git config remote.origin.url "https://${GITHUB_TOKEN}@github.com/paritytech/${CI_PROJECT_NAME}.git"
     - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
     - if [ $CURRENT_TAG == $PKG_VER  ];
         then
@@ -152,6 +161,7 @@ unleash-to-crates-io:
   stage:                           publish
   <<:                              *kubernetes-env
   <<:                              *vault-secrets
+  <<:                              *publish-refs
   script:
     - echo $TAG
     - if [ $TAG == "new"  ];
