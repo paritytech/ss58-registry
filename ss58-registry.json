@@ -265,11 +265,11 @@
     {
       "prefix": 29,
       "network": "cord",
-      "displayName": "Dhiway CORD Network",
-      "symbols": ["DCU"],
-      "decimals": [18],
+      "displayName": "CORD Network",
+      "symbols": ["DHI", "WAY"],
+      "decimals": [12, 12],
       "standardAccount": "*25519",
-      "website": "https://dhiway.com/"
+      "website": "https://cord.network/"
     },
     {
       "prefix": 30,
@@ -639,6 +639,15 @@
       "decimals": [15],
       "standardAccount": "*25519",
       "website": "https://unique.network"
+    },
+    {
+      "prefix": 268,
+      "network": "pioneer_network",
+      "displayName": "Pioneer Network by Bit.Country",
+      "symbols": ["NEER"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://bit.country"
     },
     {
       "prefix": 1284,
