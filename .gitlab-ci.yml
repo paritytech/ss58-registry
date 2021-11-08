@@ -142,7 +142,7 @@ tag-job:
     - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
     - if [ $CURRENT_TAG == $PKG_VER  ];
         then
-          echo "Tag is the same. Nothing to do";
+          echo "Tag is up to date. Nothing to do.";
           export TAG=old;
         else
           echo "Tag has changed";
