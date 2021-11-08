@@ -145,7 +145,7 @@ tag-job:
           echo "Tag is up to date. Nothing to do.";
           export TAG=old;
         else
-          echo "Tag has changed";
+          echo "Tag was updated.";
           git tag -a $PKG_VER -m "new tag";
           git tag --list;
           git push origin --tags;
