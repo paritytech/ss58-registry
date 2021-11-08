@@ -160,7 +160,7 @@ tag-job:
 
 unleash-to-crates-io:
   stage:                           publish
-  <<:                              *kubernetes-env
+  <<:                              *docker-env
   <<:                              *vault-secrets
   <<:                              *publish-refs
   script:
