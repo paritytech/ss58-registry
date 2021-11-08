@@ -134,7 +134,8 @@ tag-job:
   script:
     - export CURRENT_TAG=$(git describe --tags --abbrev=0)
     - export PKG_VER=v$(cat Cargo.toml | grep -A 5 package] | grep version | cut -d '=' -f 2 | tr -d '"' | tr -d " ")
-    - echo $CURRENT_TAG $PKG_VER
+    - echo "Current tag $CURRENT_TAG"
+    - echo "Package version $PKG_VER"
     - git config user.name "${GITHUB_USER}"
     - git config user.email "devops-team@parity.io"
     - git config remote.origin.url "https://${GITHUB_TOKEN}@github.com/paritytech/${CI_PROJECT_NAME}.git"
