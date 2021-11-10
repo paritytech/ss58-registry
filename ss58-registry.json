@@ -140,7 +140,7 @@
       "prefix": 14,
       "network": "totem",
       "displayName": "Totem",
-      "symbols": ["XTX"],
+      "symbols": ["TOTEM"],
       "decimals": [0],
       "standardAccount": "*25519",
       "website": "https://totemaccounting.com"
@@ -657,6 +657,15 @@
       "decimals": [18],
       "standardAccount": "secp256k1",
       "website": "https://moonbeam.network"
+    },
+    {
+      "prefix": 2007,
+      "network": "kapex",
+      "displayName": "Kapex",
+      "symbols": ["KAPEX"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://totemaccounting.com"
     },
     {
       "prefix": 10041,
