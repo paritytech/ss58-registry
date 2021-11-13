@@ -659,6 +659,24 @@
       "website": "https://moonbeam.network"
     },
     {
+      "prefix": 2254,
+      "network": "subspace_testnet",
+      "displayName": "Subspace testnet",
+      "symbols": ["tSSC"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://subspace.network"
+    },
+    {
+      "prefix": 6094,
+      "network": "subspace",
+      "displayName": "Subspace",
+      "symbols": ["SSC"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://subspace.network"
+    },
+    {
       "prefix": 10041,
       "network": "basilisk",
       "displayName": "Basilisk",
