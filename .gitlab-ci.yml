@@ -147,6 +147,7 @@ tag-job:
     - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
     #removeme
     - git tag --list
+    - git tag -a v1.7.1 -m "new tag";
     #uncommentme
   #   - if [ $CURRENT_TAG == $PKG_VER  ];
   #       then
