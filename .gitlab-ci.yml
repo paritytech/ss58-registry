@@ -84,13 +84,13 @@ variables:                         &default-vars
 
 #### stage:                        lint
 
-.fmt:
+fmt:
   stage:                           lint
   <<:                              *kubernetes-env
   script:
     - cargo +nightly fmt --all -- --check
 
-.clippy:
+clippy:
   stage:                           lint
   <<:                              *docker-env
   script:
@@ -98,7 +98,7 @@ variables:                         &default-vars
 
 #### stage:                       test
 
-.deny:
+deny:
   stage:                           test
   <<:                              *docker-env
   <<:                              *collect-artifacts
@@ -109,7 +109,7 @@ variables:                         &default-vars
     - echo "___Complete logs can be found in the artifacts___"
     - cargo deny check --hide-inclusion-graph 2> cargo_deny.log
 
-.test:
+test:
   stage:                           test
   <<:                              *docker-env
   script:
@@ -117,7 +117,7 @@ variables:                         &default-vars
 
 #### stage:                       build
 
-.build:
+build:
   stage:                           build
   <<:                              *docker-env
   script:
@@ -131,7 +131,7 @@ tag-job:
   stage: tag
   <<:                              *kubernetes-env
   <<:                              *vault-secrets
-  # <<:                              *publish-refs
+  <<:                              *publish-refs
   script:
     #FIXME: remove after ssh added to base image
     - apt-get update && apt-get install -y ssh
@@ -145,25 +145,21 @@ tag-job:
     - git config user.email "devops-team@parity.io"
     - git config remote.origin.url "git@github.com/paritytech/${CI_PROJECT_NAME}.git"
     - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
-    #removeme
-    - git tag --list
-    - git tag -a v1.7.1 -m "new tag";
-    #uncommentme
-  #   - if [ $CURRENT_TAG == $PKG_VER  ];
-  #       then
-  #         echo "Tag is up to date. Nothing to do.";
-  #         export TAG=old;
-  #       else
-  #         echo "Tag was updated.";
-  #         git tag -a $PKG_VER -m "new tag";
-  #         git log --tags --simplify-by-decoration --pretty="format:%ci %d";
-  #         git push origin --tags;
-  #         export TAG=new;
-  #       fi
-  #   - echo "TAG=$TAG" > tag.env;
-  # artifacts:
-  #   reports:
-  #     dotenv: tag.env
+    - if [ $CURRENT_TAG == $PKG_VER  ];
+        then
+          echo "Tag is up to date. Nothing to do.";
+          export TAG=old;
+        else
+          echo "Tag was updated.";
+          git tag -a $PKG_VER -m "new tag";
+          git log --tags --simplify-by-decoration --pretty="format:%ci %d";
+          git push origin --tags;
+          export TAG=new;
+        fi
+    - echo "TAG=$TAG" > tag.env;
+  artifacts:
+    reports:
+      dotenv: tag.env
 
 #### stage:                       publish
 
