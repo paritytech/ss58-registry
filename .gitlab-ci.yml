@@ -31,8 +31,8 @@ variables:                         &default-vars
     CRATES_TOKEN:
       vault:                       cicd/gitlab/$CI_PROJECT_PATH/CRATES_TOKEN@kv
       file:                        false
-    GITHUB_TOKEN:
-      vault:                       cicd/gitlab/$CI_PROJECT_PATH/GITHUB_TOKEN@kv
+    GITHUB_SSH_PRIV_KEY:
+      vault:                       cicd/gitlab/$CI_PROJECT_PATH/GITHUB_SSH_PRIV_KEY@kv
       file:                        false
     GITHUB_USER:
       vault:                       cicd/gitlab/$CI_PROJECT_PATH/GITHUB_USER@kv
@@ -133,13 +133,17 @@ tag-job:
   <<:                              *vault-secrets
   <<:                              *publish-refs
   script:
+    #FIXME: remove after ssh added to base image
+    - apt-get update && apt-get install -y ssh
+    - eval $(ssh-agent)
+    - ssh-add - <<< ${GITHUB_SSH_PRIV_KEY}
     - export CURRENT_TAG=$(git describe --tags --abbrev=0)
     - export PKG_VER=v$(cat Cargo.toml | grep -A 5 package] | grep version | cut -d '=' -f 2 | tr -d '"' | tr -d " ")
     - echo "Current tag $CURRENT_TAG"
     - echo "Package version $PKG_VER"
     - git config user.name "${GITHUB_USER}"
     - git config user.email "devops-team@parity.io"
-    - git config remote.origin.url "https://${GITHUB_TOKEN}@github.com/paritytech/${CI_PROJECT_NAME}.git"
+    - git config remote.origin.url "git@github.com/paritytech/${CI_PROJECT_NAME}.git"
     - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
     - if [ $CURRENT_TAG == $PKG_VER  ];
         then

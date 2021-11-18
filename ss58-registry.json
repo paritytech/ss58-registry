@@ -140,7 +140,7 @@
       "prefix": 14,
       "network": "totem",
       "displayName": "Totem",
-      "symbols": ["XTX"],
+      "symbols": ["TOTEM"],
       "decimals": [0],
       "standardAccount": "*25519",
       "website": "https://totemaccounting.com"
@@ -461,6 +461,15 @@
       "website": "https://composable.finance"
     },
     {
+      "prefix": 55,
+      "network": "xxnetwork",
+      "displayName": "xx network",
+      "symbols": ["XX"],
+      "decimals": [9],
+      "standardAccount": "*25519",
+      "website": "https://xx.network"
+    },
+    {
       "prefix": 63,
       "network": "hydradx",
       "displayName": "HydraDX",
@@ -666,6 +675,33 @@
       "decimals": [18],
       "standardAccount": "secp256k1",
       "website": "https://moonbeam.network"
+    },
+    {
+      "prefix": 2007,
+      "network": "kapex",
+      "displayName": "Kapex",
+      "symbols": ["KAPEX"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://totemaccounting.com"
+    },
+    {
+      "prefix": 2254,
+      "network": "subspace_testnet",
+      "displayName": "Subspace testnet",
+      "symbols": ["tSSC"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://subspace.network"
+    },
+    {
+      "prefix": 6094,
+      "network": "subspace",
+      "displayName": "Subspace",
+      "symbols": ["SSC"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://subspace.network"
     },
     {
       "prefix": 10041,
