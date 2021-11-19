@@ -11,7 +11,7 @@ variables:                         &default-vars
   CARGO_INCREMENTAL:               0
   CARGO_TARGET_DIR:                "/ci-cache/${CI_PROJECT_NAME}/targets/${CI_COMMIT_REF_NAME}/${CI_JOB_NAME}"
   CI_IMAGE:                        "paritytech/ci-linux:production"
-  CARGO_UNLEASH_INSTALL_PARAMS:    "--version 1.0.0-alpha.12"
+  CARGO_UNLEASH_INSTALL_PARAMS:    "--version 1.0.0-alpha.13"
   CARGO_UNLEASH_PKG_DEF:           ""
   VAULT_SERVER_URL:                "https://vault.parity-mgmt-vault.parity.io"
   VAULT_AUTH_PATH:                 "gitlab-parity-io-jwt"
