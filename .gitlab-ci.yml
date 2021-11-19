@@ -137,6 +137,8 @@ tag-job:
     - apt-get update && apt-get install -y ssh
     - eval $(ssh-agent)
     - ssh-add - <<< ${GITHUB_SSH_PRIV_KEY}
+    - mkdir ~/.ssh && touch ~/.ssh/known_hosts
+    - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
     - export CURRENT_TAG=$(git describe --tags --abbrev=0)
     - export PKG_VER=v$(cat Cargo.toml | grep -A 5 package] | grep version | cut -d '=' -f 2 | tr -d '"' | tr -d " ")
     - echo "Current tag $CURRENT_TAG"
