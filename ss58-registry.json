@@ -578,6 +578,15 @@
       "website": "https://origintrail.io"
     },
     {
+      "prefix": 105,
+      "network": "pontem-network",
+      "displayName": "Pontem Network",
+      "symbols": ["PONT"],
+      "decimals": [10],
+      "standardAccount": "*25519",
+      "website": "https://pontem.network"
+    },
+    {
       "prefix": 110,
       "network": "heiko",
       "displayName": "Heiko",
