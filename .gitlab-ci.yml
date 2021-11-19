@@ -143,7 +143,7 @@ tag-job:
     - echo "Package version $PKG_VER"
     - git config user.name "${GITHUB_USER}"
     - git config user.email "devops-team@parity.io"
-    - git config remote.origin.url "git@github.com/paritytech/${CI_PROJECT_NAME}.git"
+    - git config remote.origin.url "git@github.com:/paritytech/${CI_PROJECT_NAME}.git"
     - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
     - if [ $CURRENT_TAG == $PKG_VER  ];
         then
