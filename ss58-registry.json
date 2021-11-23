@@ -501,7 +501,7 @@
       "network": "genshiro",
       "displayName": "Genshiro Network",
       "symbols": ["GENS", "EQD", "LPT0"],
-      "decimals": [9],
+      "decimals": [9, 9, 9],
       "standardAccount": "*25519",
       "website": "https://genshiro.equilibrium.io"
     },
