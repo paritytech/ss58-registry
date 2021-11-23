@@ -500,7 +500,7 @@
       "prefix": 67,
       "network": "genshiro",
       "displayName": "Genshiro Network",
-      "symbols": ["TOKEN"],
+      "symbols": ["GENS", "EQD", "LPT0"],
       "decimals": [9],
       "standardAccount": "*25519",
       "website": "https://genshiro.equilibrium.io"
