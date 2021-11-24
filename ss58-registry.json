@@ -497,6 +497,15 @@
       "website": "https://genshiro.equilibrium.io"
     },
     {
+      "prefix": 68,
+      "network": "equilibrium",
+      "displayName": "Equilibrium Network",
+      "symbols": ["Unknown", "USD", "EQ", "ETH", "BTC", "EOS", "DOT", "CRV"],
+      "decimals": [0, 9, 9, 9, 9, 9, 9, 9],
+      "standardAccount": "*25519",
+      "website": "https://equilibrium.io"
+    },
+    {
       "prefix": 69,
       "network": "sora",
       "displayName": "SORA Network",
@@ -558,15 +567,6 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://polkafoundry.com"
-    },
-    {
-      "prefix": 100,
-      "network": "equilibrium",
-      "displayName": "Equilibrium Network",
-      "symbols": ["Unknown", "USD", "EQ", "ETH", "BTC", "EOS", "DOT", "CRV"],
-      "decimals": [0, 9, 9, 9, 9, 9, 9, 9],
-      "standardAccount": "*25519",
-      "website": "https://equilibrium.io"
     },
     {
       "prefix": 101,
