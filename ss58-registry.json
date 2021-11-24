@@ -489,15 +489,6 @@
     },
     {
       "prefix": 67,
-      "network": "equilibrium",
-      "displayName": "Equilibrium Network",
-      "symbols": ["Unknown", "USD", "EQ", "ETH", "BTC", "EOS", "DOT", "CRV"],
-      "decimals": [0, 9, 9, 9, 9, 9, 9, 9],
-      "standardAccount": "*25519",
-      "website": "https://equilibrium.io"
-    },
-    {
-      "prefix": 67,
       "network": "genshiro",
       "displayName": "Genshiro Network",
       "symbols": ["GENS", "EQD", "LPT0"],
@@ -567,6 +558,15 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://polkafoundry.com"
+    },
+    {
+      "prefix": 100,
+      "network": "equilibrium",
+      "displayName": "Equilibrium Network",
+      "symbols": ["Unknown", "USD", "EQ", "ETH", "BTC", "EOS", "DOT", "CRV"],
+      "decimals": [0, 9, 9, 9, 9, 9, 9, 9],
+      "standardAccount": "*25519",
+      "website": "https://equilibrium.io"
     },
     {
       "prefix": 101,
