@@ -2,6 +2,7 @@ stages:
   - lint
   - test
   - build
+  - tag
   - publish
 
 variables:                         &default-vars
@@ -10,17 +11,31 @@ variables:                         &default-vars
   CARGO_INCREMENTAL:               0
   CARGO_TARGET_DIR:                "/ci-cache/${CI_PROJECT_NAME}/targets/${CI_COMMIT_REF_NAME}/${CI_JOB_NAME}"
   CI_IMAGE:                        "paritytech/ci-linux:production"
-  CARGO_UNLEASH_INSTALL_PARAMS:    "--version 1.0.0-alpha.12"
+  CARGO_UNLEASH_INSTALL_PARAMS:    "--version 1.0.0-alpha.13"
   CARGO_UNLEASH_PKG_DEF:           ""
   VAULT_SERVER_URL:                "https://vault.parity-mgmt-vault.parity.io"
   VAULT_AUTH_PATH:                 "gitlab-parity-io-jwt"
   VAULT_AUTH_ROLE:                 "cicd_gitlab_parity_${CI_PROJECT_NAME}"
+
+.publish-refs:                     &publish-refs
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_COMMIT_REF_NAME == "master"
+    - if: $CI_COMMIT_REF_NAME == "main"
+    - if: $CI_COMMIT_REF_NAME =~ /^v[0-9]+\.[0-9]+.*$/              # i.e. v1.0, v2.1rc1
 
 #### Vault secrets
 .vault-secrets:                    &vault-secrets
   secrets:
     CRATES_TOKEN:
       vault:                       cicd/gitlab/$CI_PROJECT_PATH/CRATES_TOKEN@kv
+      file:                        false
+    GITHUB_SSH_PRIV_KEY:
+      vault:                       cicd/gitlab/$CI_PROJECT_PATH/GITHUB_SSH_PRIV_KEY@kv
+      file:                        false
+    GITHUB_USER:
+      vault:                       cicd/gitlab/$CI_PROJECT_PATH/GITHUB_USER@kv
       file:                        false
 
 .rust-info-script:                 &rust-info-script
@@ -108,16 +123,60 @@ build:
   script:
     - cargo build --no-default-features --target wasm32-unknown-unknown --verbose
 
+
+#### stage:                        tag
+# this stage will only create a tag in the repo, not release
+
+tag-job:
+  stage: tag
+  <<:                              *kubernetes-env
+  <<:                              *vault-secrets
+  <<:                              *publish-refs
+  script:
+    #FIXME: remove after ssh added to base image
+    - apt-get update && apt-get install -y ssh
+    - eval $(ssh-agent)
+    - ssh-add - <<< ${GITHUB_SSH_PRIV_KEY}
+    - mkdir ~/.ssh && touch ~/.ssh/known_hosts
+    - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+    - export CURRENT_TAG=$(git describe --tags --abbrev=0)
+    - export PKG_VER=v$(cat Cargo.toml | grep -A 5 package] | grep version | cut -d '=' -f 2 | tr -d '"' | tr -d " ")
+    - echo "Current tag $CURRENT_TAG"
+    - echo "Package version $PKG_VER"
+    - git config user.name "${GITHUB_USER}"
+    - git config user.email "devops-team@parity.io"
+    - git config remote.origin.url "git@github.com:/paritytech/${CI_PROJECT_NAME}.git"
+    - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+    - if [ $CURRENT_TAG == $PKG_VER  ];
+        then
+          echo "Tag is up to date. Nothing to do.";
+          export TAG=old;
+        else
+          echo "Tag was updated.";
+          git tag -a $PKG_VER -m "new tag";
+          git log --tags --simplify-by-decoration --pretty="format:%ci %d";
+          git push origin --tags;
+          export TAG=new;
+        fi
+    - echo "TAG=$TAG" > tag.env;
+  artifacts:
+    reports:
+      dotenv: tag.env
+
 #### stage:                       publish
 
 unleash-to-crates-io:
   stage:                           publish
   <<:                              *docker-env
   <<:                              *vault-secrets
-  rules:
-    - if: $CI_COMMIT_REF_NAME =~ /^ci-release-.*$/
-    - if: $CI_COMMIT_REF_NAME =~ /^v[0-9]+\.[0-9]+.*$/              # i.e. v1.0, v2.1rc1
+  <<:                              *publish-refs
   script:
-    - cargo install cargo-unleash ${CARGO_UNLEASH_INSTALL_PARAMS}
-    - cargo unleash em-dragons --no-check --owner github:paritytech:core-devs ${CARGO_UNLEASH_PKG_DEF}
-
+    - echo $TAG
+    - if [ $TAG == "new"  ];
+      then
+        echo "Publishing to crates.io";
+        cargo install cargo-unleash ${CARGO_UNLEASH_INSTALL_PARAMS};
+        cargo unleash em-dragons --no-check --owner github:paritytech:core-devs ${CARGO_UNLEASH_PKG_DEF};
+      else
+        echo "Tag was not updated. Not releasing.";
+      fi

@@ -2,7 +2,7 @@
 
 [![GitHub license](https://img.shields.io/badge/license-Apache2-green)](#LICENSE) [![GitLab Status](https://gitlab.parity.io/parity/ss58-registry/badges/main/pipeline.svg)](https://gitlab.parity.io/parity/ss58-registry/pipelines)
 
-A list of known [SS58](https://github.com/paritytech/substrate/wiki/External-Address-Format-(SS58)) account types as an enum.
+A list of known [SS58](https://docs.substrate.io/v3/advanced/ss58/) account types as an enum.
 
 This is driven from the [json data file](ss58-registry.json) which contains entries like this:
 
