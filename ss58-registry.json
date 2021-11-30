@@ -848,6 +848,15 @@
       "website": "https://unique.network"
     },
     {
+      "prefix": 9807,
+      "network": "dentnet",
+      "displayName": "DENTNet",
+      "symbols": ["DENTX"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://www.dentnet.io"
+    },
+    {
       "prefix": 10041,
       "network": "basilisk",
       "displayName": "Basilisk",
