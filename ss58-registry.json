@@ -509,8 +509,8 @@
       "prefix": 68,
       "network": "equilibrium",
       "displayName": "Equilibrium Network",
-      "symbols": ["Unknown", "USD", "EQ", "ETH", "BTC", "EOS", "DOT", "CRV"],
-      "decimals": [0, 9, 9, 9, 9, 9, 9, 9],
+      "symbols": ["EQ"],
+      "decimals": [9],
       "standardAccount": "*25519",
       "website": "https://equilibrium.io"
     },
