@@ -731,7 +731,7 @@
       "website": "https://bsx.fi"
     },
     {
-      "prefix": 10042,
+      "prefix": 11330,
       "network": "cess-testnet",
       "displayName": "CESS Testnet",
       "symbols": ["TCESS"],
@@ -740,7 +740,7 @@
       "website": "https://cess.cloud"
     },
     {
-      "prefix": 10043,
+      "prefix": 11331,
       "network": "cess",
       "displayName": "CESS",
       "symbols": ["CESS"],
