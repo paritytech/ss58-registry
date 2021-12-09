@@ -641,6 +641,15 @@
       "website": "https://bit.country"
     },
     {
+      "prefix": 420,
+      "network": "sora_kusama_para",
+      "displayName": "SORA Kusama Parachain",
+      "symbols": ["XOR"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://sora.org"
+    },
+    {
       "prefix": 1284,
       "network": "moonbeam",
       "displayName": "Moonbeam",
