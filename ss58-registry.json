@@ -704,6 +704,24 @@
       "website": "https://totemaccounting.com"
     },
     {
+      "prefix": 2032,
+      "network": "interlay",
+      "displayName": "Interlay",
+      "symbols": ["INTR"],
+      "decimals": [10],
+      "standardAccount": "*25519",
+      "website": "https://interlay.io/"
+    },
+    {
+      "prefix": 2092,
+      "network": "kintsugi",
+      "displayName": "Kintsugi",
+      "symbols": ["KINT"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://interlay.io/"
+    },
+    {
       "prefix": 2254,
       "network": "subspace_testnet",
       "displayName": "Subspace testnet",
