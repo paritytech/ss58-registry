@@ -774,6 +774,15 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://ata.network"
+    },
+    {
+      "prefix": 11826,
+      "network": "listen",
+      "displayName": "Listen Network",
+      "symbols": ["LT"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://listen.io"
     }
   ]
 }
