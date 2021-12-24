@@ -740,6 +740,15 @@
       "website": "https://subspace.network"
     },
     {
+      "prefix": 7007,
+      "network": "semnet",
+      "displayName": "Semantic Network",
+      "symbols": ["TIDE"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://semantic-network.com"
+    },
+    {
       "prefix": 10041,
       "network": "basilisk",
       "displayName": "Basilisk",
