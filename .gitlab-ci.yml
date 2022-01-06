@@ -44,7 +44,7 @@ variables:                         &default-vars
       vault:                       cicd/gitlab/$CI_PROJECT_PATH/GITHUB_SSH_PRIV_KEY@kv
       file:                        false
     GITHUB_USER:
-      vault:                       cicd/gitlab/$CI_PROJECT_PATH/GITHUB_USER@kv
+      vault:                       cicd/gitlab/parity/GITHUB_USER@kv
       file:                        false
     NPM_TOKEN:
       vault:                       cicd/gitlab/$CI_PROJECT_PATH/NPM_TOKEN@kv
