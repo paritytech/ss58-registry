@@ -254,6 +254,15 @@
       "website": "https://jupiter.patract.io"
     },
     {
+      "prefix": 27,
+      "network": "neumann",
+      "displayName": "Neumann Network",
+      "symbols": ["NEU"],
+      "decimals": [10],
+      "standardAccount": "*25519",
+      "website": "https://oak.tech/neumann"
+    },
+    {
       "prefix": 28,
       "network": "subsocial",
       "displayName": "Subsocial",
