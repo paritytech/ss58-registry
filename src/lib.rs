@@ -155,6 +155,9 @@ impl std::fmt::Display for ParseError {
 }
 
 #[cfg(feature = "std")]
+impl std::error::Error for ParseError {}
+
+#[cfg(feature = "std")]
 impl From<Ss58AddressFormat> for String {
 	fn from(x: Ss58AddressFormat) -> String {
 		x.to_string()
