@@ -57,12 +57,21 @@
     },
     {
       "prefix": 5,
-      "network": "plasm",
-      "displayName": "Plasm Network",
-      "symbols": ["PLM"],
-      "decimals": [15],
+      "network": "astar",
+      "displayName": "Astar Network",
+      "symbols": ["ASTR"],
+      "decimals": [18],
       "standardAccount": "*25519",
-      "website": "https://plasmnet.io"
+      "website": "https://astar.network"
+    },
+    {
+      "prefix": 5,
+      "network": "shiden",
+      "displayName": "Shiden Network",
+      "symbols": ["SDN"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://shiden.astar.network"
     },
     {
       "prefix": 6,
