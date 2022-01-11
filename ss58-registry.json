@@ -65,15 +65,6 @@
       "website": "https://astar.network"
     },
     {
-      "prefix": 5,
-      "network": "shiden",
-      "displayName": "Shiden Network",
-      "symbols": ["SDN"],
-      "decimals": [18],
-      "standardAccount": "*25519",
-      "website": "https://shiden.astar.network"
-    },
-    {
       "prefix": 6,
       "network": "bifrost",
       "displayName": "Bifrost",
