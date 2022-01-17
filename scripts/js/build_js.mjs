@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 
 const OUTPUT = 'npm_dist/';
-const HEADER = `// Copyright (C) 2021-2022 Parity Technologies (UK) Ltd.
+const HEADER = `// Copyright (C) 2021-${new Date().getFullYear()} Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
