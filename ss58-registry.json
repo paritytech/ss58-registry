@@ -57,12 +57,12 @@
     },
     {
       "prefix": 5,
-      "network": "plasm",
-      "displayName": "Plasm Network",
-      "symbols": ["PLM"],
-      "decimals": [15],
+      "network": "astar",
+      "displayName": "Astar Network",
+      "symbols": ["ASTR"],
+      "decimals": [18],
       "standardAccount": "*25519",
-      "website": "https://plasmnet.io"
+      "website": "https://astar.network"
     },
     {
       "prefix": 6,
@@ -677,6 +677,15 @@
       "website": "https://bit.country"
     },
     {
+      "prefix": 420,
+      "network": "sora_kusama_para",
+      "displayName": "SORA Kusama Parachain",
+      "symbols": ["XOR"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://sora.org"
+    },
+    {
       "prefix": 1110,
       "network": "efinity",
       "displayName": "Efinity",
@@ -711,6 +720,24 @@
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://totemaccounting.com"
+    },
+    {
+      "prefix": 2032,
+      "network": "interlay",
+      "displayName": "Interlay",
+      "symbols": ["INTR"],
+      "decimals": [10],
+      "standardAccount": "*25519",
+      "website": "https://interlay.io/"
+    },
+    {
+      "prefix": 2092,
+      "network": "kintsugi",
+      "displayName": "Kintsugi",
+      "symbols": ["KINT"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://interlay.io/"
     },
     {
       "prefix": 2254,

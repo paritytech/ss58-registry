@@ -1,3 +1,12 @@
+default:
+  interruptible:                   true
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - unknown_failure
+      - api_failure
+
 stages:
   - lint
   - test
@@ -35,7 +44,10 @@ variables:                         &default-vars
       vault:                       cicd/gitlab/$CI_PROJECT_PATH/GITHUB_SSH_PRIV_KEY@kv
       file:                        false
     GITHUB_USER:
-      vault:                       cicd/gitlab/$CI_PROJECT_PATH/GITHUB_USER@kv
+      vault:                       cicd/gitlab/parity/GITHUB_USER@kv
+      file:                        false
+    NPM_TOKEN:
+      vault:                       cicd/gitlab/$CI_PROJECT_PATH/NPM_TOKEN@kv
       file:                        false
 
 .rust-info-script:                 &rust-info-script
@@ -52,25 +64,11 @@ variables:                         &default-vars
     - *rust-info-script
     - ./scripts/ci/pre_cache.sh
     - sccache -s
-  retry:
-    max: 2
-    when:
-      - runner_system_failure
-      - unknown_failure
-      - api_failure
-  interruptible:                   true
   tags:
     - linux-docker
 
 .kubernetes-env:                   &kubernetes-env
   image:                           "${CI_IMAGE}"
-  retry:
-    max: 2
-    when:
-      - runner_system_failure
-      - unknown_failure
-      - api_failure
-  interruptible:                   true
   tags:
     - kubernetes-parity-build
 
@@ -86,7 +84,7 @@ variables:                         &default-vars
 
 fmt:
   stage:                           lint
-  <<:                              *kubernetes-env
+  <<:                              *docker-env
   script:
     - cargo +nightly fmt --all -- --check
 
@@ -103,7 +101,7 @@ deny:
   <<:                              *docker-env
   <<:                              *collect-artifacts
   script:
-    - cargo deny check --hide-inclusion-graph -c .maintain/deny.toml
+    - cargo deny check --hide-inclusion-graph -c scripts/ci/deny.toml
   after_script:
     - mkdir -p ./artifacts
     - echo "___Complete logs can be found in the artifacts___"
@@ -179,4 +177,43 @@ unleash-to-crates-io:
         cargo unleash em-dragons --no-check --owner github:paritytech:core-devs ${CARGO_UNLEASH_PKG_DEF};
       else
         echo "Tag was not updated. Not releasing.";
+      fi
+
+publish-npmjs:
+  stage:                           publish
+  <<:                              *kubernetes-env
+  <<:                              *vault-secrets
+  <<:                              *publish-refs
+  variables:
+    CI_IMAGE:                      "node:16"
+  script:
+    - echo $TAG
+    - if [ $TAG == "new"  ];
+      then
+        echo "------------Publishing to npmjs------------";
+        npm install;
+        npm run alignVersion;
+        npm run build;
+        cd npm_dist/;
+        echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc;
+        npm publish --access public;
+        cd ..;
+        echo "------------Configuring git------------";
+        eval $(ssh-agent);
+        ssh-add - <<< ${GITHUB_SSH_PRIV_KEY};
+        mkdir ~/.ssh && touch ~/.ssh/known_hosts;
+        ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts;
+        git config user.name "${GITHUB_USER}";
+        git config user.email "devops-team@parity.io";
+        git config remote.origin.url "git@github.com:/paritytech/${CI_PROJECT_NAME}.git";
+        git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*";
+        echo "------------Pushing package.json and package-lock.json to github------------";
+        git branch tmp;
+        git checkout main || git checkout master;
+        git add package.json;
+        git add package-lock.json;
+        git commit -m "[skip ci] Update package.json and package-lock.json";
+        git push;
+      else
+        echo "Tag was not updated. Not publishing.";
       fi
