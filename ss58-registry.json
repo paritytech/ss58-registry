@@ -713,6 +713,15 @@
       "website": "https://moonbeam.network"
     },
     {
+      "prefix": 1337,
+      "network": "ajuna",
+      "displayName": "Ajuna Network",
+      "symbols": ["AJUN"],
+      "decimals": [12],
+      "standardAccount": "Sr25519",
+      "website": "https://ajuna.io"
+    },    
+    {
       "prefix": 2007,
       "network": "kapex",
       "displayName": "Kapex",
