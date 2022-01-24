@@ -192,7 +192,6 @@ publish-npmjs:
       then
         echo "------------Publishing to npmjs------------";
         npm install;
-        npm run alignVersion;
         npm run build;
         cd npm_dist/;
         echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc;
