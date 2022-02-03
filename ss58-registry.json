@@ -230,7 +230,7 @@
       "prefix": 24,
       "network": "zero",
       "displayName": "ZERO",
-      "symbols": ["PLAY"],
+      "symbols": ["ZERO"],
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://zero.io"
@@ -239,7 +239,7 @@
       "prefix": 25,
       "network": "zero-alphaville",
       "displayName": "ZERO Alphaville",
-      "symbols": ["PLAY"],
+      "symbols": ["ZERO"],
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://zero.io"
