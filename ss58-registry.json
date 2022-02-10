@@ -254,6 +254,15 @@
       "website": "https://jupiter.patract.io"
     },
     {
+      "prefix": 27,
+      "network": "kabocha",
+      "displayName": "Kabocha",
+      "symbols": ["KAB"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://kabocha.network"
+    },
+    {
       "prefix": 28,
       "network": "subsocial",
       "displayName": "Subsocial",
