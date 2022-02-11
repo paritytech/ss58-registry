@@ -57,12 +57,12 @@
     },
     {
       "prefix": 5,
-      "network": "plasm",
-      "displayName": "Plasm Network",
-      "symbols": ["PLM"],
-      "decimals": [15],
+      "network": "astar",
+      "displayName": "Astar Network",
+      "symbols": ["ASTR"],
+      "decimals": [18],
       "standardAccount": "*25519",
-      "website": "https://plasmnet.io"
+      "website": "https://astar.network"
     },
     {
       "prefix": 6,
@@ -230,7 +230,7 @@
       "prefix": 24,
       "network": "zero",
       "displayName": "ZERO",
-      "symbols": ["PLAY"],
+      "symbols": ["ZERO"],
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://zero.io"
@@ -239,7 +239,7 @@
       "prefix": 25,
       "network": "zero-alphaville",
       "displayName": "ZERO Alphaville",
-      "symbols": ["PLAY"],
+      "symbols": ["ZERO"],
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://zero.io"
@@ -255,12 +255,12 @@
     },
     {
       "prefix": 27,
-      "network": "neumann",
-      "displayName": "Neumann Network",
-      "symbols": ["NEU"],
-      "decimals": [10],
+      "network": "kabocha",
+      "displayName": "Kabocha",
+      "symbols": ["KAB"],
+      "decimals": [12],
       "standardAccount": "*25519",
-      "website": "https://oak.tech/neumann"
+      "website": "https://kabocha.network"
     },
     {
       "prefix": 28,
@@ -632,6 +632,15 @@
       "website": "https://clover.finance"
     },
     {
+      "prefix": 131,
+      "network": "litmus",
+      "displayName": "Litmus Network",
+      "symbols": ["LIT"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://litentry.com/"
+    },
+    {
       "prefix": 136,
       "network": "altair",
       "displayName": "Altair",
@@ -677,6 +686,15 @@
       "website": "https://bit.country"
     },
     {
+      "prefix": 420,
+      "network": "sora_kusama_para",
+      "displayName": "SORA Kusama Parachain",
+      "symbols": ["XOR"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://sora.org"
+    },
+    {
       "prefix": 1110,
       "network": "efinity",
       "displayName": "Efinity",
@@ -703,6 +721,15 @@
       "standardAccount": "secp256k1",
       "website": "https://moonbeam.network"
     },
+    {
+      "prefix": 1337,
+      "network": "ajuna",
+      "displayName": "Ajuna Network",
+      "symbols": ["AJUN"],
+      "decimals": [12],
+      "standardAccount": "Sr25519",
+      "website": "https://ajuna.io"
+    },    
     {
       "prefix": 2007,
       "network": "kapex",
