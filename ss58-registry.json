@@ -57,12 +57,12 @@
     },
     {
       "prefix": 5,
-      "network": "plasm",
-      "displayName": "Plasm Network",
-      "symbols": ["PLM"],
-      "decimals": [15],
+      "network": "astar",
+      "displayName": "Astar Network",
+      "symbols": ["ASTR"],
+      "decimals": [18],
       "standardAccount": "*25519",
-      "website": "https://plasmnet.io"
+      "website": "https://astar.network"
     },
     {
       "prefix": 6,
@@ -230,7 +230,7 @@
       "prefix": 24,
       "network": "zero",
       "displayName": "ZERO",
-      "symbols": ["PLAY"],
+      "symbols": ["ZERO"],
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://zero.io"
@@ -239,7 +239,7 @@
       "prefix": 25,
       "network": "zero-alphaville",
       "displayName": "ZERO Alphaville",
-      "symbols": ["PLAY"],
+      "symbols": ["ZERO"],
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://zero.io"
@@ -252,6 +252,15 @@
       "decimals": [10],
       "standardAccount": "*25519",
       "website": "https://jupiter.patract.io"
+    },
+    {
+      "prefix": 27,
+      "network": "kabocha",
+      "displayName": "Kabocha",
+      "symbols": ["KAB"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://kabocha.network"
     },
     {
       "prefix": 28,
@@ -462,6 +471,15 @@
     },
     {
       "prefix": 51,
+      "network": "oak",
+      "displayName": "OAK Network",
+      "symbols": ["OAK"],
+      "decimals": [10],
+      "standardAccount": "*25519",
+      "website": "https://oak.tech"
+    },
+    {
+      "prefix": 52,
       "network": "KICO",
       "displayName": "KICO",
       "symbols": ["KICO"],
@@ -470,7 +488,7 @@
       "website": "https://dico.io"
     },
     {
-      "prefix": 52,
+      "prefix": 53,
       "network": "DICO",
       "displayName": "DICO",
       "symbols": ["DICO"],
@@ -516,10 +534,19 @@
     },
     {
       "prefix": 67,
+      "network": "genshiro",
+      "displayName": "Genshiro Network",
+      "symbols": ["GENS", "EQD", "LPT0"],
+      "decimals": [9, 9, 9],
+      "standardAccount": "*25519",
+      "website": "https://genshiro.equilibrium.io"
+    },
+    {
+      "prefix": 68,
       "network": "equilibrium",
       "displayName": "Equilibrium Network",
-      "symbols": ["Unknown", "USD", "EQ", "ETH", "BTC", "EOS", "DOT", "CRV"],
-      "decimals": [0, 9, 9, 9, 9, 9, 9, 9],
+      "symbols": ["EQ"],
+      "decimals": [9],
       "standardAccount": "*25519",
       "website": "https://equilibrium.io"
     },
@@ -545,8 +572,8 @@
       "prefix": 77,
       "network": "manta",
       "displayName": "Manta network",
-      "symbols": ["MA"],
-      "decimals": [12],
+      "symbols": ["MANTA"],
+      "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://manta.network"
     },
@@ -632,6 +659,15 @@
       "website": "https://clover.finance"
     },
     {
+      "prefix": 131,
+      "network": "litmus",
+      "displayName": "Litmus Network",
+      "symbols": ["LIT"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://litentry.com/"
+    },
+    {
       "prefix": 136,
       "network": "altair",
       "displayName": "Altair",
@@ -677,6 +713,24 @@
       "website": "https://bit.country"
     },
     {
+      "prefix": 420,
+      "network": "sora_kusama_para",
+      "displayName": "SORA Kusama Parachain",
+      "symbols": ["XOR"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://sora.org"
+    },
+    {
+      "prefix": 1110,
+      "network": "efinity",
+      "displayName": "Efinity",
+      "symbols": ["EFI"],
+      "decimals": [18],
+      "standardAccount": "Sr25519",
+      "website": "https://efinity.io/"
+    },
+    {
       "prefix": 1284,
       "network": "moonbeam",
       "displayName": "Moonbeam",
@@ -695,6 +749,15 @@
       "website": "https://moonbeam.network"
     },
     {
+      "prefix": 1337,
+      "network": "ajuna",
+      "displayName": "Ajuna Network",
+      "symbols": ["AJUN"],
+      "decimals": [12],
+      "standardAccount": "Sr25519",
+      "website": "https://ajuna.io"
+    },    
+    {
       "prefix": 2007,
       "network": "kapex",
       "displayName": "Kapex",
@@ -702,6 +765,24 @@
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://totemaccounting.com"
+    },
+    {
+      "prefix": 2032,
+      "network": "interlay",
+      "displayName": "Interlay",
+      "symbols": ["INTR"],
+      "decimals": [10],
+      "standardAccount": "*25519",
+      "website": "https://interlay.io/"
+    },
+    {
+      "prefix": 2092,
+      "network": "kintsugi",
+      "displayName": "Kintsugi",
+      "symbols": ["KINT"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://interlay.io/"
     },
     {
       "prefix": 2254,
@@ -731,7 +812,7 @@
       "website": "https://bsx.fi"
     },
     {
-      "prefix": 10042,
+      "prefix": 11330,
       "network": "cess-testnet",
       "displayName": "CESS Testnet",
       "symbols": ["TCESS"],
@@ -740,7 +821,7 @@
       "website": "https://cess.cloud"
     },
     {
-      "prefix": 10043,
+      "prefix": 11331,
       "network": "cess",
       "displayName": "CESS",
       "symbols": ["CESS"],
