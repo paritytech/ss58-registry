@@ -837,6 +837,15 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://ata.network"
+    },
+    {
+	    "prefix": 70,                      // unique u16
+	    "network": "luke",               // unique no spaces
+	    "displayName": "Luke Network",   //
+    	"symbols": ["LUKE"],               // symbol for each ballance pallet (usually one)
+    	"decimals": [15],                 // decimals for each symbol listed.
+    	"standardAccount": "*25519",      // Sr25519, Ed25519 or secp256k1
+    	"website": null  // website or github of network
     }
   ]
 }
