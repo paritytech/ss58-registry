@@ -839,7 +839,7 @@
       "website": "https://ata.network"
     },
    {
-      "prefix": 11820,
+      "prefix": 11921,
       "network": "luke",
       "displayName": "Luke Testnet",
       "symbols": ["LUKE"],
