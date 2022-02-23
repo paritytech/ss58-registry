@@ -841,7 +841,7 @@
    {
       "prefix": 11820,
       "network": "luke",
-      "displayName": "Luke Network",
+      "displayName": "Luke Testnet",
       "symbols": ["LUKE"],
       "decimals": [15],
       "standardAccount": "*25519",
