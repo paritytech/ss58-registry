@@ -173,31 +173,31 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 		}
 
 		/// All non-custom address formats (Sorted by network)
-		static ALL_SS58_ADDRESS_FORMATS: [Ss58AddressFormatRegistry; #count] = [
+		pub(crate) static ALL_SS58_ADDRESS_FORMATS: [Ss58AddressFormatRegistry; #count] = [
 			 #(Ss58AddressFormatRegistry::#identifier),*,
 		];
 
 		/// Names of all address formats (Sorted by network)
-		static ALL_SS58_ADDRESS_FORMAT_NAMES: [&str; #count] = [
+		pub(crate) static ALL_SS58_ADDRESS_FORMAT_NAMES: [&str; #count] = [
 			#(#name),*,
 		];
 
 		/// (Sorted) prefixes to index of ALL_SS58_ADDRESS_FORMATS
-		static PREFIX_TO_INDEX: [(u16, usize); #count] = [
+		pub(crate) static PREFIX_TO_INDEX: [(u16, usize); #count] = [
 			#(#prefix_to_idx),*,
 		];
 
 		impl Ss58AddressFormat {
 			/// Network/AddressType is reserved for future use.
 			pub fn is_reserved(&self) -> bool {
-				self.prefix > 16384 || matches!(self.prefix, #(#reserved_prefixes)|*)
+				self.prefix() > 16384 || matches!(self.prefix(), #(#reserved_prefixes)|*)
 			}
 
 			/// A custom format is one that is not already known.
 			pub fn is_custom(&self) -> bool {
 				// A match is faster than bin search
 				// as most hits will be in the first group.
-				!matches!(self.prefix, #(#prefix_starts..=#prefix_ends)|*)
+				!matches!(self.prefix(), #(#prefix_starts..=#prefix_ends)|*)
 			}
 		}
 	})
