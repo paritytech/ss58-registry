@@ -18,10 +18,12 @@ use quote::{format_ident, quote};
 use serde::Deserialize;
 use std::{collections::HashMap, env, fs, path::Path};
 use unicode_xid::UnicodeXID;
+//use rustfmt_nightly::Input
 
 #[derive(Deserialize)]
 struct Registry {
-	registry: Vec<AccountType>,
+	#[serde(rename = "registry")]
+	accounts: Vec<AccountType>,
 }
 
 fn is_valid_rust_identifier(id: &str) -> Result<(), String> {
@@ -45,7 +47,7 @@ impl Registry {
 	pub fn is_valid(&self) -> Result<(), String> {
 		let mut used_prefixes = HashMap::<u16, AccountType>::new();
 		let mut used_networks = HashMap::<String, AccountType>::new();
-		for account_type in &self.registry {
+		for account_type in &self.accounts {
 			if let Some(clash) = used_prefixes.insert(account_type.prefix, (*account_type).clone())
 			{
 				return Err(format!(
@@ -74,17 +76,22 @@ impl Registry {
 					account_type
 				))
 			}
-			if let Some(sig_type) = &account_type.standard_account {
-				match sig_type.as_str() {
-                    "Sr25519"| "Ed25519" | "secp256k1" | "*25519" => {},
-                    _ => {
-                        return Err(format!("Unknown sig type in standardAccount: expected one of Sr25519, Ed25519, secp256k1, *25519: {:?}", account_type))
-                    }
-                }
-			}
 		}
 		Ok(())
 	}
+}
+
+#[non_exhaustive]
+#[derive(Deserialize, Debug, Clone, Copy)]
+enum SignatureType {
+	#[serde(rename = "Sr25519")]
+	Sr25519,
+	#[serde(rename = "Ed25519")]
+	Ed25519,
+	#[serde(rename = "secp256k1")]
+	Secp256k1,
+	#[serde(rename = "*25519")]
+	Any25519,
 }
 
 #[derive(Deserialize, Debug, Clone)]
@@ -94,7 +101,7 @@ struct AccountType {
 	network: String,
 	display_name: String,
 	/// If standard account is None then the network is reserved.
-	standard_account: Option<String>,
+	standard_account: Option<SignatureType>,
 	symbols: Vec<String>,
 	decimals: Vec<u8>,
 	website: Option<String>,
@@ -132,28 +139,19 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 		serde_json::from_str(json).map_err(|e| format!("json parsing error: {}", e))?;
 	registry.is_valid()?;
 
-	let mut registry = registry.registry;
-
-	let mut ordered_prefixes = registry.iter().map(|i| i.prefix).collect::<Vec<_>>();
-	ordered_prefixes.sort();
+	let mut accounts = registry.accounts;
 
 	// Sort by name so that we can later binary search by network
-	registry.sort_by_key(|a| a.network.clone());
+	accounts.sort_by_key(|a| a.network.clone());
 
 	// Variables to insert into quote template:
-	let identifier: Vec<_> = registry.iter().map(|r| format_ident!("{}", r.name())).collect();
+	let identifier: Vec<_> = accounts.iter().map(|r| format_ident!("{}", r.name())).collect();
 
-	let reserved_prefixes = registry.iter().filter(|r| r.is_reserved()).map(|r| r.prefix);
+	let count = accounts.len();
+	let prefix: Vec<_> = accounts.iter().map(|r| r.prefix).collect();
 
-	let count = registry.len();
-	let prefix: Vec<_> = registry.iter().map(|r| r.prefix).collect();
-
-	let mut prefix_to_idx: Vec<_> = prefix.iter().enumerate().map(|(a, b)| (b, a)).collect();
-	prefix_to_idx.sort_by_key(|(prefix, _)| *prefix);
-	let prefix_to_idx = prefix_to_idx.iter().map(|(prefix, idx)| quote! { (#prefix, #idx) });
-
-	let name = registry.iter().map(|r| r.network.clone());
-	let desc = registry.iter().map(|r| {
+	let name = accounts.iter().map(|r| r.network.clone());
+	let desc = accounts.iter().map(|r| {
 		if let Some(website) = &r.website {
 			format!("{} - <{}>", r.display_name, website)
 		} else {
@@ -161,6 +159,14 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 		}
 	});
 
+	let mut prefix_to_idx: Vec<_> = prefix.iter().enumerate().map(|(a, b)| (b, a)).collect();
+	prefix_to_idx.sort_by_key(|(prefix, _)| *prefix);
+	let prefix_to_idx = prefix_to_idx.iter().map(|(prefix, idx)| quote! { (#prefix, #idx) });
+
+	let reserved_prefixes = accounts.iter().filter(|r| r.is_reserved()).map(|r| r.prefix);
+
+	let mut ordered_prefixes = accounts.iter().map(|i| i.prefix).collect::<Vec<_>>();
+	ordered_prefixes.sort_unstable();
 	let (prefix_starts, prefix_ends) = consecutive_runs(ordered_prefixes.as_slice());
 
 	Ok(quote! {
@@ -203,13 +209,49 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 	})
 }
 
+fn fmt(unformatted: String) -> Result<String, String> {
+	use std::process::*;
+	use std::io::{Write, copy};
+
+	let cfg_path = env::var_os("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR exists");
+	let mut cmd = Command::new("rustfmt");
+	cmd.arg("--config-path").arg(&cfg_path).stdin(Stdio::piped()).stdout(Stdio::piped());
+
+	let mut child = cmd.spawn().map_err(|e| format!("Cannot spawn rustfmt: {}", e))?;
+	let mut child_stdin = child.stdin.take().expect("Set stdin to be a pipe. qed");
+	let mut child_stdout = child.stdout.take().expect("Set stdout to be a pipe. qed");
+
+	let mut output = Vec::with_capacity(unformatted.len() * 2);
+	let stdin_handle = ::std::thread::spawn(move || {
+		let res = child_stdin.write_all(unformatted.as_bytes());
+		drop(res);
+	});
+	
+	copy(&mut child_stdout, &mut output).map_err(|e| format!("Cannot read rustfmt output: {}", e))?;
+
+	let status = child.wait().map_err(|e| format!("Child process rustfmt failed: {}", e))?;
+	stdin_handle.join().expect(
+		"The thread writing to rustfmt's stdin doesn't do \
+		 anything that could panic",
+	);
+	match status.code() {
+		Some(0) => Ok(()),
+		Some(1) => Err("Rustfmt syntax errors".to_owned()),
+		Some(2) => Err("Rustfmt parsing errors".to_owned()),
+		Some(3) => Err("Rustfmt could not format some lines".to_owned()),
+		_ => Err("Internal rustfmt error".to_owned()),
+	}?;
+	let output = String::from_utf8(output).map_err(|e| format!("Invalid output from rustfmt: {}", e))?;
+	Ok(output)
+}
+
 fn main() {
 	println!("cargo:rerun-if-changed=build.rs");
 	println!("cargo:rerun-if-changed=ss58-registry.json");
 
 	let out_dir = env::var_os("OUT_DIR").expect("OUT_DIR should exist");
 
-	let result = match create_ss58_registry(include_str!("ss58-registry.json")) {
+	let unformatted = match create_ss58_registry(include_str!("ss58-registry.json")) {
 		Ok(result) => result.to_string(),
 		Err(msg) => {
 			eprintln!("failed to generate code from json: {}", &msg);
@@ -217,9 +259,19 @@ fn main() {
 		},
 	};
 
+	let formatted = match fmt(unformatted) {
+		Ok(s) => s,
+		Err(msg) => {
+			eprintln!("failed to format generated code: {}", &msg);
+			std::process::exit(-1);
+		}
+	};
+
 	let dest_path = Path::new(&out_dir).join("account_type_enum.rs");
-	if let Err(err) = fs::write(&dest_path, result) {
+	if let Err(err) = fs::write(&dest_path, formatted) {
 		eprintln!("failed to write generated code to {}: {}", &dest_path.display(), err);
 		std::process::exit(-1);
 	}
+
+
 }

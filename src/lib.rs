@@ -28,4 +28,4 @@ pub use address_format::{from_address_format, Ss58AddressFormat};
 pub use error::ParseError;
 pub use registry::{from_known_address_format, Ss58AddressFormatRegistry};
 
-use registry::{ALL_SS58_ADDRESS_FORMAT_NAMES, ALL_SS58_ADDRESS_FORMATS, PREFIX_TO_INDEX};
+use registry::{ALL_SS58_ADDRESS_FORMATS, ALL_SS58_ADDRESS_FORMAT_NAMES, PREFIX_TO_INDEX};

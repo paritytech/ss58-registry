@@ -15,7 +15,7 @@ impl Ss58AddressFormat {
 		Ss58AddressFormat { prefix }
 	}
 
-    /// Address prefix used on the network
+	/// Address prefix used on the network
 	pub const fn prefix(&self) -> u16 {
 		self.prefix
 	}

@@ -12,12 +12,9 @@ default = ["std"]
 std = []
 
 [build-dependencies]
-quote = { version = "1.0.3", default-features = false }
-serde = { version = "1.0", default-features = false, features = [
-  "std",
-  "derive",
-] }
-serde_json = { version = "1.0", default-features = false, features = ["std"] }
-proc-macro2 = "1.0"
+quote = { version = "1.0.15", default-features = false }
+serde = { version = "1.0.136", default-features = false, features = ["std", "derive"] }
+serde_json = { version = "1.0.79", default-features = false, features = ["std"] }
+proc-macro2 = "1.0.36"
 Inflector = { version = "0.11.4", default-features = false }
-unicode-xid = "0.2.0"
+unicode-xid = "0.2.2"
