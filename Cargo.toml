@@ -11,6 +11,9 @@ repository = "https://github.com/paritytech/ss58-registry/"
 default = ["std"]
 std = []
 
+[dependencies]
+num-format = "0.4.0"
+
 [build-dependencies]
 quote = { version = "1.0.15", default-features = false }
 serde = { version = "1.0.136", default-features = false, features = ["std", "derive"] }

@@ -32,10 +32,16 @@ fn enum_to_name_and_back() {
 }
 
 #[test]
-fn blah() {
+fn prefix() {
 	let dot: Ss58AddressFormat = Ss58AddressFormatRegistry::PolkadotAccount.into();
-	//dot.tokens();
 	assert_eq!(dot.prefix(), 0);
 	let ksm: Ss58AddressFormat = Ss58AddressFormatRegistry::KusamaAccount.into();
 	assert_eq!(ksm.prefix(), 2);
+}
+
+#[test]
+fn tokens() {
+	let _dot: Ss58AddressFormat = Ss58AddressFormatRegistry::PolkadotAccount.into();
+	//dot.tokens();
+	let _ksm: Ss58AddressFormat = Ss58AddressFormatRegistry::KusamaAccount.into();
 }

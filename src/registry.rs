@@ -1,6 +1,6 @@
 use super::*;
 
-include!(concat!(env!("OUT_DIR"), "/account_type_enum.rs"));
+include!(concat!(env!("OUT_DIR"), "/registry_gen.rs"));
 
 #[cfg(feature = "std")]
 impl std::fmt::Display for Ss58AddressFormatRegistry {
@@ -30,4 +30,31 @@ impl TryFrom<Ss58AddressFormat> for Ss58AddressFormatRegistry {
 /// const function to convert [`Ss58AddressFormat`] to u16
 pub const fn from_known_address_format(x: Ss58AddressFormatRegistry) -> u16 {
 	x as u16
+}
+
+#[cfg(feature = "std")]
+impl std::fmt::Debug for TokenRegistry {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		let (name, decimals) = self.attributes();
+		f.debug_struct("TokenRegistry")
+			.field("name", &name)
+			.field("decimals", &decimals)
+			.finish()
+	}
+}
+
+impl TokenRegistry {
+	/// Creates the specified amount of [`Token`] with its name and decimals filled from the
+	/// [`TokenRegistry`] variant.
+	///
+	/// ```
+	/// # use ss58_registry::TokenRegistry;
+	/// let my_token = TokenRegistry::Dot.create_token(100_000_000);
+	/// assert_eq!(format!("{}", my_token), "0,010 DOT");
+	/// assert_eq!(format!("{:?}", my_token), "0,010 DOT (100_000_000)");
+	/// ```
+	pub fn create_token(&self, amount: u128) -> Token {
+		let (name, decimals) = self.attributes();
+		Token { name, decimals, amount }
+	}
 }

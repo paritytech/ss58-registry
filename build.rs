@@ -206,16 +206,43 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 				!matches!(self.prefix(), #(#prefix_starts..=#prefix_ends)|*)
 			}
 		}
+
+
+		#[non_exhaustive]
+		#[doc = "List of all tokens used on some network in the ecosystem."]
+		#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+		pub enum TokenRegistry {
+			#[doc = "DOT token"]
+			Dot,
+			#[doc = "KSM token"]
+			Ksm,
+		}
+
+		impl TokenRegistry {
+			fn attributes(&self) -> (String, u8) {
+				use TokenRegistry::*;
+
+				match self {
+					Dot => ("DOT".into(), 10),
+					Ksm => ("KSM".into(), 12),
+				}
+			}
+		}
 	})
 }
 
 fn fmt(unformatted: String) -> Result<String, String> {
-	use std::process::*;
-	use std::io::{Write, copy};
+	use std::{
+		io::{copy, Write},
+		process::*,
+	};
 
-	let cfg_path = env::var_os("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR exists");
+	let cfg_dir = env::var_os("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR exists");
 	let mut cmd = Command::new("rustfmt");
-	cmd.arg("--config-path").arg(&cfg_path).stdin(Stdio::piped()).stdout(Stdio::piped());
+	cmd.arg("--config-path")
+		.arg(&cfg_dir)
+		.stdin(Stdio::piped())
+		.stdout(Stdio::piped());
 
 	let mut child = cmd.spawn().map_err(|e| format!("Cannot spawn rustfmt: {}", e))?;
 	let mut child_stdin = child.stdin.take().expect("Set stdin to be a pipe. qed");
@@ -226,8 +253,9 @@ fn fmt(unformatted: String) -> Result<String, String> {
 		let res = child_stdin.write_all(unformatted.as_bytes());
 		drop(res);
 	});
-	
-	copy(&mut child_stdout, &mut output).map_err(|e| format!("Cannot read rustfmt output: {}", e))?;
+
+	copy(&mut child_stdout, &mut output)
+		.map_err(|e| format!("Cannot read rustfmt output: {}", e))?;
 
 	let status = child.wait().map_err(|e| format!("Child process rustfmt failed: {}", e))?;
 	stdin_handle.join().expect(
@@ -241,7 +269,8 @@ fn fmt(unformatted: String) -> Result<String, String> {
 		Some(3) => Err("Rustfmt could not format some lines".to_owned()),
 		_ => Err("Internal rustfmt error".to_owned()),
 	}?;
-	let output = String::from_utf8(output).map_err(|e| format!("Invalid output from rustfmt: {}", e))?;
+	let output =
+		String::from_utf8(output).map_err(|e| format!("Invalid output from rustfmt: {}", e))?;
 	Ok(output)
 }
 
@@ -264,14 +293,12 @@ fn main() {
 		Err(msg) => {
 			eprintln!("failed to format generated code: {}", &msg);
 			std::process::exit(-1);
-		}
+		},
 	};
 
-	let dest_path = Path::new(&out_dir).join("account_type_enum.rs");
+	let dest_path = Path::new(&out_dir).join("registry_gen.rs");
 	if let Err(err) = fs::write(&dest_path, formatted) {
 		eprintln!("failed to write generated code to {}: {}", &dest_path.display(), err);
 		std::process::exit(-1);
 	}
-
-
 }
