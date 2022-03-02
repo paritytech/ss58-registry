@@ -49,9 +49,15 @@ impl TokenRegistry {
 	///
 	/// ```
 	/// # use ss58_registry::TokenRegistry;
+	/// # #[cfg(feature = "std")]
+	/// # fn x() {
 	/// let my_token = TokenRegistry::Dot.create_token(100_000_000);
 	/// assert_eq!(format!("{}", my_token), "0,010 DOT");
 	/// assert_eq!(format!("{:?}", my_token), "0,010 DOT (100_000_000)");
+	/// # }
+	/// # #[cfg(not(feature = "std"))]
+	/// # fn x() {}
+	/// # x();
 	/// ```
 	pub fn create_token(&self, amount: u128) -> Token {
 		let (name, decimals) = self.attributes();

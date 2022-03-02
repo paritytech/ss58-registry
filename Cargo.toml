@@ -9,10 +9,10 @@ repository = "https://github.com/paritytech/ss58-registry/"
 
 [features]
 default = ["std"]
-std = []
+std = ["num-format"]
 
 [dependencies]
-num-format = "0.4.0"
+num-format = { version = "0.4.0", optional = true }
 
 [build-dependencies]
 quote = { version = "1.0.15", default-features = false }

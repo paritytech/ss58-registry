@@ -219,12 +219,12 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 		}
 
 		impl TokenRegistry {
-			fn attributes(&self) -> (String, u8) {
+			fn attributes(&self) -> (&'static str, u8) {
 				use TokenRegistry::*;
 
 				match self {
-					Dot => ("DOT".into(), 10),
-					Ksm => ("KSM".into(), 12),
+					Dot => ("DOT", 10),
+					Ksm => ("KSM", 12),
 				}
 			}
 		}

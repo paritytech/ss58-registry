@@ -1,5 +1,4 @@
 use super::{Ss58AddressFormat, Ss58AddressFormatRegistry};
-use std::convert::TryInto;
 
 #[test]
 fn is_reserved() {
@@ -23,8 +22,10 @@ fn is_custom() {
 	assert!(!not_reserved.is_custom());
 }
 
+#[cfg(feature = "std")]
 #[test]
 fn enum_to_name_and_back() {
+	use std::convert::TryInto;
 	for name in Ss58AddressFormat::all_names() {
 		let val: Ss58AddressFormatRegistry = (*name).try_into().expect(name);
 		assert_eq!(name, &val.to_string());

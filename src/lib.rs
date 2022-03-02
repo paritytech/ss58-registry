@@ -14,7 +14,7 @@
 // limitations under the License.
 #![cfg_attr(not(feature = "std"), no_std)]
 #![warn(missing_docs)]
-#![deny(unsafe_code/*, non_ascii_idents*/)]
+#![deny(unsafe_code)]
 
 //! List of well-known SS58 account types as an enum.
 use core::convert::TryFrom;
@@ -30,4 +30,6 @@ pub use error::ParseError;
 pub use registry::{from_known_address_format, Ss58AddressFormatRegistry, TokenRegistry};
 pub use token::Token;
 
-use registry::{ALL_SS58_ADDRESS_FORMATS, ALL_SS58_ADDRESS_FORMAT_NAMES, PREFIX_TO_INDEX};
+use registry::{ALL_SS58_ADDRESS_FORMATS, ALL_SS58_ADDRESS_FORMAT_NAMES};
+#[cfg(feature = "std")]
+use registry::PREFIX_TO_INDEX;
