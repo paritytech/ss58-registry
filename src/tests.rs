@@ -1,4 +1,4 @@
-use super::{Ss58AddressFormat, Ss58AddressFormatRegistry};
+use super::{Ss58AddressFormat, Ss58AddressFormatRegistry, TokenRegistry};
 
 #[test]
 fn is_reserved() {
@@ -42,7 +42,12 @@ fn prefix() {
 
 #[test]
 fn tokens() {
-	let _dot: Ss58AddressFormat = Ss58AddressFormatRegistry::PolkadotAccount.into();
-	//dot.tokens();
-	let _ksm: Ss58AddressFormat = Ss58AddressFormatRegistry::KusamaAccount.into();
+	let polka = Ss58AddressFormatRegistry::PolkadotAccount;
+	assert_eq!(polka.tokens(), vec![TokenRegistry::Dot]);
+	let kusama = Ss58AddressFormatRegistry::KusamaAccount;
+	assert_eq!(kusama.tokens(), vec![TokenRegistry::Ksm]);
+	let darwinia = Ss58AddressFormatRegistry::DarwiniaAccount;
+	assert_eq!(darwinia.tokens(), vec![TokenRegistry::Ring, TokenRegistry::Kton]);
+	let n46 = Ss58AddressFormatRegistry::Reserved46Account;
+	assert_eq!(n46.tokens(), vec![]);
 }

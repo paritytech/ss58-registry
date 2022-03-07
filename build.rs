@@ -14,6 +14,7 @@
 // limitations under the License.
 
 //! List of wellknown SS58 account types as an enum.
+use proc_macro2::Ident;
 use quote::{format_ident, quote};
 use serde::Deserialize;
 use std::{
@@ -83,18 +84,19 @@ impl Registry {
 			}
 			for (name, decimals) in account_type.symbols.iter().zip(&account_type.decimals) {
 				use Entry::*;
+				let network = account_type.display_name.clone();
 				match tokens.entry(name.to_owned()) {
 					Occupied(mut e) => {
 						if e.get().decimals != *decimals {
-							return Err(format!("Inconsistent decimals specified for token {}.\nPrevious accounts: {:?}\nCurrent account: {}", name, e.get().networks, account_type.name()));
+							return Err(format!("Inconsistent decimals specified for token {}.\nPrevious networks: {}\nCurrent network: {}", name, e.get().networks.join(", "), network));
 						}
-						e.get_mut().networks.push(account_type.name());
+						e.get_mut().networks.push(network);
 					},
 					Vacant(e) => {
 						e.insert(TokenType {
 							symbol: name.to_owned(),
 							decimals: *decimals,
-							networks: vec![account_type.name()],
+							networks: vec![network],
 						});
 					},
 				}
@@ -137,6 +139,13 @@ impl AccountType {
 		format!("{}Account", inflector::cases::pascalcase::to_pascal_case(&self.network))
 	}
 
+	fn tokens(&self, all: &[TokenType]) -> Vec<Ident> {
+		self.symbols
+			.iter()
+			.filter_map(|s| all.iter().find(|t| t.symbol == *s).map(|t| t.ident()))
+			.collect()
+	}
+
 	fn is_reserved(&self) -> bool {
 		self.standard_account.is_none()
 	}
@@ -150,8 +159,11 @@ struct TokenType {
 }
 
 impl TokenType {
-	fn name(&self) -> String {
-		inflector::cases::pascalcase::to_pascal_case(&self.symbol)
+	fn ident(&self) -> Ident {
+		format_ident!("{}", inflector::cases::pascalcase::to_pascal_case(&self.symbol))
+	}
+	fn doc_string(&self) -> String {
+		format!("{} token used on {}", self.symbol, self.networks.join(", "))
 	}
 }
 
@@ -200,15 +212,23 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 	prefix_to_idx.sort_by_key(|(prefix, _)| *prefix);
 	let prefix_to_idx = prefix_to_idx.iter().map(|(prefix, idx)| quote! { (#prefix, #idx) });
 
+	let ident_to_tokens: Vec<_> = accounts
+		.iter()
+		.map(|r| {
+			let t = r.tokens(&tokens);
+			quote! { #( TokenRegistry::#t ,)* }
+		})
+		.collect();
+
 	let reserved_prefixes = accounts.iter().filter(|r| r.is_reserved()).map(|r| r.prefix);
 
 	let mut ordered_prefixes = accounts.iter().map(|i| i.prefix).collect::<Vec<_>>();
 	ordered_prefixes.sort_unstable();
 	let (prefix_starts, prefix_ends) = consecutive_runs(ordered_prefixes.as_slice());
 
-	let token_defs: Vec<_> = tokens.iter().map(|t| format_ident!("{}", t.name())).collect();
+	let token_defs: Vec<_> = tokens.iter().map(|t| t.ident()).collect();
 	let token_names: Vec<_> = tokens.iter().map(|t| t.symbol.to_owned()).collect();
-	let token_docs: Vec<_> = tokens.iter().map(|t| format!("{} token", t.symbol)).collect();
+	let token_docs: Vec<_> = tokens.iter().map(|t| t.doc_string()).collect();
 	let token_decimals: Vec<_> = tokens.iter().map(|t| t.decimals).collect();
 
 	Ok(quote! {
@@ -235,6 +255,17 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 			#(#prefix_to_idx),*,
 		];
 
+		impl Ss58AddressFormatRegistry {
+			/// Tokens used on the given network.
+			pub fn tokens(&self) -> &'static[TokenRegistry] {
+				match self {
+					#(Ss58AddressFormatRegistry::#identifier => &[#ident_to_tokens],)*
+
+				}
+			}
+
+		}
+
 		impl Ss58AddressFormat {
 			/// Network/AddressType is reserved for future use.
 			pub fn is_reserved(&self) -> bool {
@@ -260,10 +291,8 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 
 		impl TokenRegistry {
 			fn attributes(&self) -> (&'static str, u8) {
-				use TokenRegistry::*;
-
 				match self {
-					#(#token_defs => (#token_names, #token_decimals),)*
+					#(TokenRegistry::#token_defs => (#token_names, #token_decimals),)*
 				}
 			}
 		}
