@@ -16,7 +16,11 @@
 //! List of wellknown SS58 account types as an enum.
 use quote::{format_ident, quote};
 use serde::Deserialize;
-use std::{collections::HashMap, env, fs, path::Path};
+use std::{
+	collections::{hash_map::Entry, HashMap},
+	env, fs,
+	path::Path,
+};
 use unicode_xid::UnicodeXID;
 //use rustfmt_nightly::Input
 
@@ -44,7 +48,8 @@ fn is_valid_rust_identifier(id: &str) -> Result<(), String> {
 }
 
 impl Registry {
-	pub fn is_valid(&self) -> Result<(), String> {
+	pub fn validate(self) -> Result<(Vec<AccountType>, Vec<TokenType>), String> {
+		let mut tokens = HashMap::<String, TokenType>::new();
 		let mut used_prefixes = HashMap::<u16, AccountType>::new();
 		let mut used_networks = HashMap::<String, AccountType>::new();
 		for account_type in &self.accounts {
@@ -76,8 +81,28 @@ impl Registry {
 					account_type
 				))
 			}
+			for (name, decimals) in account_type.symbols.iter().zip(&account_type.decimals) {
+				use Entry::*;
+				match tokens.entry(name.to_owned()) {
+					Occupied(mut e) => {
+						if e.get().decimals != *decimals {
+							return Err(format!("Inconsistent decimals specified for token {}.\nPrevious accounts: {:?}\nCurrent account: {}", name, e.get().networks, account_type.name()));
+						}
+						e.get_mut().networks.push(account_type.name());
+					},
+					Vacant(e) => {
+						e.insert(TokenType {
+							symbol: name.to_owned(),
+							decimals: *decimals,
+							networks: vec![account_type.name()],
+						});
+					},
+				}
+			}
 		}
-		Ok(())
+		let mut x = tokens.into_iter().map(|(_k, v)| v).collect::<Vec<_>>();
+		x.sort_by_key(|i| i.symbol.to_owned());
+		Ok((self.accounts, x))
 	}
 }
 
@@ -117,6 +142,19 @@ impl AccountType {
 	}
 }
 
+#[derive(Debug)]
+struct TokenType {
+	symbol: String,
+	decimals: u8,
+	networks: Vec<String>,
+}
+
+impl TokenType {
+	fn name(&self) -> String {
+		inflector::cases::pascalcase::to_pascal_case(&self.symbol)
+	}
+}
+
 fn consecutive_runs(data: &[u16]) -> (Vec<u16>, Vec<u16>) {
 	let mut slice_start = 0_u16;
 	let (mut starts, mut ends) = (Vec::new(), Vec::new());
@@ -137,9 +175,8 @@ fn consecutive_runs(data: &[u16]) -> (Vec<u16>, Vec<u16>) {
 fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> {
 	let registry: Registry =
 		serde_json::from_str(json).map_err(|e| format!("json parsing error: {}", e))?;
-	registry.is_valid()?;
 
-	let mut accounts = registry.accounts;
+	let (mut accounts, tokens) = registry.validate()?;
 
 	// Sort by name so that we can later binary search by network
 	accounts.sort_by_key(|a| a.network.clone());
@@ -168,6 +205,11 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 	let mut ordered_prefixes = accounts.iter().map(|i| i.prefix).collect::<Vec<_>>();
 	ordered_prefixes.sort_unstable();
 	let (prefix_starts, prefix_ends) = consecutive_runs(ordered_prefixes.as_slice());
+
+	let token_defs: Vec<_> = tokens.iter().map(|t| format_ident!("{}", t.name())).collect();
+	let token_names: Vec<_> = tokens.iter().map(|t| t.symbol.to_owned()).collect();
+	let token_docs: Vec<_> = tokens.iter().map(|t| format!("{} token", t.symbol)).collect();
+	let token_decimals: Vec<_> = tokens.iter().map(|t| t.decimals).collect();
 
 	Ok(quote! {
 		/// A known address (sub)format/network ID for SS58.
@@ -212,10 +254,8 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 		#[doc = "List of all tokens used on some network in the ecosystem."]
 		#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 		pub enum TokenRegistry {
-			#[doc = "DOT token"]
-			Dot,
-			#[doc = "KSM token"]
-			Ksm,
+			#(#[doc = #token_docs]
+			#token_defs,)*
 		}
 
 		impl TokenRegistry {
@@ -223,8 +263,7 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 				use TokenRegistry::*;
 
 				match self {
-					Dot => ("DOT", 10),
-					Ksm => ("KSM", 12),
+					#(#token_defs => (#token_names, #token_decimals),)*
 				}
 			}
 		}
