@@ -16,7 +16,7 @@
 #![warn(missing_docs)]
 #![deny(unsafe_code)]
 
-//! List of well-known SS58 account types as an enum.
+//! Enumerations of well-known SS58 account types and tokens used in the Polkadot ecosystem.
 use core::convert::TryFrom;
 mod address_format;
 mod error;

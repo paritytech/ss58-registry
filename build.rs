@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Parity Technologies (UK) Ltd.
+// Copyright (C) 2021-2022 Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//! List of wellknown SS58 account types as an enum.
+//! Enumerations of well-known SS58 account types and tokens used in the Polkadot ecosystem.
 use proc_macro2::Ident;
 use quote::{format_ident, quote};
 use serde::Deserialize;
@@ -23,7 +23,6 @@ use std::{
 	path::Path,
 };
 use unicode_xid::UnicodeXID;
-//use rustfmt_nightly::Input
 
 #[derive(Deserialize)]
 struct Registry {
@@ -88,7 +87,12 @@ impl Registry {
 				match tokens.entry(name.to_owned()) {
 					Occupied(mut e) => {
 						if e.get().decimals != *decimals {
-							return Err(format!("Inconsistent decimals specified for token {}.\nPrevious networks: {}\nCurrent network: {}", name, e.get().networks.join(", "), network));
+							return Err(format!(
+								"Inconsistent decimals specified for token {}.\nPrevious networks: {}\nCurrent network: {}",
+								name,
+								e.get().networks.join(", "),
+								network,
+							))
 						}
 						e.get_mut().networks.push(network);
 					},
@@ -108,7 +112,6 @@ impl Registry {
 	}
 }
 
-#[non_exhaustive]
 #[derive(Deserialize, Debug, Clone, Copy)]
 enum SignatureType {
 	#[serde(rename = "Sr25519")]
@@ -227,9 +230,9 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 	let (prefix_starts, prefix_ends) = consecutive_runs(ordered_prefixes.as_slice());
 
 	let token_defs: Vec<_> = tokens.iter().map(|t| t.ident()).collect();
-	let token_names: Vec<_> = tokens.iter().map(|t| t.symbol.to_owned()).collect();
-	let token_docs: Vec<_> = tokens.iter().map(|t| t.doc_string()).collect();
-	let token_decimals: Vec<_> = tokens.iter().map(|t| t.decimals).collect();
+	let token_names = tokens.iter().map(|t| t.symbol.to_owned());
+	let token_docs = tokens.iter().map(|t| t.doc_string());
+	let token_decimals = tokens.iter().map(|t| t.decimals);
 
 	Ok(quote! {
 		/// A known address (sub)format/network ID for SS58.
@@ -260,7 +263,6 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 			pub fn tokens(&self) -> &'static[TokenRegistry] {
 				match self {
 					#(Ss58AddressFormatRegistry::#identifier => &[#ident_to_tokens],)*
-
 				}
 			}
 
@@ -282,7 +284,7 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 
 
 		#[non_exhaustive]
-		#[doc = "List of all tokens used on some network in the ecosystem."]
+		/// List of well-known tokens used on some network in the ecosystem.
 		#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 		pub enum TokenRegistry {
 			#(#[doc = #token_docs]
@@ -299,56 +301,13 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 	})
 }
 
-fn fmt(unformatted: String) -> Result<String, String> {
-	use std::{
-		io::{copy, Write},
-		process::*,
-	};
-
-	let cfg_dir = env::var_os("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR exists");
-	let mut cmd = Command::new("rustfmt");
-	cmd.arg("--config-path")
-		.arg(&cfg_dir)
-		.stdin(Stdio::piped())
-		.stdout(Stdio::piped());
-
-	let mut child = cmd.spawn().map_err(|e| format!("Cannot spawn rustfmt: {}", e))?;
-	let mut child_stdin = child.stdin.take().expect("Set stdin to be a pipe. qed");
-	let mut child_stdout = child.stdout.take().expect("Set stdout to be a pipe. qed");
-
-	let mut output = Vec::with_capacity(unformatted.len() * 2);
-	let stdin_handle = ::std::thread::spawn(move || {
-		let res = child_stdin.write_all(unformatted.as_bytes());
-		drop(res);
-	});
-
-	copy(&mut child_stdout, &mut output)
-		.map_err(|e| format!("Cannot read rustfmt output: {}", e))?;
-
-	let status = child.wait().map_err(|e| format!("Child process rustfmt failed: {}", e))?;
-	stdin_handle.join().expect(
-		"The thread writing to rustfmt's stdin doesn't do \
-		 anything that could panic",
-	);
-	match status.code() {
-		Some(0) => Ok(()),
-		Some(1) => Err("Rustfmt syntax errors".to_owned()),
-		Some(2) => Err("Rustfmt parsing errors".to_owned()),
-		Some(3) => Err("Rustfmt could not format some lines".to_owned()),
-		_ => Err("Internal rustfmt error".to_owned()),
-	}?;
-	let output =
-		String::from_utf8(output).map_err(|e| format!("Invalid output from rustfmt: {}", e))?;
-	Ok(output)
-}
-
 fn main() {
 	println!("cargo:rerun-if-changed=build.rs");
 	println!("cargo:rerun-if-changed=ss58-registry.json");
 
 	let out_dir = env::var_os("OUT_DIR").expect("OUT_DIR should exist");
 
-	let unformatted = match create_ss58_registry(include_str!("ss58-registry.json")) {
+	let code = match create_ss58_registry(include_str!("ss58-registry.json")) {
 		Ok(result) => result.to_string(),
 		Err(msg) => {
 			eprintln!("failed to generate code from json: {}", &msg);
@@ -356,16 +315,8 @@ fn main() {
 		},
 	};
 
-	let formatted = match fmt(unformatted) {
-		Ok(s) => s,
-		Err(msg) => {
-			eprintln!("failed to format generated code: {}", &msg);
-			std::process::exit(-1);
-		},
-	};
-
 	let dest_path = Path::new(&out_dir).join("registry_gen.rs");
-	if let Err(err) = fs::write(&dest_path, formatted) {
+	if let Err(err) = fs::write(&dest_path, code) {
 		eprintln!("failed to write generated code to {}: {}", &dest_path.display(), err);
 		std::process::exit(-1);
 	}
