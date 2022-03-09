@@ -18,7 +18,7 @@ use proc_macro2::Ident;
 use quote::{format_ident, quote};
 use serde::Deserialize;
 use std::{
-	collections::{hash_map::Entry, HashMap},
+	collections::{btree_map::Entry, BTreeMap, HashMap},
 	env, fs,
 	path::Path,
 };
@@ -49,7 +49,7 @@ fn is_valid_rust_identifier(id: &str) -> Result<(), String> {
 
 impl Registry {
 	pub fn validate(self) -> Result<(Vec<AccountType>, Vec<TokenType>), String> {
-		let mut tokens = HashMap::<String, TokenType>::new();
+		let mut tokens = BTreeMap::<String, TokenType>::new();
 		let mut used_prefixes = HashMap::<u16, AccountType>::new();
 		let mut used_networks = HashMap::<String, AccountType>::new();
 		for account_type in &self.accounts {
@@ -106,9 +106,8 @@ impl Registry {
 				}
 			}
 		}
-		let mut x = tokens.into_iter().map(|(_k, v)| v).collect::<Vec<_>>();
-		x.sort_by_key(|i| i.symbol.to_owned());
-		Ok((self.accounts, x))
+		let tokens = tokens.into_values().collect();
+		Ok((self.accounts, tokens))
 	}
 }
 
@@ -142,16 +141,17 @@ impl AccountType {
 		format!("{}Account", inflector::cases::pascalcase::to_pascal_case(&self.network))
 	}
 
-	fn tokens(&self, all: &[TokenType]) -> Vec<Ident> {
-		self.symbols
-			.iter()
-			.filter_map(|s| all.iter().find(|t| t.symbol == *s).map(|t| t.ident()))
-			.collect()
+	fn tokens(&self) -> impl Iterator<Item = Ident> + '_ {
+		self.symbols.iter().map(|s| token_symbol_to_variant(s))
 	}
 
 	fn is_reserved(&self) -> bool {
 		self.standard_account.is_none()
 	}
+}
+
+fn token_symbol_to_variant(symbol: &str) -> Ident {
+	format_ident!("{}", inflector::cases::pascalcase::to_pascal_case(symbol))
 }
 
 #[derive(Debug)]
@@ -162,9 +162,6 @@ struct TokenType {
 }
 
 impl TokenType {
-	fn ident(&self) -> Ident {
-		format_ident!("{}", inflector::cases::pascalcase::to_pascal_case(&self.symbol))
-	}
 	fn doc_string(&self) -> String {
 		format!("{} token used on {}", self.symbol, self.networks.join(", "))
 	}
@@ -218,7 +215,7 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 	let ident_to_tokens: Vec<_> = accounts
 		.iter()
 		.map(|r| {
-			let t = r.tokens(&tokens);
+			let t = r.tokens();
 			quote! { #( TokenRegistry::#t ,)* }
 		})
 		.collect();
@@ -229,7 +226,7 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 	ordered_prefixes.sort_unstable();
 	let (prefix_starts, prefix_ends) = consecutive_runs(ordered_prefixes.as_slice());
 
-	let token_defs: Vec<_> = tokens.iter().map(|t| t.ident()).collect();
+	let token_defs: Vec<_> = tokens.iter().map(|t| token_symbol_to_variant(&t.symbol)).collect();
 	let token_names = tokens.iter().map(|t| t.symbol.to_owned());
 	let token_docs = tokens.iter().map(|t| t.doc_string());
 	let token_decimals = tokens.iter().map(|t| t.decimals);
@@ -282,19 +279,18 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 			}
 		}
 
-
-		#[non_exhaustive]
 		/// List of well-known tokens used on some network in the ecosystem.
+		#[non_exhaustive]
 		#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 		pub enum TokenRegistry {
 			#(#[doc = #token_docs]
 			#token_defs,)*
 		}
 
-		impl TokenRegistry {
-			fn attributes(&self) -> (&'static str, u8) {
-				match self {
-					#(TokenRegistry::#token_defs => (#token_names, #token_decimals),)*
+		impl From<TokenRegistry> for Token {
+			fn from(x: TokenRegistry) -> Self {
+				match x {
+					#(TokenRegistry::#token_defs => Token { name: #token_names, decimals: #token_decimals },)*
 				}
 			}
 		}

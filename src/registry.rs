@@ -50,32 +50,10 @@ pub const fn from_known_address_format(x: Ss58AddressFormatRegistry) -> u16 {
 #[cfg(feature = "std")]
 impl std::fmt::Debug for TokenRegistry {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		let (name, decimals) = self.attributes();
+		let token: Token = (*self).into();
 		f.debug_struct("TokenRegistry")
-			.field("name", &name)
-			.field("decimals", &decimals)
+			.field("name", &token.name)
+			.field("decimals", &token.decimals)
 			.finish()
-	}
-}
-
-impl TokenRegistry {
-	/// Creates the specified amount of [`Token`] with its name and decimals filled from the
-	/// [`TokenRegistry`] variant.
-	///
-	/// ```
-	/// # use ss58_registry::TokenRegistry;
-	/// # #[cfg(feature = "std")]
-	/// # fn x() {
-	/// let my_token = TokenRegistry::Dot.create_token(100_000_000);
-	/// assert_eq!(format!("{}", my_token), "0,010 DOT");
-	/// assert_eq!(format!("{:?}", my_token), "0,010 DOT (100_000_000)");
-	/// # }
-	/// # #[cfg(not(feature = "std"))]
-	/// # fn x() {}
-	/// # x();
-	/// ```
-	pub fn create_token(&self, amount: u128) -> Token {
-		let (name, decimals) = self.attributes();
-		Token { name, decimals, amount }
 	}
 }
