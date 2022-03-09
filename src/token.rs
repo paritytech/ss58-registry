@@ -14,7 +14,7 @@
 // limitations under the License.
 
 #[cfg(feature = "std")]
-use num_format::{CustomFormat, ToFormattedString};
+use num_format::{Locale, ToFormattedString};
 
 /// Name and decimals of a given token.
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -25,9 +25,8 @@ pub struct Token {
 	pub decimals: u8,
 }
 
-#[cfg(feature = "std")]
-impl std::fmt::Debug for Token {
-	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl core::fmt::Debug for Token {
+	fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
 		f.debug_struct("Token")
 			.field("name", &self.name)
 			.field("decimals", &self.decimals)
@@ -45,8 +44,8 @@ impl Token {
 	/// # fn x() {
 	/// let token: Token = TokenRegistry::Dot.into();
 	/// let my_amount = token.amount(100_000_000);
-	/// assert_eq!(format!("{}", my_amount), "0,010 DOT");
-	/// assert_eq!(format!("{:?}", my_amount), "0,010 DOT (100_000_000)");
+	/// assert_eq!(format!("{}", my_amount), "0.010 DOT");
+	/// assert_eq!(format!("{:?}", my_amount), "0.010 DOT (100,000,000)");
 	/// # }
 	/// # #[cfg(not(feature = "std"))]
 	/// # fn x() {}
@@ -66,8 +65,8 @@ impl Token {
 /// # fn x() {
 /// let token = Token { name: "I❤U", decimals: 8 };
 /// let my_amount = token.amount(100_000_000_000);
-/// assert_eq!(format!("{}", my_amount), "1_000,000 I❤U");
-/// assert_eq!(format!("{:?}", my_amount), "1000,000 I❤U (100_000_000_000)");
+/// assert_eq!(format!("{}", my_amount), "1,000.000 I❤U");
+/// assert_eq!(format!("{:?}", my_amount), "1000.000 I❤U (100,000,000,000)");
 /// # }
 /// # #[cfg(not(feature = "std"))]
 /// # fn x() {}
@@ -85,11 +84,10 @@ pub struct TokenAmount {
 impl std::fmt::Display for TokenAmount {
 	fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
 		let multiplier = u128::pow(10, self.token.decimals as u32);
-		let format = CustomFormat::builder().decimal(",").separator("_").build().unwrap();
 		write!(
 			f,
-			"{},{:0>3} {}",
-			(self.amount / multiplier).to_formatted_string(&format),
+			"{}.{:0>3} {}",
+			(self.amount / multiplier).to_formatted_string(&Locale::en),
 			self.amount % multiplier / (multiplier / 1000),
 			self.token.name
 		)
@@ -100,14 +98,13 @@ impl std::fmt::Display for TokenAmount {
 impl std::fmt::Debug for TokenAmount {
 	fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
 		let multiplier = u128::pow(10, self.token.decimals as u32);
-		let format = CustomFormat::builder().decimal(",").separator("_").build().unwrap();
 		write!(
 			f,
-			"{},{:0>3} {} ({})",
+			"{}.{:0>3} {} ({})",
 			self.amount / multiplier,
 			self.amount % multiplier / (multiplier / 1000),
 			self.token.name,
-			self.amount.to_formatted_string(&format),
+			self.amount.to_formatted_string(&Locale::en),
 		)
 	}
 }

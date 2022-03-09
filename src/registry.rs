@@ -47,9 +47,8 @@ pub const fn from_known_address_format(x: Ss58AddressFormatRegistry) -> u16 {
 	x as u16
 }
 
-#[cfg(feature = "std")]
-impl std::fmt::Debug for TokenRegistry {
-	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl core::fmt::Debug for TokenRegistry {
+	fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
 		let token: Token = (*self).into();
 		f.debug_struct("TokenRegistry")
 			.field("name", &token.name)

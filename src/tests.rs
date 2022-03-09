@@ -58,11 +58,11 @@ fn prefix() {
 #[test]
 fn tokens() {
 	let polka = Ss58AddressFormatRegistry::PolkadotAccount;
-	assert_eq!(polka.tokens(), vec![TokenRegistry::Dot]);
+	assert_eq!(polka.tokens(), &[TokenRegistry::Dot]);
 	let kusama = Ss58AddressFormatRegistry::KusamaAccount;
-	assert_eq!(kusama.tokens(), vec![TokenRegistry::Ksm]);
+	assert_eq!(kusama.tokens(), &[TokenRegistry::Ksm]);
 	let darwinia = Ss58AddressFormatRegistry::DarwiniaAccount;
-	assert_eq!(darwinia.tokens(), vec![TokenRegistry::Ring, TokenRegistry::Kton]);
+	assert_eq!(darwinia.tokens(), &[TokenRegistry::Ring, TokenRegistry::Kton]);
 	let n46 = Ss58AddressFormatRegistry::Reserved46Account;
-	assert_eq!(n46.tokens(), vec![]);
+	assert_eq!(n46.tokens(), &[]);
 }
