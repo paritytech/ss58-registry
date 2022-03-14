@@ -1,6 +1,6 @@
 // Copyright (C) 2021-2022 Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
-//
+
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -13,14 +13,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-export interface RegistryEntry {
-	decimals: number[],
-	displayName: string;
-	network: string;
-	prefix: number;
-	standardAccount: '*25519' | 'Ed25519' | 'Sr25519' | 'secp256k1' | null;
-	symbols: string[];
-	website: string | null;
+/// Error encountered while parsing `Ss58AddressFormat` from &'_ str
+/// unit struct for now.
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
+pub struct ParseError;
+
+#[cfg(feature = "std")]
+impl std::fmt::Display for ParseError {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		write!(f, "failed to parse network value as u16")
+	}
 }
 
-export type Registry = RegistryEntry[];
+#[cfg(feature = "std")]
+impl std::error::Error for ParseError {}
