@@ -731,6 +731,15 @@
       "website": "https://efinity.io/"
     },
     {
+      "prefix": 1221,
+      "network": "peaq",
+      "displayName": "Peaq Network",
+      "symbols": ["PEAQ"],
+      "decimals": [18],
+      "standardAccount": "Sr25519",
+      "website": "https://www.peaq.network/"
+    },
+    {
       "prefix": 1284,
       "network": "moonbeam",
       "displayName": "Moonbeam",
