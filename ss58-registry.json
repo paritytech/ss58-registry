@@ -677,6 +677,15 @@
       "website": "https://parallel.fi/"
     },
     {
+      "prefix": 200,
+      "network": "kapex",
+      "displayName": "Kapex",
+      "symbols": ["KAPEX"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://totemaccounting.com"
+    },
+    {
       "prefix": 252,
       "network": "social-network",
       "displayName": "Social Network",
@@ -756,15 +765,6 @@
       "decimals": [12],
       "standardAccount": "Sr25519",
       "website": "https://ajuna.io"
-    },    
-    {
-      "prefix": 2007,
-      "network": "kapex",
-      "displayName": "Kapex",
-      "symbols": ["KAPEX"],
-      "decimals": [12],
-      "standardAccount": "*25519",
-      "website": "https://totemaccounting.com"
     },
     {
       "prefix": 2032,
