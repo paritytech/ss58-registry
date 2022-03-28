@@ -37,3 +37,4 @@ This will release the new version to [crates.io](https://crates.io/crates/ss58-r
 ## Licensing
 
 Apache-2.0
+
