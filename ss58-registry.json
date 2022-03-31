@@ -346,9 +346,9 @@
     {
       "prefix": 38,
       "network": "kilt",
-      "displayName": "KILT Chain",
+      "displayName": "KILT Spiritnet",
       "symbols": ["KILT"],
-      "decimals": [18],
+      "decimals": [15],
       "standardAccount": "*25519",
       "website": "https://kilt.io/"
     },
