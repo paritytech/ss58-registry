@@ -587,6 +587,15 @@
       "website": "https://polkadex.trade"
     },
     {
+      "prefix": 89,
+      "network": "polkadexparachain",
+      "displayName": "Polkadex Parachain",
+      "symbols": ["PDEX"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://polkadex.trade"
+    },
+    {
       "prefix": 98,
       "network": "polkasmith",
       "displayName": "PolkaSmith Canary Network",
