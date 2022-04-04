@@ -578,6 +578,15 @@
       "website": "https://polkadex.trade"
     },
     {
+      "prefix": 89,
+      "network": "polkadexparachain",
+      "displayName": "Polkadex Parachain",
+      "symbols": ["PDEX"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://polkadex.trade"
+    },
+    {
       "prefix": 93,
       "network": "fragnova",
       "displayName": "Fragnova Network",
@@ -765,7 +774,7 @@
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://ajuna.io"
-    },    
+    },
     {
       "prefix": 1337,
       "network": "bajun",
