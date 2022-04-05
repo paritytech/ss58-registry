@@ -34,6 +34,16 @@ function writeWithHeader (file, contents) {
 	writeFile(file, `${HEADER}\n${contents}`);
 }
 
+function mkdirs (...dirs) {
+	dirs.forEach((d) => {
+		const dir = path.join(OUTPUT, d);
+
+		if (!fs.existsSync(dir)) {
+			fs.mkdirSync(dir);
+		}
+	});
+}
+
 function adjustPkg (pkgJson, obj) {
 	Object.entries(obj).forEach(([k, v]) => {
 		delete pkgJson[k];
@@ -54,23 +64,30 @@ function main () {
 		exports: {
 			'.': {
 				types: './index.d.ts',
-				require: './index.cjs',
-				default: './index.js'
+				require: './cjs/index.js',
+				default: './esm/index.js'
 			},
-			'./package.json': './package.json'
+			'./package.json': './package.json',
+			'./cjs/package.json': './cjs/package.json',
+			'./esm/package.json': './esm/package.json'
 		},
-		main: 'index.cjs',
-		module: 'index.js',
+		main: './cjs/index.js',
+		module: './esm/index.js',
 		types: 'index.d.ts',
 		type: 'module',
 		scripts: undefined,
 		devDependencies: undefined
 	});
 
-	writeWithHeader('index.cjs', `module.exports = ${code};\n`);
-	writeWithHeader('index.js', `export default ${code};\n`);
+	mkdirs('cjs', 'esm');
 
-	writeFile('package.json', JSON.stringify(pkgJson, null, 2));
+	writeWithHeader('cjs/index.js', `module.exports = ${code};\n`);
+	writeWithHeader('esm/index.js', `export default ${code};\n`);
+
+	writeFile('cjs/package.json', JSON.stringify({ type: 'commonjs' }, null, '\t'));
+	writeFile('esm/package.json', JSON.stringify({ type: 'module' }, null, '\t'));
+
+	writeFile('package.json', JSON.stringify(pkgJson, null, '\t'));
 	writeFile('index.d.ts', `${typesD}\ndeclare const _default: Registry;\n\nexport default _default;\n`);
 
 	copyFiles('CHANGELOG.md', 'README.md', 'LICENSE');
