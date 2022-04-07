@@ -38,16 +38,16 @@ variables:                         &default-vars
 .vault-secrets:                    &vault-secrets
   secrets:
     CRATES_TOKEN:
-      vault:                       cicd/gitlab/$CI_PROJECT_PATH/CRATES_TOKEN@kv
+      vault:                       cicd/gitlab/parity/ss58-registry/CRATES_TOKEN@kv
       file:                        false
     GITHUB_SSH_PRIV_KEY:
-      vault:                       cicd/gitlab/$CI_PROJECT_PATH/GITHUB_SSH_PRIV_KEY@kv
+      vault:                       cicd/gitlab/parity/ss58-registry/GITHUB_SSH_PRIV_KEY@kv
       file:                        false
     GITHUB_USER:
       vault:                       cicd/gitlab/parity/GITHUB_USER@kv
       file:                        false
     NPM_TOKEN:
-      vault:                       cicd/gitlab/$CI_PROJECT_PATH/NPM_TOKEN@kv
+      vault:                       cicd/gitlab/parity/ss58-registry/NPM_TOKEN@kv
       file:                        false
 
 .rust-info-script:                 &rust-info-script
