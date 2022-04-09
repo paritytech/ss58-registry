@@ -686,6 +686,15 @@
       "website": "https://parallel.fi/"
     },
     {
+      "prefix": 204,
+      "network": "setheum",
+      "displayName": "Setheum",
+      "symbols": ["SETM"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://setheum.xyz"
+    },
+    {
       "prefix": 252,
       "network": "social-network",
       "displayName": "Social Network",
@@ -702,15 +711,6 @@
       "decimals": [15],
       "standardAccount": "*25519",
       "website": "https://unique.network"
-    },
-    {
-      "prefix": 258,
-      "network": "setheum",
-      "displayName": "Setheum",
-      "symbols": ["SETM"],
-      "decimals": [18],
-      "standardAccount": "*25519",
-      "website": "https://setheum.xyz"
     },
     {
       "prefix": 268,
