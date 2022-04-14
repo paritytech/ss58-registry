@@ -841,8 +841,8 @@
     {
       "prefix": 15253,
       "network": "ice-network",
-      "displayName": "Ice Network",
-      "symbols": ["ICY"],
+      "displayName": "ICE Network",
+      "symbols": ["ICX","ICY"],
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://icenetwork.io"
