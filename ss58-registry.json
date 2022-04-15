@@ -1001,6 +1001,15 @@
       "website": "https://www.webb.tools/"
     },
     {
+      "prefix": 4450,
+      "network": "g1",
+      "displayName": "Ğ1",
+      "symbols": ["G1"],
+      "decimals": [2],
+      "standardAccount": "*25519",
+      "website": "https://duniter.org"
+    },
+    {
       "prefix": 5234,
       "network": "humanode",
       "displayName": "Humanode Network",
