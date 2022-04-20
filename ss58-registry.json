@@ -803,6 +803,15 @@
       "website": "https://subspace.network"
     },
     {
+      "prefix": 7006,
+      "network": "tidefi_testnet",
+      "displayName": "Tidefi Testnet",
+      "symbols": ["TIFI"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://tidefi.com"
+    },
+    {
       "prefix": 7007,
       "network": "tidefi",
       "displayName": "Tidefi",
