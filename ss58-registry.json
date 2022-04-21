@@ -599,10 +599,10 @@
       "prefix": 101,
       "network": "origintrail-parachain",
       "displayName": "OriginTrail Parachain",
-      "symbols": ["TRAC"],
+      "symbols": ["OTP"],
       "decimals": [12],
       "standardAccount": "*25519",
-      "website": "https://origintrail.io"
+      "website": "https://parachain.origintrail.io/"
     },
     {
       "prefix": 105,
