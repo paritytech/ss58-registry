@@ -600,8 +600,8 @@
       "network": "origintrail-parachain",
       "displayName": "OriginTrail Parachain",
       "symbols": ["TRAC"],
-      "decimals": [18],
-      "standardAccount": "secp256k1",
+      "decimals": [12],
+      "standardAccount": "*25519",
       "website": "https://origintrail.io"
     },
     {
