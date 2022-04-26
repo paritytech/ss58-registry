@@ -587,15 +587,6 @@
       "website": "https://fragnova.com"
     },
     {
-      "prefix": 94,
-      "network": "fragnova-beta",
-      "displayName": "Fragnova Beta Network",
-      "symbols": ["bNOVA"],
-      "decimals": [12],
-      "standardAccount": "*25519",
-      "website": "https://fragnova.com"
-    },
-    {
       "prefix": 98,
       "network": "polkasmith",
       "displayName": "PolkaSmith Canary Network",
