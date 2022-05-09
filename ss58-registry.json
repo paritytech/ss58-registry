@@ -740,12 +740,21 @@
       "website": "https://moonbeam.network"
     },
     {
-      "prefix": 1337,
+      "prefix": 1328,
       "network": "ajuna",
       "displayName": "Ajuna Network",
       "symbols": ["AJUN"],
       "decimals": [12],
-      "standardAccount": "Sr25519",
+      "standardAccount": "*25519",
+      "website": "https://ajuna.io"
+    },    
+    {
+      "prefix": 1337,
+      "network": "bajun",
+      "displayName": "Bajun Network",
+      "symbols": ["BAJU"],
+      "decimals": [12],
+      "standardAccount": "*25519",
       "website": "https://ajuna.io"
     },    
     {
