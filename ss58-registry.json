@@ -615,9 +615,9 @@
     },
     {
       "prefix": 117,
-      "network": "invarch",
-      "displayName": "InvArch",
-      "symbols": ["VArch"],
+      "network": "tinker",
+      "displayName": "Tinker",
+      "symbols": ["TNKR"],
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://invarch.network"
