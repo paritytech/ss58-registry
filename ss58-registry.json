@@ -180,16 +180,7 @@
       "decimals": [9, 9],
       "standardAccount": "*25519",
       "website": "https://darwinia.network/"
-    },
-    {
-      "prefix": 19,
-      "network": "geek",
-      "displayName": "GeekCash",
-      "symbols": ["GEEK"],
-      "decimals": [12],
-      "standardAccount": "*25519",
-      "website": "https://geekcash.org"
-    },
+    },    
     {
       "prefix": 20,
       "network": "stafi",
@@ -200,17 +191,8 @@
       "website": "https://stafi.io"
     },
     {
-      "prefix": 21,
-      "network": "dock-testnet",
-      "displayName": "Dock Testnet",
-      "symbols": ["DCK"],
-      "decimals": [6],
-      "standardAccount": "*25519",
-      "website": "https://dock.io"
-    },
-    {
       "prefix": 22,
-      "network": "dock-mainnet",
+      "network": "dock-pos-mainnet",
       "displayName": "Dock Mainnet",
       "symbols": ["DCK"],
       "decimals": [6],
@@ -230,7 +212,7 @@
       "prefix": 24,
       "network": "zero",
       "displayName": "ZERO",
-      "symbols": ["PLAY"],
+      "symbols": ["ZERO"],
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://zero.io"
@@ -239,7 +221,7 @@
       "prefix": 25,
       "network": "zero-alphaville",
       "displayName": "ZERO Alphaville",
-      "symbols": ["PLAY"],
+      "symbols": ["ZERO"],
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://zero.io"
@@ -252,6 +234,15 @@
       "decimals": [10],
       "standardAccount": "*25519",
       "website": "https://jupiter.patract.io"
+    },
+    {
+      "prefix": 27,
+      "network": "kabocha",
+      "displayName": "Kabocha",
+      "symbols": ["KAB"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://kabocha.network"
     },
     {
       "prefix": 28,
@@ -346,9 +337,9 @@
     {
       "prefix": 38,
       "network": "kilt",
-      "displayName": "KILT Chain",
+      "displayName": "KILT Spiritnet",
       "symbols": ["KILT"],
-      "decimals": [18],
+      "decimals": [15],
       "standardAccount": "*25519",
       "website": "https://kilt.io/"
     },
@@ -459,6 +450,33 @@
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://composable.finance"
+    },
+    {
+      "prefix": 51,
+      "network": "oak",
+      "displayName": "OAK Network",
+      "symbols": ["OAK"],
+      "decimals": [10],
+      "standardAccount": "*25519",
+      "website": "https://oak.tech"
+    },
+    {
+      "prefix": 52,
+      "network": "KICO",
+      "displayName": "KICO",
+      "symbols": ["KICO"],
+      "decimals": [14],
+      "standardAccount": "*25519",
+      "website": "https://dico.io"
+    },
+    {
+      "prefix": 53,
+      "network": "DICO",
+      "displayName": "DICO",
+      "symbols": ["DICO"],
+      "decimals": [14],
+      "standardAccount": "*25519",
+      "website": "https://dico.io"
     },
     {
       "prefix": 55,
@@ -581,10 +599,10 @@
       "prefix": 101,
       "network": "origintrail-parachain",
       "displayName": "OriginTrail Parachain",
-      "symbols": ["TRAC"],
-      "decimals": [18],
-      "standardAccount": "secp256k1",
-      "website": "https://origintrail.io"
+      "symbols": ["OTP"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://parachain.origintrail.io/"
     },
     {
       "prefix": 105,
@@ -630,6 +648,15 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://clover.finance"
+    },
+    {
+      "prefix": 131,
+      "network": "litmus",
+      "displayName": "Litmus Network",
+      "symbols": ["LIT"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://litentry.com/"
     },
     {
       "prefix": 136,
@@ -686,6 +713,15 @@
       "website": "https://sora.org"
     },
     {
+      "prefix": 789,
+      "network": "geek",
+      "displayName": "GEEK Network",
+      "symbols": ["GEEK"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://geek.gl"
+    },
+    {
       "prefix": 1110,
       "network": "efinity",
       "displayName": "Efinity",
@@ -712,6 +748,24 @@
       "standardAccount": "secp256k1",
       "website": "https://moonbeam.network"
     },
+    {
+      "prefix": 1328,
+      "network": "ajuna",
+      "displayName": "Ajuna Network",
+      "symbols": ["AJUN"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://ajuna.io"
+    },    
+    {
+      "prefix": 1337,
+      "network": "bajun",
+      "displayName": "Bajun Network",
+      "symbols": ["BAJU"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://ajuna.io"
+    },    
     {
       "prefix": 2007,
       "network": "kapex",
@@ -756,6 +810,15 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://subspace.network"
+    },
+    {
+      "prefix": 7391,
+      "network": "unique_mainnet",
+      "displayName": "Unique Network",
+      "symbols": ["UNQ"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://unique.network"
     },
     {
       "prefix": 10041,
