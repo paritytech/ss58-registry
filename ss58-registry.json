@@ -180,7 +180,7 @@
       "decimals": [9, 9],
       "standardAccount": "*25519",
       "website": "https://darwinia.network/"
-    },
+    },    
     {
       "prefix": 20,
       "network": "stafi",
@@ -191,8 +191,17 @@
       "website": "https://stafi.io"
     },
     {
+      "prefix": 21,
+      "network": "dock-testnet",
+      "displayName": "Dock Testnet",
+      "symbols": ["DCK"],
+      "decimals": [6],
+      "standardAccount": "*25519",
+      "website": "https://dock.io"
+    },
+    {
       "prefix": 22,
-      "network": "dock-pos-mainnet",
+      "network": "dock-mainnet",
       "displayName": "Dock Mainnet",
       "symbols": ["DCK"],
       "decimals": [6],
