@@ -839,6 +839,15 @@
       "website": "https://tidefi.com"
     },
     {
+      "prefix": 7013,
+      "network": "gm",
+      "displayName": "GM",
+      "symbols": ["FREN", "GM", "GN"],
+      "decimals": [12, 0, 0],
+      "standardAccount": "*25519",
+      "website": "https://gmordie.com"
+    },
+    {
       "prefix": 7391,
       "network": "unique_mainnet",
       "displayName": "Unique Network",
