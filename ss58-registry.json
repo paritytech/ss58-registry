@@ -330,7 +330,7 @@
       "network": "nodle",
       "displayName": "Nodle Chain",
       "symbols": ["NODL"],
-      "decimals": [18],
+      "decimals": [11],
       "standardAccount": "*25519",
       "website": "https://nodle.io/"
     },
