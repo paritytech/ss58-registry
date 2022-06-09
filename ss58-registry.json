@@ -191,17 +191,8 @@
       "website": "https://stafi.io"
     },
     {
-      "prefix": 21,
-      "network": "dock-testnet",
-      "displayName": "Dock Testnet",
-      "symbols": ["DCK"],
-      "decimals": [6],
-      "standardAccount": "*25519",
-      "website": "https://dock.io"
-    },
-    {
       "prefix": 22,
-      "network": "dock-mainnet",
+      "network": "dock-pos-mainnet",
       "displayName": "Dock Mainnet",
       "symbols": ["DCK"],
       "decimals": [6],
@@ -488,6 +479,15 @@
       "website": "https://dico.io"
     },
     {
+      "prefix": 54,
+      "network": "cere",
+      "displayName": "Cere Network",
+      "symbols": ["CERE"],
+      "decimals": [10],
+      "standardAccount": "*25519",
+      "website": "https://cere.network"
+    },
+    {
       "prefix": 55,
       "network": "xxnetwork",
       "displayName": "xx network",
@@ -587,6 +587,24 @@
       "website": "https://polkadex.trade"
     },
     {
+      "prefix": 89,
+      "network": "polkadexparachain",
+      "displayName": "Polkadex Parachain",
+      "symbols": ["PDEX"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://polkadex.trade"
+    },
+    {
+      "prefix": 93,
+      "network": "fragnova",
+      "displayName": "Fragnova Network",
+      "symbols": ["NOVA"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://fragnova.com"
+    },
+    {
       "prefix": 98,
       "network": "polkasmith",
       "displayName": "PolkaSmith Canary Network",
@@ -608,10 +626,10 @@
       "prefix": 101,
       "network": "origintrail-parachain",
       "displayName": "OriginTrail Parachain",
-      "symbols": ["TRAC"],
-      "decimals": [18],
-      "standardAccount": "secp256k1",
-      "website": "https://origintrail.io"
+      "symbols": ["OTP"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://parachain.origintrail.io/"
     },
     {
       "prefix": 105,
@@ -639,6 +657,15 @@
       "decimals": [],
       "standardAccount": "*25519",
       "website": "https://integritee.network"
+    },
+    {
+      "prefix": 117,
+      "network": "tinker",
+      "displayName": "Tinker",
+      "symbols": ["TNKR"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://invarch.network"
     },
     {
       "prefix": 128,
@@ -767,14 +794,23 @@
       "website": "https://moonbeam.network"
     },
     {
-      "prefix": 1337,
+      "prefix": 1328,
       "network": "ajuna",
       "displayName": "Ajuna Network",
       "symbols": ["AJUN"],
       "decimals": [12],
-      "standardAccount": "Sr25519",
+      "standardAccount": "*25519",
       "website": "https://ajuna.io"
-    },    
+    },
+    {
+      "prefix": 1337,
+      "network": "bajun",
+      "displayName": "Bajun Network",
+      "symbols": ["BAJU"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://ajuna.io"
+    },
     {
       "prefix": 2007,
       "network": "kapex",
@@ -821,6 +857,15 @@
       "website": "https://subspace.network"
     },
     {
+      "prefix": 7007,
+      "network": "tidefi",
+      "displayName": "Tidefi",
+      "symbols": ["TIFI"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://tidefi.com"
+    },
+    {
       "prefix": 7391,
       "network": "unique_mainnet",
       "displayName": "Unique Network",
@@ -828,6 +873,15 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://unique.network"
+    },
+    {
+      "prefix": 9807,
+      "network": "dentnet",
+      "displayName": "DENTNet",
+      "symbols": ["DENTX"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://www.dentnet.io"
     },
     {
       "prefix": 10041,
@@ -864,6 +918,15 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://ata.network"
+    },
+    {
+      "prefix": 12191,
+      "network": "nftmart",
+      "displayName": "NFTMart",
+      "symbols": ["NMT"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://nftmart.io"
     }
   ]
 }
