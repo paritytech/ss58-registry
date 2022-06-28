@@ -570,18 +570,18 @@
     },
     {
       "prefix": 71,
-      "network": "3dp",
+      "network": "p3d",
       "displayName": "3DP network",
-      "symbols": ["3DP"],
+      "symbols": ["P3D"],
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://3dpass.org"
     },
     {
       "prefix": 72,
-      "network": "3dpt",
+      "network": "p3dt",
       "displayName": "3DP test network",
-      "symbols": ["3DPt"],
+      "symbols": ["P3Dt"],
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://3dpass.org"
