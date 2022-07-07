@@ -866,6 +866,15 @@
       "website": "https://subspace.network"
     },
     {
+      "prefix": 4006,
+      "network": "Eggnet",
+      "displayName": "Egg Network",
+      "symbols": ["EGG"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://www.webb.tools/"
+    },
+    {
       "prefix": 6094,
       "network": "subspace",
       "displayName": "Subspace",
