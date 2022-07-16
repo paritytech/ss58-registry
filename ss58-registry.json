@@ -569,6 +569,24 @@
       "website": "https://sora.org"
     },
     {
+      "prefix": 71,
+      "network": "p3d",
+      "displayName": "3DP network",
+      "symbols": ["P3D"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://3dpass.org"
+    },
+    {
+      "prefix": 72,
+      "network": "p3dt",
+      "displayName": "3DP test network",
+      "symbols": ["P3Dt"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://3dpass.org"
+    },
+    {
       "prefix": 73,
       "network": "zeitgeist",
       "displayName": "Zeitgeist",
