@@ -866,6 +866,24 @@
       "website": "https://interlay.io/"
     },
     {
+      "prefix": 2207,
+      "network": "SNOW",
+      "displayName": "SNOW: ICE Canary Network",
+      "symbols": ["ICZ"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://icenetwork.io"
+    },
+    {
+      "prefix": 2208,
+      "network": "ICE",
+      "displayName": "ICE Network",
+      "symbols": ["ICY"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://icenetwork.io"
+    },
+    {
       "prefix": 2254,
       "network": "subspace_testnet",
       "displayName": "Subspace testnet",
@@ -954,24 +972,6 @@
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://nftmart.io"
-    },
-    {
-      "prefix": 2207,
-      "network": "SNOW",
-      "displayName": "SNOW: ICE Canary Network",
-      "symbols": ["ICZ"],
-      "decimals": [18],
-      "standardAccount": "*25519",
-      "website": "https://icenetwork.io"
-    },
-    {
-      "prefix": 2208,
-      "network": "ICE",
-      "displayName": "ICE Network",
-      "symbols": ["ICY"],
-      "decimals": [18],
-      "standardAccount": "*25519",
-      "website": "https://icenetwork.io"
     }
   ]
 }
