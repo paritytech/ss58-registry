@@ -241,17 +241,17 @@ fn create_ss58_registry(json: &str) -> Result<proc_macro2::TokenStream, String> 
 		}
 
 		/// All non-custom address formats (Sorted by network)
-		pub(crate) static ALL_SS58_ADDRESS_FORMATS: [Ss58AddressFormatRegistry; #count] = [
+		pub static ALL_SS58_ADDRESS_FORMATS: [Ss58AddressFormatRegistry; #count] = [
 			 #(Ss58AddressFormatRegistry::#identifier),*,
 		];
 
 		/// Names of all address formats (Sorted by network)
-		pub(crate) static ALL_SS58_ADDRESS_FORMAT_NAMES: [&str; #count] = [
+		pub static ALL_SS58_ADDRESS_FORMAT_NAMES: [&str; #count] = [
 			#(#name),*,
 		];
 
 		/// (Sorted) prefixes to index of ALL_SS58_ADDRESS_FORMATS
-		pub(crate) static PREFIX_TO_INDEX: [(u16, usize); #count] = [
+		pub static PREFIX_TO_INDEX: [(u16, usize); #count] = [
 			#(#prefix_to_idx),*,
 		];
 
