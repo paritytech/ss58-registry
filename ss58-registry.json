@@ -704,6 +704,15 @@
       "website": "https://invarch.network"
     },
     {
+      "prefix": 126,
+      "network": "joystream",
+      "displayName": "Joystream",
+      "symbols": ["JOY"],
+      "decimals": [10],
+      "standardAccount": "*25519",
+      "website": "https://www.joystream.org"
+    },
+    {
       "prefix": 128,
       "network": "clover",
       "displayName": "Clover Finance",
@@ -875,6 +884,24 @@
       "website": "https://interlay.io/"
     },
     {
+      "prefix": 2207,
+      "network": "SNOW",
+      "displayName": "SNOW: ICE Canary Network",
+      "symbols": ["ICZ"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://icenetwork.io"
+    },
+    {
+      "prefix": 2208,
+      "network": "ICE",
+      "displayName": "ICE Network",
+      "symbols": ["ICY"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://icenetwork.io"
+    },
+    {
       "prefix": 2254,
       "network": "subspace_testnet",
       "displayName": "Subspace testnet",
@@ -882,6 +909,15 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://subspace.network"
+    },
+    {
+      "prefix": 4006,
+      "network": "Eggnet",
+      "displayName": "Egg Network",
+      "symbols": ["EGG"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://www.webb.tools/"
     },
     {
       "prefix": 6094,
@@ -896,10 +932,19 @@
       "prefix": 7007,
       "network": "tidefi",
       "displayName": "Tidefi",
-      "symbols": ["TIFI"],
+      "symbols": ["TDFY"],
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://tidefi.com"
+    },
+    {
+      "prefix": 7013,
+      "network": "gm",
+      "displayName": "GM",
+      "symbols": ["FREN", "GM", "GN"],
+      "decimals": [12, 0, 0],
+      "standardAccount": "*25519",
+      "website": "https://gmordie.com"
     },
     {
       "prefix": 7391,
@@ -954,15 +999,6 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://ata.network"
-    },
-    {
-      "prefix": 15253,
-      "network": "ice-network",
-      "displayName": "ICE Network",
-      "symbols": ["ICX","ICY"],
-      "decimals": [18, 18],
-      "standardAccount": "*25519",
-      "website": "https://icenetwork.io"
     },
     {
       "prefix": 12191,
