@@ -686,6 +686,15 @@
       "website": "https://invarch.network"
     },
     {
+      "prefix": 126,
+      "network": "joystream",
+      "displayName": "Joystream",
+      "symbols": ["JOY"],
+      "decimals": [10],
+      "standardAccount": "*25519",
+      "website": "https://www.joystream.org"
+    },
+    {
       "prefix": 128,
       "network": "clover",
       "displayName": "Clover Finance",
@@ -857,6 +866,24 @@
       "website": "https://interlay.io/"
     },
     {
+      "prefix": 2207,
+      "network": "SNOW",
+      "displayName": "SNOW: ICE Canary Network",
+      "symbols": ["ICZ"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://icenetwork.io"
+    },
+    {
+      "prefix": 2208,
+      "network": "ICE",
+      "displayName": "ICE Network",
+      "symbols": ["ICY"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://icenetwork.io"
+    },
+    {
       "prefix": 2254,
       "network": "subspace_testnet",
       "displayName": "Subspace testnet",
@@ -945,15 +972,6 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://ata.network"
-    },
-    {
-      "prefix": 15253,
-      "network": "ice-network",
-      "displayName": "ICE Network",
-      "symbols": ["ICX","ICY"],
-      "decimals": [18, 18],
-      "standardAccount": "*25519",
-      "website": "https://icenetwork.io"
     },
     {
       "prefix": 12191,
