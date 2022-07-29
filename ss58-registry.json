@@ -722,15 +722,6 @@
       "website": "https://parallel.fi/"
     },
     {
-      "prefix": 2112,
-      "network": "chainflip",
-      "displayName": "Chainflip",
-      "symbols": ["FLIP"],
-      "decimals": [18],
-      "standardAccount": "*25519",
-      "website": "https://chainflip.io/"
-    },
-    {
       "prefix": 252,
       "network": "social-network",
       "displayName": "Social Network",
@@ -864,6 +855,15 @@
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://interlay.io/"
+    },
+    {
+      "prefix": 2112,
+      "network": "chainflip",
+      "displayName": "Chainflip",
+      "symbols": ["FLIP"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://chainflip.io/"
     },
     {
       "prefix": 2254,
