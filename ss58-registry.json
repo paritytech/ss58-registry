@@ -762,7 +762,7 @@
       "network": "quartz_mainnet",
       "displayName": "QUARTZ by UNIQUE",
       "symbols": ["QTZ"],
-      "decimals": [15],
+      "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://unique.network"
     },
@@ -951,6 +951,15 @@
       "network": "unique_mainnet",
       "displayName": "Unique Network",
       "symbols": ["UNQ"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://unique.network"
+    },
+    {
+      "prefix": 8883,
+      "network": "sapphire_mainnet",
+      "displayName": "Sapphire by Unique",
+      "symbols": ["QTZ"],
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://unique.network"
