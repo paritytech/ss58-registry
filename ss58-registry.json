@@ -865,6 +865,15 @@
       "standardAccount": "*25519",
       "website": "https://totemaccounting.com"
     },
+     {
+       "prefix": 2114,
+       "network": "turing",
+       "displayName": "Turing Network",
+       "symbols": ["TUR"],
+       "decimals": [10],
+       "standardAccount": "*25519",
+       "website": "https://oak.tech/turing/home/"
+     }, 
     {
       "prefix": 2032,
       "network": "interlay",
