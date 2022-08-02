@@ -569,6 +569,24 @@
       "website": "https://sora.org"
     },
     {
+      "prefix": 71,
+      "network": "p3d",
+      "displayName": "3DP network",
+      "symbols": ["P3D"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://3dpass.org"
+    },
+    {
+      "prefix": 72,
+      "network": "p3dt",
+      "displayName": "3DP test network",
+      "symbols": ["P3Dt"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://3dpass.org"
+    },
+    {
       "prefix": 73,
       "network": "zeitgeist",
       "displayName": "Zeitgeist",
@@ -686,6 +704,15 @@
       "website": "https://invarch.network"
     },
     {
+      "prefix": 126,
+      "network": "joystream",
+      "displayName": "Joystream",
+      "symbols": ["JOY"],
+      "decimals": [10],
+      "standardAccount": "*25519",
+      "website": "https://www.joystream.org"
+    },
+    {
       "prefix": 128,
       "network": "clover",
       "displayName": "Clover Finance",
@@ -735,7 +762,7 @@
       "network": "quartz_mainnet",
       "displayName": "QUARTZ by UNIQUE",
       "symbols": ["QTZ"],
-      "decimals": [15],
+      "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://unique.network"
     },
@@ -866,6 +893,24 @@
       "website": "https://chainflip.io/"
     },
     {
+      "prefix": 2207,
+      "network": "SNOW",
+      "displayName": "SNOW: ICE Canary Network",
+      "symbols": ["ICZ"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://icenetwork.io"
+    },
+    {
+      "prefix": 2208,
+      "network": "ICE",
+      "displayName": "ICE Network",
+      "symbols": ["ICY"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://icenetwork.io"
+    },
+    {
       "prefix": 2254,
       "network": "subspace_testnet",
       "displayName": "Subspace testnet",
@@ -873,6 +918,15 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://subspace.network"
+    },
+    {
+      "prefix": 4006,
+      "network": "Eggnet",
+      "displayName": "Egg Network",
+      "symbols": ["EGG"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://www.webb.tools/"
     },
     {
       "prefix": 6094,
@@ -893,10 +947,28 @@
       "website": "https://tidefi.com"
     },
     {
+      "prefix": 7013,
+      "network": "gm",
+      "displayName": "GM",
+      "symbols": ["FREN", "GM", "GN"],
+      "decimals": [12, 0, 0],
+      "standardAccount": "*25519",
+      "website": "https://gmordie.com"
+    },
+    {
       "prefix": 7391,
       "network": "unique_mainnet",
       "displayName": "Unique Network",
       "symbols": ["UNQ"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://unique.network"
+    },
+    {
+      "prefix": 8883,
+      "network": "sapphire_mainnet",
+      "displayName": "Sapphire by Unique",
+      "symbols": ["QTZ"],
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://unique.network"
@@ -945,15 +1017,6 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://ata.network"
-    },
-    {
-      "prefix": 15253,
-      "network": "ice-network",
-      "displayName": "ICE Network",
-      "symbols": ["ICX","ICY"],
-      "decimals": [18, 18],
-      "standardAccount": "*25519",
-      "website": "https://icenetwork.io"
     },
     {
       "prefix": 12191,
