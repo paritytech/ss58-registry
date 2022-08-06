@@ -105,10 +105,13 @@ impl<'a> TryFrom<&'a str> for Ss58AddressFormatRegistry {
 	type Error = ParseError;
 
 	fn try_from(x: &'a str) -> Result<Ss58AddressFormatRegistry, Self::Error> {
+		let x = x.to_ascii_lowercase();
+
 		ALL_SS58_ADDRESS_FORMAT_NAMES
-			.binary_search(&x)
+			.into_iter()
+			.position(|n| n.to_ascii_lowercase() == x)
 			.map(|lookup| ALL_SS58_ADDRESS_FORMATS[lookup])
-			.map_err(|_| ParseError)
+			.ok_or(ParseError)
 	}
 }
 
