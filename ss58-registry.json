@@ -722,6 +722,15 @@
       "website": "https://clover.finance"
     },
     {
+      "prefix": 129,
+      "network": "dorafactory-polkadot",
+      "displayName": "Dorafactory Polkadot Network",
+      "symbols": ["DORA"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://dorafactory.org"
+    },
+    {
       "prefix": 131,
       "network": "litmus",
       "displayName": "Litmus Network",
