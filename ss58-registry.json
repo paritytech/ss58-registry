@@ -749,15 +749,6 @@
       "website": "https://parallel.fi/"
     },
     {
-      "prefix": 195,
-      "network": "rocfinity",
-      "displayName": "Rocfinity",
-      "symbols": ["RFI"],
-      "decimals": [18],
-      "standardAccount": "*25519",
-      "website": "https://efinity.io/"
-    },
-    {
       "prefix": 252,
       "network": "social-network",
       "displayName": "Social Network",
