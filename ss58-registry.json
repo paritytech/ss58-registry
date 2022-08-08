@@ -799,7 +799,7 @@
       "displayName": "Efinity",
       "symbols": ["EFI"],
       "decimals": [18],
-      "standardAccount": "Sr25519",
+      "standardAccount": "*25519",
       "website": "https://efinity.io/"
     },
     {
