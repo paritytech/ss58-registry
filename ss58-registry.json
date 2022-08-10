@@ -455,8 +455,8 @@
       "prefix": 51,
       "network": "oak",
       "displayName": "OAK Network",
-      "symbols": ["OAK"],
-      "decimals": [10],
+      "symbols": ["OAK", "TUR"],
+      "decimals": [10, 10],
       "standardAccount": "*25519",
       "website": "https://oak.tech"
     },
