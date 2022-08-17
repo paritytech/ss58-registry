@@ -884,6 +884,15 @@
       "website": "https://ajuna.io"
     },
     {
+      "prefix": 1985,
+      "network": "seals",
+      "displayName": "Seals Network",
+      "symbols": ["SEAL"],
+      "decimals": [9],
+      "standardAccount": "*25519",
+      "website": "https://seals.app"
+    },
+    {
       "prefix": 2007,
       "network": "kapex",
       "displayName": "Kapex",
