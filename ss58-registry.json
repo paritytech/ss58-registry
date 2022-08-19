@@ -182,6 +182,15 @@
       "website": "https://darwinia.network/"
     },
     {
+      "prefix": 19,
+      "network": "watr",
+      "displayName": "Watr Protocol",
+      "symbols": ["WATR"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://www.watr.org"
+    },
+    {
       "prefix": 20,
       "network": "stafi",
       "displayName": "Stafi",
