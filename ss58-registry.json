@@ -954,6 +954,24 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://subspace.network"
+    },    
+    {
+      "prefix": 3000,
+      "network": "hashed",
+      "displayName": "Hashed Network",
+      "symbols": ["HASH"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://hashed.network"
+    },
+    {
+      "prefix": 4000,
+      "network": "luhn",
+      "displayName": "Luhn Network",
+      "symbols": ["LUHN"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://luhn.network"
     },
     {
       "prefix": 4006,
