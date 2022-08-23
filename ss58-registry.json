@@ -993,9 +993,9 @@
     },
     {
       "prefix": 4006,
-      "network": "Eggnet",
-      "displayName": "Egg Network",
-      "symbols": ["EGG"],
+      "network": "tangle",
+      "displayName": "Tangle Network",
+      "symbols": ["TNT"],
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://www.webb.tools/"
