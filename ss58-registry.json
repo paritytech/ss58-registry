@@ -1001,6 +1001,15 @@
       "website": "https://www.webb.tools/"
     },
     {
+      "prefix": 5234,
+      "network": "humanode",
+      "displayName": "Humanode Network",
+      "symbols": ["HMND"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://humanode.io"
+    },
+    {
       "prefix": 6094,
       "network": "subspace",
       "displayName": "Subspace",
