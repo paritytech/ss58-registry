@@ -46,7 +46,7 @@ fn enum_to_name_and_back() {
 		assert_eq!(name, &val.to_string());
 
 		let val: Ss58AddressFormatRegistry =
-			name.to_ascii_lowercase().as_str().try_into().expect(name);
+			name.to_lowercase().as_str().try_into().expect(name);
 		assert_eq!(name, &val.to_string());
 
 		let val: Ss58AddressFormatRegistry =
