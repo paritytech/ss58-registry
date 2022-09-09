@@ -27,10 +27,9 @@ mod token;
 
 pub use address_format::{from_address_format, Ss58AddressFormat};
 pub use error::ParseError;
-#[cfg(feature = "std")]
-pub use registry::PREFIX_TO_INDEX;
-pub use registry::{
-	from_known_address_format, Ss58AddressFormatRegistry, TokenRegistry, ALL_SS58_ADDRESS_FORMATS,
-	ALL_SS58_ADDRESS_FORMAT_NAMES,
-};
+pub use registry::{from_known_address_format, Ss58AddressFormatRegistry, TokenRegistry};
 pub use token::{Token, TokenAmount};
+
+#[cfg(feature = "std")]
+use registry::PREFIX_TO_INDEX;
+use registry::{ALL_SS58_ADDRESS_FORMATS, ALL_SS58_ADDRESS_FORMAT_NAMES};
