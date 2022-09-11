@@ -2,7 +2,7 @@
 
 [![GitHub license](https://img.shields.io/badge/license-Apache2-green)](#LICENSE) [![GitLab Status](https://gitlab.parity.io/parity/ss58-registry/badges/main/pipeline.svg)](https://gitlab.parity.io/parity/ss58-registry/pipelines)
 
-A list of known [SS58](https://docs.substrate.io/v3/advanced/ss58/) account types as an enum, typically used by the Polkadot, Kusama or Substrate ecosystems.
+A list of known [SS58](https://polkadot.js.org/docs/keyring/start/ss58/) account types as an enum, typically used by the Polkadot, Kusama or Substrate ecosystems.
 
 These are derived from the [json data file](ss58-registry.json) in this repository which contains entries like this:
 
