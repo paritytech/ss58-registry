@@ -106,9 +106,10 @@ impl<'a> TryFrom<&'a str> for Ss58AddressFormatRegistry {
 
 	fn try_from(x: &'a str) -> Result<Ss58AddressFormatRegistry, Self::Error> {
 		ALL_SS58_ADDRESS_FORMAT_NAMES
-			.binary_search(&x)
+			.into_iter()
+			.position(|n| n.eq_ignore_ascii_case(x))
 			.map(|lookup| ALL_SS58_ADDRESS_FORMATS[lookup])
-			.map_err(|_| ParseError)
+			.ok_or(ParseError)
 	}
 }
 

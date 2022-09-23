@@ -44,6 +44,13 @@ fn enum_to_name_and_back() {
 	for name in Ss58AddressFormat::all_names() {
 		let val: Ss58AddressFormatRegistry = (*name).try_into().expect(name);
 		assert_eq!(name, &val.to_string());
+
+		let val: Ss58AddressFormatRegistry = name.to_lowercase().as_str().try_into().expect(name);
+		assert_eq!(name, &val.to_string());
+
+		let val: Ss58AddressFormatRegistry =
+			name.to_ascii_uppercase().as_str().try_into().expect(name);
+		assert_eq!(name, &val.to_string());
 	}
 }
 
