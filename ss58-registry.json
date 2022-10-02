@@ -929,6 +929,15 @@
       "website": "https://interlay.io/"
     },
     {
+      "prefix": 2106,
+      "network": "bitgreen",
+      "displayName": "Bitgreen",
+      "symbols": ["BBB"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://bitgreen.org/"
+    },
+    {
       "prefix": 2112,
       "network": "chainflip",
       "displayName": "Chainflip",
