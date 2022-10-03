@@ -911,6 +911,15 @@
       "website": "https://totemaccounting.com"
     },
     {
+      "prefix": 2009,
+      "network": "cloudwalk_mainnet",
+      "displayName": "CloudWalk Network Mainnet",
+      "symbols": ["CWN"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://explorer.mainnet.cloudwalk.io"
+    },
+    {
       "prefix": 2032,
       "network": "interlay",
       "displayName": "Interlay",
