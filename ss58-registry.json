@@ -776,6 +776,15 @@
       "website": "https://centrifuge.io/"
     },
     {
+      "prefix": 137,
+      "network": "vara",
+      "displayName": "Vara Network",
+      "symbols": ["VARA"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://vara-network.io/"
+    },
+    {
       "prefix": 172,
       "network": "parallel",
       "displayName": "Parallel",
