@@ -893,6 +893,15 @@
       "website": "https://ajuna.io"
     },
     {
+      "prefix": 1516,
+      "network": "societal",
+      "displayName": "Societal",
+      "symbols": ["SCTL"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://www.sctl.xyz"
+    },
+    {
       "prefix": 1985,
       "network": "seals",
       "displayName": "Seals Network",
