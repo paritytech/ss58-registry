@@ -1101,9 +1101,9 @@
     },
     {
       "prefix": 9935,
-      "network": "t0rn",
-      "displayName": "t0rn Testnet",
-      "symbols": ["T0RN"],
+      "network": "t3rn",
+      "displayName": "t3rn",
+      "symbols": ["TRN"],
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://t3rn.io/"
