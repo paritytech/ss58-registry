@@ -1152,6 +1152,24 @@
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://nftmart.io"
+    },
+    {
+      "prefix": 11333,
+      "network": "kumandra-testnet",
+      "displayName": "Kumandra Testnet",
+      "symbols": ["TKMD"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://kumandra.org"
+    },
+    {
+      "prefix": 11334,
+      "network": "cess",
+      "displayName": "CESS",
+      "symbols": ["KMD"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://kumandra.org"
     }
   ]
 }
