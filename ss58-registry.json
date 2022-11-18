@@ -875,6 +875,15 @@
       "website": "https://efinity.io/"
     },
     {
+      "prefix": 1130,
+      "network": "defichain-evm",
+      "displayName": "DeFiChain EVM Network",
+      "symbols": ["DFI"],
+      "decimals": [18],
+      "standardAccount": "secp256k1",
+      "website": "https://meta.defichain.com"
+    },
+    {
       "prefix": 1221,
       "network": "peaq",
       "displayName": "Peaq Network",
@@ -1017,7 +1026,7 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://subspace.network"
-    },    
+    },
     {
       "prefix": 4006,
       "network": "tangle",
