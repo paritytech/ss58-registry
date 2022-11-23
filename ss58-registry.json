@@ -1161,6 +1161,15 @@
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://nftmart.io"
+    },
+    {
+      "prefix": 65535,
+      "network": "zxsh",
+      "displayName": "zxsh network",
+      "symbols": ["XSH"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://zxsh.network"
     }
   ]
 }
