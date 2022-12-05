@@ -623,6 +623,15 @@
       "website": "https://manta.network"
     },
     {
+      "prefix": 81,
+      "network": "sora_dot_para",
+      "displayName": "SORA Polkadot Parachain",
+      "symbols": ["XOR"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://sora.org"
+    },
+    {
       "prefix": 88,
       "network": "polkadex",
       "displayName": "Polkadex Mainnet",
