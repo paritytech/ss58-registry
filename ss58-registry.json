@@ -911,7 +911,7 @@
       "website": "https://moonbeam.network"
     },
     {
-      "prefix": 1287,
+      "prefix": 42,
       "network": "moonbase",
       "displayName": "Moonbase",
       "symbols": ["Dev"],
