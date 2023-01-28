@@ -911,6 +911,15 @@
       "website": "https://moonbeam.network"
     },
     {
+      "prefix": 1287,
+      "network": "moonbase",
+      "displayName": "Moonbase",
+      "symbols": ["Dev"],
+      "decimals": [18],
+      "standardAccount": "secp256k1",
+      "website": "https://moonbeam.network"
+    },
+    {
       "prefix": 1328,
       "network": "ajuna",
       "displayName": "Ajuna Network",
