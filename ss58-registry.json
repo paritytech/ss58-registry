@@ -992,6 +992,15 @@
       "website": "https://chainflip.io/"
     },
     {
+      "prefix": 2206,
+      "network": "ICE",
+      "displayName": "ICE Network",
+      "symbols": ["ICY"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://icenetwork.io"
+    },
+    {
       "prefix": 2207,
       "network": "SNOW",
       "displayName": "SNOW: ICE Canary Network",
@@ -1002,9 +1011,9 @@
     },
     {
       "prefix": 2208,
-      "network": "ICE",
-      "displayName": "ICE Network",
-      "symbols": ["ICY"],
+      "network": "Arctic",
+      "displayName": "Arctic Network",
+      "symbols": ["ICZ"],
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://icenetwork.io"
@@ -1017,7 +1026,7 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://subspace.network"
-    },    
+    },
     {
       "prefix": 4006,
       "network": "tangle",
