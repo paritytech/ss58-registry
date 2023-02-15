@@ -1010,15 +1010,6 @@
       "website": "https://icenetwork.io"
     },
     {
-      "prefix": 2208,
-      "network": "Arctic",
-      "displayName": "Arctic Network",
-      "symbols": ["ICZ"],
-      "decimals": [18],
-      "standardAccount": "*25519",
-      "website": "https://icenetwork.io"
-    },
-    {
       "prefix": 2254,
       "network": "subspace_testnet",
       "displayName": "Subspace testnet",
