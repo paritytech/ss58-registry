@@ -623,6 +623,15 @@
       "website": "https://manta.network"
     },
     {
+      "prefix": 81,
+      "network": "sora_dot_para",
+      "displayName": "SORA Polkadot Parachain",
+      "symbols": ["XOR"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://sora.org"
+    },
+    {
       "prefix": 88,
       "network": "polkadex",
       "displayName": "Polkadex Mainnet",
@@ -639,6 +648,15 @@
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://polkadex.trade"
+    },
+    {
+      "prefix": 90,
+      "network": "frequency",
+      "displayName": "Frequency",
+      "symbols": ["FRQCY"],
+      "decimals": [8],
+      "standardAccount": "*25519",
+      "website": "https://www.frequency.xyz"
     },
     {
       "prefix": 92,
@@ -776,6 +794,15 @@
       "website": "https://centrifuge.io/"
     },
     {
+      "prefix": 137,
+      "network": "vara",
+      "displayName": "Vara Network",
+      "symbols": ["VARA"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://vara-network.io/"
+    },
+    {
       "prefix": 172,
       "network": "parallel",
       "displayName": "Parallel",
@@ -830,6 +857,15 @@
       "website": "https://geek.gl"
     },
     {
+      "prefix": 995,
+      "network": "ternoa",
+      "displayName": "Ternoa",
+      "symbols": ["CAPS"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://www.ternoa.network"
+    },
+    {
       "prefix": 1110,
       "network": "efinity",
       "displayName": "Efinity",
@@ -849,9 +885,9 @@
     },
     {
       "prefix": 1222,
-      "network": "apex",
-      "displayName": "Apex Network",
-      "symbols": ["APEX"],
+      "network": "krest",
+      "displayName": "Krest Network",
+      "symbols": ["KREST"],
       "decimals": [18],
       "standardAccount": "Sr25519",
       "website": "https://www.peaq.network/"
@@ -965,15 +1001,6 @@
       "website": "https://chainflip.io/"
     },
     {
-      "prefix": 2114,
-      "network": "Turing",
-      "displayName": "Turing Network",
-      "symbols": ["TUR"],
-      "decimals": [10],
-      "standardAccount": "*25519",
-      "website": "https://oak.tech/turing/home/"
-    },
-    {
       "prefix": 2207,
       "network": "SNOW",
       "displayName": "SNOW: ICE Canary Network",
@@ -1000,24 +1027,6 @@
       "standardAccount": "*25519",
       "website": "https://subspace.network"
     },    
-    {
-      "prefix": 3000,
-      "network": "hashed",
-      "displayName": "Hashed Network",
-      "symbols": ["HASH"],
-      "decimals": [18],
-      "standardAccount": "*25519",
-      "website": "https://hashed.network"
-    },
-    {
-      "prefix": 4000,
-      "network": "luhn",
-      "displayName": "Luhn Network",
-      "symbols": ["LUHN"],
-      "decimals": [18],
-      "standardAccount": "*25519",
-      "website": "https://luhn.network"
-    },
     {
       "prefix": 4006,
       "network": "tangle",
@@ -1091,6 +1100,15 @@
       "website": "https://unique.network"
     },
     {
+      "prefix": 9072,
+      "network": "hashed",
+      "displayName": "Hashed Network",
+      "symbols": ["HASH"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://hashed.network"
+    },
+    {
       "prefix": 9807,
       "network": "dentnet",
       "displayName": "DENTNet",
@@ -1098,6 +1116,15 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://www.dentnet.io"
+    },
+    {
+      "prefix": 9935,
+      "network": "t3rn",
+      "displayName": "t3rn",
+      "symbols": ["TRN"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://t3rn.io/"
     },
     {
       "prefix": 10041,
@@ -1127,6 +1154,15 @@
       "website": "https://cess.cloud"
     },
     {
+      "prefix": 11486,
+      "network": "luhn",
+      "displayName": "Luhn Network",
+      "symbols": ["LUHN"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://luhn.network"
+    },
+    {
       "prefix": 11820,
       "network": "contextfree",
       "displayName": "Automata ContextFree",
@@ -1143,6 +1179,15 @@
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://nftmart.io"
+    },
+    {
+      "prefix": 13116,
+      "network": "bittensor",
+      "displayName": "Bittensor",
+      "symbols": ["TAO"],
+      "decimals": [9],
+      "standardAccount": "*25519",
+      "website": "https://bittensor.com"
     }
   ]
 }
