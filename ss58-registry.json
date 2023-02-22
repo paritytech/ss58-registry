@@ -749,6 +749,15 @@
       "website": "https://invarch.network"
     },
     {
+      "prefix": 121,
+      "network": "muchatha",
+      "displayName": "Kobole",
+      "symbols": ["KOBO"],
+      "decimals": [14],
+      "standardAccount": "*25519",
+      "website": "https://kahawa-testnet.net"
+    },
+    {
       "prefix": 126,
       "network": "joystream",
       "displayName": "Joystream",
