@@ -1046,6 +1046,15 @@
       "website": "https://duniter.org"
     },
     {
+      "prefix": 5006,
+      "network": "krone",
+      "displayName": "GlobalBoost Krone",
+      "symbols": ["KRONE"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://krone.capital"
+    },
+    {
       "prefix": 5234,
       "network": "humanode",
       "displayName": "Humanode Network",
