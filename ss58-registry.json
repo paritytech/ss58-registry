@@ -1172,6 +1172,15 @@
       "website": "https://ata.network"
     },
     {
+      "prefix": 12155,
+      "network": "impact",
+      "displayName": "Impact Protocol Network",
+      "symbols": ["BSTY"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://impactprotocol.network/"
+    },
+    {
       "prefix": 12191,
       "network": "nftmart",
       "displayName": "NFTMart",
