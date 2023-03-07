@@ -535,7 +535,7 @@
     {
       "prefix": 65,
       "network": "aventus",
-      "displayName": "AvN Mainnet",
+      "displayName": "Aventus Mainnet",
       "symbols": ["AVT"],
       "decimals": [18],
       "standardAccount": "*25519",
