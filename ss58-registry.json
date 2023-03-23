@@ -535,7 +535,7 @@
     {
       "prefix": 65,
       "network": "aventus",
-      "displayName": "AvN Mainnet",
+      "displayName": "Aventus Mainnet",
       "symbols": ["AVT"],
       "decimals": [18],
       "standardAccount": "*25519",
@@ -947,6 +947,15 @@
       "website": "https://ajuna.io"
     },
     {
+      "prefix": 1516,
+      "network": "societal",
+      "displayName": "Societal",
+      "symbols": ["SCTL"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://www.sctl.xyz"
+    },
+    {
       "prefix": 1985,
       "network": "seals",
       "displayName": "Seals Network",
@@ -1010,19 +1019,19 @@
       "website": "https://chainflip.io/"
     },
     {
-      "prefix": 2207,
-      "network": "SNOW",
-      "displayName": "SNOW: ICE Canary Network",
-      "symbols": ["ICZ"],
+      "prefix": 2206,
+      "network": "ICE",
+      "displayName": "ICE Network",
+      "symbols": ["ICY"],
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://icenetwork.io"
     },
     {
-      "prefix": 2208,
-      "network": "ICE",
-      "displayName": "ICE Network",
-      "symbols": ["ICY"],
+      "prefix": 2207,
+      "network": "SNOW",
+      "displayName": "SNOW: ICE Canary Network",
+      "symbols": ["ICZ"],
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://icenetwork.io"
@@ -1179,6 +1188,15 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://ata.network"
+    },
+    {
+      "prefix": 12155,
+      "network": "impact",
+      "displayName": "Impact Protocol Network",
+      "symbols": ["BSTY"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://impactprotocol.network/"
     },
     {
       "prefix": 12191,
