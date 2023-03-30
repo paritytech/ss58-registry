@@ -1064,6 +1064,15 @@
       "website": "https://subspace.network"
     },
     {
+      "prefix": 6942,
+      "network": "dracones-dwarf",
+      "displayName": "Dracones Testnet",
+      "symbols": ["DUCK"],
+      "decimals": [18],
+      "standardAccount": "secp256k1",
+      "website": "https://wolfery.com"
+    },
+    {
       "prefix": 7007,
       "network": "tidefi",
       "displayName": "Tidefi",
@@ -1089,6 +1098,15 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://unique.network"
+    },
+    {
+      "prefix": 8387,
+      "network": "dracones",
+      "displayName": "Dracones Financial Services",
+      "symbols": ["FUCK"],
+      "decimals": [18],
+      "standardAccount": "secp256k1",
+      "website": "https://wolfery.com"
     },
     {
       "prefix": 8883,
