@@ -389,6 +389,15 @@
       "website": "https://substrate.io/"
     },
     {
+      "prefix": 42,
+      "network": "alephzero",
+      "displayName": "Aleph Zero",
+      "symbols": ["AZERO"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://alephzero.org/"
+    },
+    {
       "prefix": 43,
       "network": "BareSecp256k1",
       "displayName": "Bare 32-bit ECDSA SECP-256k1 public key.",
