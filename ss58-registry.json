@@ -454,7 +454,7 @@
     {
       "prefix": 50,
       "network": "composable",
-      "displayName": "Composable",
+      "displayName": "Composable Finance",
       "symbols": ["LAYR"],
       "decimals": [12],
       "standardAccount": "*25519",
