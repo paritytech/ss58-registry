@@ -965,6 +965,15 @@
       "website": "https://explorer.mainnet.cloudwalk.io"
     },
     {
+      "prefix": 2021,
+      "network": "logion",
+      "displayName": "logion network",
+      "symbols": ["LGNT"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://logion.network"
+    },
+    {
       "prefix": 2032,
       "network": "interlay",
       "displayName": "Interlay",
