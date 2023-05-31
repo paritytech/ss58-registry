@@ -465,16 +465,16 @@
       "network": "turing",
       "displayName": "Turing Network",
       "symbols": ["TUR"],
-      "decimals": [10, 10],
+      "decimals": [10],
       "standardAccount": "*25519",
-      "website": "https://oak.tech/turing/home/"
+      "website": "https://oak.tech/turing/token/"
     },
     {
       "prefix": 51,
       "network": "oak",
       "displayName": "OAK Network",
       "symbols": ["OAK"],
-      "decimals": [10, 10],
+      "decimals": [10],
       "standardAccount": "*25519",
       "website": "https://oak.tech"
     },
