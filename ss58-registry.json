@@ -467,7 +467,7 @@
       "symbols": ["TUR"],
       "decimals": [10],
       "standardAccount": "*25519",
-      "website": "https://oak.tech/turing/token/"
+      "website": "https://oak.tech/turing/token"
     },
     {
       "prefix": 51,
