@@ -1046,6 +1046,24 @@
       "website": "https://subspace.network"
     },
     {
+      "prefix": 3302,
+      "network": "peerplays-testnet",
+      "displayName": "Peerplays testnet",
+      "symbols": ["TEST"],
+      "decimals": [18],
+      "standardAccount": "secp256k1",
+      "website": null
+    },
+    {
+      "prefix": 3303,
+      "network": "peerplays",
+      "displayName": "Peerplays mainnet",
+      "symbols": ["PPY"],
+      "decimals": [18],
+      "standardAccount": "secp256k1",
+      "website": null
+    },
+    {
       "prefix": 4006,
       "network": "tangle",
       "displayName": "Tangle Network",
