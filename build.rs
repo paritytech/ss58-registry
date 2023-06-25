@@ -173,7 +173,7 @@ fn consecutive_runs(data: &[u16]) -> (Vec<u16>, Vec<u16>) {
 	for i in 1..data.len() {
 		if data[i - 1] + 1 != data[i] {
 			starts.push(slice_start);
-			ends.push(data[(i - 1)]);
+			ends.push(data[i - 1]);
 			slice_start = data[i];
 		}
 	}
