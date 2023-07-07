@@ -176,10 +176,10 @@
       "prefix": 18,
       "network": "darwinia",
       "displayName": "Darwinia Network",
-      "symbols": ["RING", "KTON"],
-      "decimals": [9, 9],
-      "standardAccount": "*25519",
-      "website": "https://darwinia.network/"
+      "symbols": ["RING"],
+      "decimals": [18],
+      "standardAccount": "secp256k1",
+      "website": "https://darwinia.network"
     },
     {
       "prefix": 19,
@@ -1026,6 +1026,15 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://chainflip.io/"
+    },
+    {
+      "prefix": 2199,
+      "network": "moonsama",
+      "displayName": "Moonsama",
+      "symbols": ["SAMA"],
+      "decimals": [18],
+      "standardAccount": "secp256k1",
+      "website": "https://moonsama.com"
     },
     {
       "prefix": 2206,
