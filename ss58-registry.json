@@ -176,10 +176,10 @@
       "prefix": 18,
       "network": "darwinia",
       "displayName": "Darwinia Network",
-      "symbols": ["RING", "KTON"],
-      "decimals": [9, 9],
-      "standardAccount": "*25519",
-      "website": "https://darwinia.network/"
+      "symbols": ["RING"],
+      "decimals": [18],
+      "standardAccount": "secp256k1",
+      "website": "https://darwinia.network"
     },
     {
       "prefix": 19,
