@@ -857,6 +857,15 @@
       "website": "https://allfeat.network"
     },
     {
+      "prefix": 666,
+      "network": "metaquity_network",
+      "displayName": "Metaquity Network",
+      "symbols": ["MQTY"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://metaquity.xyz/"
+    },
+    {
       "prefix": 789,
       "network": "geek",
       "displayName": "GEEK Network",
