@@ -1242,6 +1242,15 @@
       "decimals": [9],
       "standardAccount": "*25519",
       "website": "https://bittensor.com"
+    },
+    {
+      "prefix": 888866,
+      "network": "golden_gate_sydney",
+      "displayName": "Golden Gate Sydney",
+      "symbols": ["GGXT"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://ggxchain.io/"
     }
   ]
 }
