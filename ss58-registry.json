@@ -1145,6 +1145,15 @@
       "website": "https://unique.network"
     },
     {
+      "prefix": 8886,
+      "network": "golden_gate_sydney",
+      "displayName": "Golden Gate Sydney",
+      "symbols": ["GGXT"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://ggxchain.io/"
+    },
+    {
       "prefix": 9072,
       "network": "hashed",
       "displayName": "Hashed Network",
