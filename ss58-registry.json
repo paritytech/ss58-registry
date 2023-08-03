@@ -524,6 +524,15 @@
       "website": "https://pendulumchain.org/"
     },
     {
+      "prefix": 62,
+      "network": "rex",
+      "displayName": "Energy Web Testnet",
+      "symbols": ["VT"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://www.energyweb.org"
+    },
+    {
       "prefix": 63,
       "network": "hydradx",
       "displayName": "HydraDX",
