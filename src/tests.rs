@@ -68,8 +68,6 @@ fn tokens() {
 	assert_eq!(polka.tokens(), &[TokenRegistry::Dot]);
 	let kusama = Ss58AddressFormatRegistry::KusamaAccount;
 	assert_eq!(kusama.tokens(), &[TokenRegistry::Ksm]);
-	let darwinia = Ss58AddressFormatRegistry::DarwiniaAccount;
-	assert_eq!(darwinia.tokens(), &[TokenRegistry::Ring, TokenRegistry::Kton]);
 	let n46 = Ss58AddressFormatRegistry::Reserved46Account;
 	assert_eq!(n46.tokens(), &[]);
 }
