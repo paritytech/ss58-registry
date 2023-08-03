@@ -1082,6 +1082,15 @@
       "website": "https://duniter.org"
     },
     {
+      "prefix": 5040,
+      "network": "gos",
+      "displayName": "Grid Operating Systems Network",
+      "symbols": ["GOS"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://gos.network"
+    },
+    {
       "prefix": 5234,
       "network": "humanode",
       "displayName": "Humanode Network",
