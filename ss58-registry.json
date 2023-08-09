@@ -1082,15 +1082,6 @@
       "website": "https://duniter.org"
     },
     {
-      "prefix": 5040,
-      "network": "gos",
-      "displayName": "Grid Operating Systems Network",
-      "symbols": ["GOS"],
-      "decimals": [12],
-      "standardAccount": "*25519",
-      "website": "https://gos.network"
-    },
-    {
       "prefix": 5234,
       "network": "humanode",
       "displayName": "Humanode Network",
@@ -1161,6 +1152,15 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://ggxchain.io/"
+    },
+    {
+      "prefix": 8898,
+      "network": "gos",
+      "displayName": "Grid Opereating Systems Network",
+      "symbols": ["GOS"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://www.gridoperatingsystems.com/"
     },
     {
       "prefix": 9072,
