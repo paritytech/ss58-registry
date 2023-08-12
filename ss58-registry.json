@@ -1156,7 +1156,7 @@
     {
       "prefix": 8898,
       "network": "gos",
-      "displayName": "Grid Opereating Systems Network",
+      "displayName": "Grid Operating Systems Network",
       "symbols": ["GOS"],
       "decimals": [12],
       "standardAccount": "*25519",
