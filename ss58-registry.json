@@ -1136,6 +1136,15 @@
       "website": "https://gmordie.com"
     },
     {
+      "prefix": 7306,
+      "network": "krigan",
+      "displayName": "Krigan Network",
+      "symbols": ["KRGN"],
+      "decimals": [9],
+      "standardAccount": "*25519",
+      "website": "https://krigan.network"
+    },
+    {
       "prefix": 7391,
       "network": "unique_mainnet",
       "displayName": "Unique Network",
@@ -1269,6 +1278,15 @@
       "decimals": [9],
       "standardAccount": "*25519",
       "website": "https://bittensor.com"
+    },
+    {
+      "prefix": 14697,
+      "network": "goro",
+      "displayName": "GORO Network",
+      "symbols": ["GORO"],
+      "decimals": [9],
+      "standardAccount": "*25519",
+      "website": "https://goro.network"
     }
   ]
 }
