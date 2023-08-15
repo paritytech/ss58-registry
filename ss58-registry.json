@@ -200,6 +200,15 @@
       "website": "https://stafi.io"
     },
     {
+      "prefix": 21,
+      "network": "karmachain",
+      "displayName": "Karmacoin",
+      "symbols": ["KCOIN"],
+      "decimals": [6],
+      "standardAccount": "*25519",
+      "website": "https://karmaco.in"
+    }
+    {
       "prefix": 22,
       "network": "dock-pos-mainnet",
       "displayName": "Dock Mainnet",
