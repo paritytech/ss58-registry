@@ -537,7 +537,7 @@
       "network": "eternal-civilization",
       "displayName": "Eternal Civilization",
       "symbols": ["ECC"],
-      "decimals": [18],
+      "decimals": [12],
       "standardAccount": "*25519",
       "website": "http://www.ysknfr.cn/"
     },
