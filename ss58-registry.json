@@ -1100,15 +1100,6 @@
       "website": "https://www.peerplays.com/"
     },
     {
-      "prefix": 3799,
-      "network": "tangle_testnet",
-      "displayName": "Tangle Network Testnet",
-      "symbols": ["tTNT"],
-      "decimals": [18],
-      "standardAccount": "*25519",
-      "website": "https://www.tangle.tools/"
-    },
-    {
       "prefix": 4450,
       "network": "g1",
       "displayName": "Ğ1",
