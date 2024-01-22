@@ -551,15 +551,6 @@
       "website": "https://hydradx.io"
     },
     {
-      "prefix": 64,
-      "network": "ewx",
-      "displayName": "Energy Web X",
-      "symbols": ["EWT"],
-      "decimals": [18],
-      "standardAccount": "*25519",
-      "website": "https://www.energyweb.org"
-    },
-    {
       "prefix": 65,
       "network": "aventus",
       "displayName": "Aventus Mainnet",
