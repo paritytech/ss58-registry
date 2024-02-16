@@ -176,10 +176,10 @@
       "prefix": 18,
       "network": "darwinia",
       "displayName": "Darwinia Network",
-      "symbols": ["RING", "KTON"],
-      "decimals": [9, 9],
-      "standardAccount": "*25519",
-      "website": "https://darwinia.network/"
+      "symbols": ["RING"],
+      "decimals": [18],
+      "standardAccount": "secp256k1",
+      "website": "https://darwinia.network"
     },
     {
       "prefix": 19,
@@ -198,6 +198,15 @@
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://stafi.io"
+    },
+    {
+      "prefix": 21,
+      "network": "karmachain",
+      "displayName": "Karmacoin",
+      "symbols": ["KCOIN"],
+      "decimals": [6],
+      "standardAccount": "*25519",
+      "website": "https://karmaco.in"
     },
     {
       "prefix": 22,
@@ -372,12 +381,12 @@
     },
     {
       "prefix": 41,
-      "network": "poli",
-      "displayName": "Polimec Chain",
-      "symbols": [],
-      "decimals": [],
+      "network": "polimec",
+      "displayName": "Polimec Protocol",
+      "symbols": ["PLMC"],
+      "decimals": [10],
       "standardAccount": "*25519",
-      "website": "https://polimec.io/"
+      "website": "https://www.polimec.org/"
     },
     {
       "prefix": 42,
@@ -454,7 +463,7 @@
     {
       "prefix": 50,
       "network": "composable",
-      "displayName": "Composable",
+      "displayName": "Composable Finance",
       "symbols": ["LAYR"],
       "decimals": [12],
       "standardAccount": "*25519",
@@ -522,6 +531,15 @@
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://pendulumchain.org/"
+    },
+    {
+      "prefix": 58,
+      "network": "eternal-civilization",
+      "displayName": "Eternal Civilization",
+      "symbols": ["ECC"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "http://www.ysknfr.cn/"
     },
     {
       "prefix": 63,
@@ -800,7 +818,7 @@
       "symbols": ["VARA"],
       "decimals": [12],
       "standardAccount": "*25519",
-      "website": "https://vara-network.io/"
+      "website": "https://vara.network/"
     },
     {
       "prefix": 172,
@@ -856,6 +874,33 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://sora.org"
+    },
+    {
+      "prefix": 440,
+      "network": "allfeat_network",
+      "displayName": "Allfeat Network",
+      "symbols": ["AFT"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://allfeat.network"
+    },
+    {
+      "prefix": 666,
+      "network": "metaquity_network",
+      "displayName": "Metaquity Network",
+      "symbols": ["MQTY"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://metaquity.xyz/"
+    },
+    {
+      "prefix": 777,
+      "network": "curio",
+      "displayName": "Curio",
+      "symbols": ["CGT"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://parachain.capitaldex.exchange/"
     },
     {
       "prefix": 789,
@@ -975,6 +1020,15 @@
       "website": "https://explorer.mainnet.cloudwalk.io"
     },
     {
+      "prefix": 2021,
+      "network": "logion",
+      "displayName": "logion network",
+      "symbols": ["LGNT"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://logion.network"
+    },
+    {
       "prefix": 2032,
       "network": "interlay",
       "displayName": "Interlay",
@@ -1011,6 +1065,15 @@
       "website": "https://chainflip.io/"
     },
     {
+      "prefix": 2199,
+      "network": "moonsama",
+      "displayName": "Moonsama",
+      "symbols": ["SAMA"],
+      "decimals": [18],
+      "standardAccount": "secp256k1",
+      "website": "https://moonsama.com"
+    },
+    {
       "prefix": 2206,
       "network": "ICE",
       "displayName": "ICE Network",
@@ -1038,13 +1101,13 @@
       "website": "https://subspace.network"
     },
     {
-      "prefix": 4006,
-      "network": "tangle",
-      "displayName": "Tangle Network",
-      "symbols": ["TNT"],
+      "prefix": 3333,
+      "network": "peerplays",
+      "displayName": "Peerplays",
+      "symbols": ["PPY"],
       "decimals": [18],
-      "standardAccount": "*25519",
-      "website": "https://www.webb.tools/"
+      "standardAccount": "secp256k1",
+      "website": "https://www.peerplays.com/"
     },
     {
       "prefix": 4450,
@@ -1063,6 +1126,15 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://humanode.io"
+    },
+    {
+      "prefix": 5845,
+      "network": "tangle",
+      "displayName": "Tangle Network",
+      "symbols": ["TNT"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://www.tangle.tools/"
     },
     {
       "prefix": 6094,
@@ -1092,6 +1164,15 @@
       "website": "https://gmordie.com"
     },
     {
+      "prefix": 7306,
+      "network": "krigan",
+      "displayName": "Krigan Network",
+      "symbols": ["KRGN"],
+      "decimals": [9],
+      "standardAccount": "*25519",
+      "website": "https://krigan.network"
+    },
+    {
       "prefix": 7391,
       "network": "unique_mainnet",
       "displayName": "Unique Network",
@@ -1101,6 +1182,15 @@
       "website": "https://unique.network"
     },
     {
+      "prefix": 8866,
+      "network": "golden_gate",
+      "displayName": "Golden Gate",
+      "symbols": ["GGX"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://ggxchain.io/"
+    },
+    {
       "prefix": 8883,
       "network": "sapphire_mainnet",
       "displayName": "Sapphire by Unique",
@@ -1108,6 +1198,15 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://unique.network"
+    },
+    {
+      "prefix": 8886,
+      "network": "golden_gate_sydney",
+      "displayName": "Golden Gate Sydney",
+      "symbols": ["GGXT"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://ggxchain.io/"
     },
     {
       "prefix": 9072,
@@ -1150,7 +1249,7 @@
       "network": "cess-testnet",
       "displayName": "CESS Testnet",
       "symbols": ["TCESS"],
-      "decimals": [12],
+      "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://cess.cloud"
     },
@@ -1159,7 +1258,7 @@
       "network": "cess",
       "displayName": "CESS",
       "symbols": ["CESS"],
-      "decimals": [12],
+      "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://cess.cloud"
     },
@@ -1207,6 +1306,15 @@
       "decimals": [9],
       "standardAccount": "*25519",
       "website": "https://bittensor.com"
+    },
+    {
+      "prefix": 14697,
+      "network": "goro",
+      "displayName": "GORO Network",
+      "symbols": ["GORO"],
+      "decimals": [9],
+      "standardAccount": "*25519",
+      "website": "https://goro.network"
     }
   ]
 }
