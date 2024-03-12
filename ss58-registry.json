@@ -1305,6 +1305,15 @@
       "decimals": [9],
       "standardAccount": "*25519",
       "website": "https://goro.network"
+    },
+    {
+      "prefix": 29972,
+      "network": "mythos",
+      "displayName": "Mythos",
+      "symbols": ["MYTH"],
+      "decimals": [18],
+      "standardAccount": "secp256k1",
+      "website": "https://mythos.foundation"
     }
   ]
 }
