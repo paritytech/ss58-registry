@@ -1136,6 +1136,15 @@
       "website": "https://subspace.network"
     },
     {
+      "prefix": 6629,
+      "network": "mandala",
+      "displayName": "Mandala",
+      "symbols": ["KPG"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://mandalachain.io"
+    },
+    {
       "prefix": 7007,
       "network": "tidefi",
       "displayName": "Tidefi",
