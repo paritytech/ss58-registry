@@ -1289,6 +1289,15 @@
       "website": "https://nftmart.io"
     },
     {
+      "prefix": 12850,
+      "network": "analog-timechain",
+      "displayName": "Analog Timechain",
+      "symbols": ["ANLOG"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://analog.one"
+    },
+    {
       "prefix": 13116,
       "network": "bittensor",
       "displayName": "Bittensor",
