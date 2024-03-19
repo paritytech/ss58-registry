@@ -1289,6 +1289,15 @@
       "website": "https://nftmart.io"
     },
     {
+      "prefix": 12994,
+      "network": "redefi",
+      "displayName": "ReDeFi Network",
+      "symbols": ["BAX"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://redefi.world"
+    },
+    {
       "prefix": 13116,
       "network": "bittensor",
       "displayName": "Bittensor",
