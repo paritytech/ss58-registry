@@ -1314,6 +1314,15 @@
       "decimals": [18],
       "standardAccount": "secp256k1",
       "website": "https://mythos.foundation"
+    },
+    {
+      "prefix": 30000,
+      "network": "lunes",
+      "displayName": "Lunes Nightly",
+      "symbols": ["LUNES"],
+      "decimals": [8],
+      "standardAccount": "25519",
+      "website": "https://lunes.io"
     }
   ]
 }
