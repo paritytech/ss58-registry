@@ -830,6 +830,15 @@
       "website": "https://parallel.fi/"
     },
     {
+    	"prefix": 176,                       
+    	"network": "dcchain",                
+    	"displayName": "DC NETWORK",    
+    	"symbols": ["DCT"],               
+    	"decimals": [18],                  
+    	"standardAccount": "*secp256k1",       
+    	"website": "https://dcnetio.cloud" 
+    },
+    {
       "prefix": 252,
       "network": "social-network",
       "displayName": "Social Network",
