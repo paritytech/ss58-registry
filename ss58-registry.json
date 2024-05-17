@@ -1235,6 +1235,15 @@
       "website": "https://bsx.fi"
     },
     {
+      "prefix": 11159,
+      "network": "mosaic-chain-test",
+      "displayName": "Mosaic Chain Testnet",
+      "symbols": ["TMOS"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://mosaicchain.io"
+    },
+    {
       "prefix": 11330,
       "network": "cess-testnet",
       "displayName": "CESS Testnet",
@@ -1307,6 +1316,15 @@
       "website": "https://goro.network"
     },
     {
+      "prefix": 14998,
+        "network": "mosaic-chain",
+        "displayName": "Mosaic Chain",
+        "symbols": ["MOS"],
+        "decimals": [18],
+        "standardAccount": "*25519",
+        "website": "https://mosaicchain.io"
+      },
+      {
       "prefix": 29972,
       "network": "mythos",
       "displayName": "Mythos",
