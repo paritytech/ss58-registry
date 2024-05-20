@@ -835,7 +835,7 @@
     	"displayName": "DC NETWORK",    
     	"symbols": ["DCT"],               
     	"decimals": [18],                  
-    	"standardAccount": "*secp256k1",       
+    	"standardAccount": "secp256k1",       
     	"website": "https://dcnetio.cloud" 
     },
     {
