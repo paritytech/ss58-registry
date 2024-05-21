@@ -1307,6 +1307,15 @@
       "website": "https://goro.network"
     },
     {
+      "prefix": 14998,
+        "network": "mosaic-chain",
+        "displayName": "Mosaic Chain",
+        "symbols": ["MOS"],
+        "decimals": [18],
+        "standardAccount": "*25519",
+        "website": "https://mosaicchain.io"
+      },
+      {
       "prefix": 29972,
       "network": "mythos",
       "displayName": "Mythos",
