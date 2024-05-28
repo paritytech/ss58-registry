@@ -1323,6 +1323,15 @@
       "decimals": [18],
       "standardAccount": "secp256k1",
       "website": "https://mythos.foundation"
+    },
+    {
+      "prefix": 8888,
+      "network": "xcavate",
+      "displayName": "Xcavate Protocol",
+      "symbols": ["XCAV"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://xcavate.io/"
     }
   ]
 }
