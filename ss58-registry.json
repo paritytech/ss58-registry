@@ -1341,6 +1341,15 @@
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://xcavate.io/"
+    },
+    {
+      "prefix": 30000,
+      "network": "lunes",
+      "displayName": "Lunes Nightly",
+      "symbols": ["LUNES"],
+      "decimals": [8],
+      "standardAccount": "25519",
+      "website": "https://lunes.io"
     }
   ]
 }
