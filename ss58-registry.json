@@ -1289,15 +1289,6 @@
       "website": "https://nftmart.io"
     },
     {
-      "prefix": 12850,
-      "network": "analog-timechain",
-      "displayName": "Analog Timechain",
-      "symbols": ["ANLOG"],
-      "decimals": [12],
-      "standardAccount": "*25519",
-      "website": "https://analog.one"
-    },
-    {
       "prefix": 13116,
       "network": "bittensor",
       "displayName": "Bittensor",
@@ -1341,6 +1332,15 @@
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://xcavate.io/"
+    },
+    {
+      "prefix": 535,
+      "network": "sustainable-eco-society",
+      "displayName": "Sustainable eco Society",
+      "symbols": ["SeS", "SeNT"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://sustainable-eco-society.com"
     }
   ]
 }
