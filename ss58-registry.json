@@ -956,6 +956,15 @@
       "website": "https://moonbeam.network"
     },
     {
+      "prefix": 1312,
+      "network": "entropy",
+      "displayName": "Entropy",
+      "symbols": ["BITS"],
+      "decimals": [10],
+      "standardAccount": "*25519",
+      "website": "https://entropy.xyz"
+    },
+    {
       "prefix": 1328,
       "network": "ajuna",
       "displayName": "Ajuna Network",
