@@ -830,6 +830,15 @@
       "website": "https://parallel.fi/"
     },
     {
+      "prefix": 225,
+      "network": "ulixee",
+      "displayName": "Ulixee",
+      "symbols": ["ULX", "ARG"],
+      "decimals": [3, 3],
+      "standardAccount": "*25519",
+      "website": "https://ulixee.org"
+    },
+    {
       "prefix": 252,
       "network": "social-network",
       "displayName": "Social Network",
