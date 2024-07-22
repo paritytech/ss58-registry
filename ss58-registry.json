@@ -1055,6 +1055,15 @@
       "website": "https://chainflip.io/"
     },
     {
+      "prefix": 2135,
+      "network": "enjin",
+      "displayName": "Enjin Relaychain",
+      "symbols": ["ENJ"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://enjin.io/"
+    },
+    {
       "prefix": 2199,
       "network": "moonsama",
       "displayName": "Moonsama",
