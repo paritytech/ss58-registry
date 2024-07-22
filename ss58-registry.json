@@ -912,8 +912,8 @@
     },
     {
       "prefix": 1110,
-      "network": "enjin",
-      "displayName": "Enjin",
+      "network": "matrixchain",
+      "displayName": "Enjin Matrixchain",
       "symbols": ["ENJ"],
       "decimals": [18],
       "standardAccount": "*25519",
