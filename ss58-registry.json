@@ -857,6 +857,15 @@
       "website": "https://bit.country"
     },
     {
+      "prefix": 314,
+      "network": "kylix",
+      "displayName": "Kylix",
+      "symbols": ["KLX"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://kylix.finance"
+    },
+    {
       "prefix": 420,
       "network": "sora_kusama_para",
       "displayName": "SORA Kusama Parachain",
