@@ -859,7 +859,7 @@
     {
       "prefix": 314,
       "network": "kylix",
-      "displayName": "Kylix",
+      "displayName": "Kylix Finance",
       "symbols": ["KLX"],
       "decimals": [18],
       "standardAccount": "*25519",
