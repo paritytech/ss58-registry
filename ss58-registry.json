@@ -830,6 +830,15 @@
       "website": "https://parallel.fi/"
     },
     {
+      "prefix": 251,
+      "network": "zkVerify",
+      "displayName": "zkVerify",
+      "symbols": ["ACME"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://zkverify.io"
+    },
+    {
       "prefix": 252,
       "network": "social-network",
       "displayName": "Social Network",
