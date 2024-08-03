@@ -1348,7 +1348,7 @@
       "displayName": "Sustainable eco Society",
       "symbols": ["SeS", "SeNT"],
       "decimals": [18],
-      "standardAccount": "*25519",
+      "standardAccount": "secp256k1",
       "website": "https://sustainable-eco-society.com"
      }
   ]
