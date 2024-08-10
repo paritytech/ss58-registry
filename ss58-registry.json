@@ -1118,6 +1118,15 @@
       "website": "https://humanode.io"
     },
     {
+      "prefix": 5335,
+      "network": "trait-asset-hub",
+      "displayName": "TRAIT Asset Hub",
+      "symbols": ["TRAIT"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://trait.tech/"
+    },
+    {
       "prefix": 5845,
       "network": "tangle",
       "displayName": "Tangle Network",
@@ -1341,6 +1350,15 @@
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://xcavate.io/"
+    },
+    {
+      "prefix": 16342,
+      "network": "trait-relay",
+      "displayName": "TRAIT Relay Chain",
+      "symbols": ["TRAIT"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://trait.tech/"
     }
   ]
 }
