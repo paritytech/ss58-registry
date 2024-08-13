@@ -544,11 +544,11 @@
     {
       "prefix": 63,
       "network": "hydradx",
-      "displayName": "HydraDX",
+      "displayName": "Hydration",
       "symbols": ["HDX"],
       "decimals": [12],
       "standardAccount": "*25519",
-      "website": "https://hydradx.io"
+      "website": "https://hydration.net"
     },
     {
       "prefix": 65,
