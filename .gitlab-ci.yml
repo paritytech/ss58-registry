@@ -139,7 +139,13 @@ tag-job:
 
 #### stage:                       publish
 
-unleash-to-crates-io:
+publish-crates-dry:
+  stage:                           publish
+  <<:                              *docker-env
+  script:
+    - cargo publish --dry-run
+
+publish-crates:
   stage:                           publish
   <<:                              *docker-env
   <<:                              *publish-refs
@@ -148,8 +154,7 @@ unleash-to-crates-io:
     - if [ $TAG == "new"  ];
       then
         echo "Publishing to crates.io";
-        cargo install cargo-unleash ${CARGO_UNLEASH_INSTALL_PARAMS};
-        cargo unleash em-dragons --no-check --owner github:paritytech:core-devs ${CARGO_UNLEASH_PKG_DEF};
+        cargo publish;
       else
         echo "Tag was not updated. Not releasing.";
       fi
