@@ -1145,6 +1145,15 @@
       "website": "https://subspace.network"
     },
     {
+      "prefix": 6095,
+      "network": "autonomys",
+      "displayName": "Autonomys",
+      "symbols": ["AI3"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://autonomys.xyz"
+    },
+    {
       "prefix": 7007,
       "network": "tidefi",
       "displayName": "Tidefi",
