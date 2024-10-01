@@ -1,5 +1,5 @@
-name: Tag and publish
-run-name: Tag and publish ${{ github.ref_name }}
+name: CI
+run-name: CI for ${{ github.ref_name }}
 on:
   push:
     branches:
