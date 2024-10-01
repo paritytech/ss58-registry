@@ -166,7 +166,7 @@ jobs:
   npm-publish-dry-run:
     runs-on: ubuntu-latest
     container:
-      image: "paritytech/ci-linux:production"
+      image: "node:16"
     needs: [deny, test]
     if: ${{ github.event_name == 'pull_request' }}
     steps:
@@ -200,6 +200,8 @@ jobs:
 
   npm-publish:
     runs-on: ubuntu-latest
+    container:
+      image: "node:16"
     needs: [tag]
     if: ${{ needs.tag.outputs.TAG == 'new' }}
     steps:
