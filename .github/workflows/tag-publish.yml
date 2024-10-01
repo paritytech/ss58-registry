@@ -9,8 +9,8 @@ on:
 
 env:
   CARGO_INCREMENTAL: 0
-  RUST_TOOLCHAIN: "1.70.0"
-  RUST_TOOLCHAIN_NIGHTLY: "nightly-2023-05-22"
+  RUST_TOOLCHAIN: "1.81.0"
+  RUST_TOOLCHAIN_NIGHTLY: "nightly-2024-09-11"
 
 
 jobs:
@@ -26,7 +26,7 @@ jobs:
 
       - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
-          toolchain: "${{ env.RUST_TOOLCHAIN }}, ${{ env.RUST_TOOLCHAIN_NIGHTLY }}"
+          toolchain: "${{ env.RUST_TOOLCHAIN_NIGHTLY }}, ${{ env.RUST_TOOLCHAIN }}"
           components: "rustfmt, clippy"
 
       - name: fmt
