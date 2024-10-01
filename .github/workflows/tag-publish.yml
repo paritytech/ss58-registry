@@ -165,9 +165,6 @@ jobs:
 
   npm-publish-dry-run:
     runs-on: ubuntu-latest
-    #container:
-    #  image: "node:16"
-    #  options: -u node
     needs: [deny, test]
     if: ${{ github.event_name == 'pull_request' }}
     steps:
@@ -198,7 +195,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Some job
+
+      - name: Publish
         run: |
           echo "tag result:   ${{ needs.tag.outputs.TAG }}"
           echo "pkg version:  ${{ needs.tag.outputs.PKG_VER }}"
@@ -207,14 +205,16 @@ jobs:
 
   npm-publish:
     runs-on: ubuntu-latest
-    container:
-      image: "node:16"
     needs: [tag]
     if: ${{ needs.tag.outputs.TAG == 'new' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Some job
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '16'
+
+      - name: Publish
         run: |
           echo "tag result:   ${{ needs.tag.outputs.TAG }}"
           echo "pkg version:  ${{ needs.tag.outputs.PKG_VER }}"
