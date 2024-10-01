@@ -1,0 +1,217 @@
+name: Tag and publish
+run-name: Release ${{ github.ref_name }}
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+env:
+  CI_IMAGE: "paritytech/ci-linux:production"
+  CARGO_INCREMENTAL: 0
+
+
+jobs:
+
+  info:
+    runs-on: ubuntu-latest
+    container:
+      image: ${CI_IMAGE}
+    steps:
+      - name: info
+        run: |
+          rustup show
+          cargo --version
+          rustup +nightly show
+          cargo +nightly --version
+          bash --version
+
+  #
+  #
+  #
+  lint:
+    runs-on: ubuntu-latest
+    container:
+      image: ${CI_IMAGE}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: fmt
+        run: cargo +nightly fmt --all -- --check
+      - name: clippy
+        run: cargo clippy --all --verbose
+
+  #
+  #
+  #
+  deny:
+    runs-on: ubuntu-latest
+    container:
+      image: ${CI_IMAGE}
+    needs: [lint]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deny
+        run: |
+          cargo deny check --hide-inclusion-graph -c scripts/ci/deny.toml
+          mkdir -p ./artifacts
+          echo "___Complete logs can be found in the artifacts___"
+          cargo deny check --hide-inclusion-graph 2> artifacts/cargo_deny.log
+
+      - name: upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.job }}-${{ github.ref_name }}
+          path: artifacts
+          retention-days: 7
+
+  #
+  #
+  #
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: ${CI_IMAGE}
+    needs: [lint]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Test
+        run: cargo test --all  --verbose
+
+  #
+  #
+  #
+  tag:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs: [deny, test]
+    if: ${{ github.event_name != 'pull_request' }}
+    outputs:
+      TAG: ${{ steps.versions.outputs.TAG }}
+      PKG_VER: ${{ steps.versions.outputs.PKG_VER }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-tags: 'true'
+          fetch-depth: 0
+
+      - name: Versions
+        id: versions
+        run: |
+          export CURRENT_TAG=$(git describe --tags --abbrev=0)
+          export PKG_VER=v$(cat Cargo.toml | grep -A 5 package] | grep version | cut -d '=' -f 2 | tr -d '"' | tr -d " ")
+          echo "Current tag $CURRENT_TAG"
+          echo "Package version $PKG_VER"
+          #
+          echo "PKG_VER=$PKG_VER" >> $GITHUB_OUTPUT
+          if [ $CURRENT_TAG == $PKG_VER  ];
+            then
+              echo "Tag is up to date. Nothing to do.";
+              export TAG=old;
+            else
+              echo "Tag was updated.";
+              export TAG=new;
+            fi
+          echo "TAG=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Create/update tag
+        id: tag
+        if: ${{ steps.versions.outputs.TAG == 'new' }}
+        uses: actions/github-script@v7
+        with:
+          result-encoding: string
+          script: |
+            try {
+              await github.rest.git.createRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: 'refs/tags/${{ steps.versions.outputs.PKG_VER }}',
+                sha: context.sha
+              })
+            } catch (err) {
+              if (err.status !== 422) throw err;
+              console.log("Tag already exists, updating")
+              await github.rest.git.updateRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: 'tags/${{ steps.versions.outputs.PKG_VER }}',
+                sha: context.sha
+              });
+            }
+
+  #
+  # Dry run
+  #
+
+  cargo-publish-dry-run:
+    runs-on: ubuntu-latest
+    container:
+      image: ${CI_IMAGE}
+    needs: [deny, test]
+    if: ${{ github.event_name == 'pull_request' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: cargo publish
+        run: cargo publish --dry-run
+
+  npm-publish-dry-run:
+    runs-on: ubuntu-latest
+    container:
+      image: ${CI_IMAGE}
+    needs: [deny, test]
+    if: ${{ github.event_name == 'pull_request' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: cargo publish
+        run: |
+          npm install
+          npm run build
+          cd npm_dist/
+          npm publish --dry-run
+
+  #
+  # Publish
+  #
+
+  cargo-publish:
+    runs-on: ubuntu-latest
+    needs: [tag]
+    if: ${{ needs.tag.outputs.TAG == 'new' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Some job
+        run: |
+          echo "tag result:   ${{ needs.tag.outputs.TAG }}"
+          echo "pkg version:  ${{ needs.tag.outputs.PKG_VER }}"
+          echo "Publishing to crates.io";
+          cargo publish;
+
+  npm-publish:
+    runs-on: ubuntu-latest
+    needs: [tag]
+    if: ${{ needs.tag.outputs.TAG == 'new' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Some job
+        run: |
+          echo "tag result:   ${{ needs.tag.outputs.TAG }}"
+          echo "pkg version:  ${{ needs.tag.outputs.PKG_VER }}"
+          npm install;
+          npm run build;
+          cd npm_dist/;
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc;
+          npm publish --access public;
