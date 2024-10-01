@@ -50,6 +50,7 @@ jobs:
 
       - name: Deny
         run: |
+          cargo install cargo-deny
           cargo deny check --hide-inclusion-graph -c scripts/ci/deny.toml
           mkdir -p ./artifacts
           echo "___Complete logs can be found in the artifacts___"
