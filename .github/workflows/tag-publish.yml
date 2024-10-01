@@ -8,7 +8,6 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
 
 env:
-  CI_IMAGE: "paritytech/ci-linux:production"
   CARGO_INCREMENTAL: 0
 
 
@@ -17,7 +16,7 @@ jobs:
   info:
     runs-on: ubuntu-latest
     container:
-      image: ${CI_IMAGE}
+      image: "paritytech/ci-linux:production"
     steps:
       - name: info
         run: |
@@ -33,7 +32,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     container:
-      image: ${CI_IMAGE}
+      image: "paritytech/ci-linux:production"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -49,7 +48,7 @@ jobs:
   deny:
     runs-on: ubuntu-latest
     container:
-      image: ${CI_IMAGE}
+      image: "paritytech/ci-linux:production"
     needs: [lint]
     steps:
       - name: Checkout
@@ -75,7 +74,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container:
-      image: ${CI_IMAGE}
+      image: "paritytech/ci-linux:production"
     needs: [lint]
     steps:
       - name: Checkout
@@ -154,7 +153,7 @@ jobs:
   cargo-publish-dry-run:
     runs-on: ubuntu-latest
     container:
-      image: ${CI_IMAGE}
+      image: "paritytech/ci-linux:production"
     needs: [deny, test]
     if: ${{ github.event_name == 'pull_request' }}
     steps:
@@ -167,7 +166,7 @@ jobs:
   npm-publish-dry-run:
     runs-on: ubuntu-latest
     container:
-      image: ${CI_IMAGE}
+      image: "paritytech/ci-linux:production"
     needs: [deny, test]
     if: ${{ github.event_name == 'pull_request' }}
     steps:
