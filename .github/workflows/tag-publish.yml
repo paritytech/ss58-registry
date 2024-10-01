@@ -64,7 +64,7 @@ jobs:
       - name: upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ github.job }}-${{ github.ref_name }}
+          name: ${{ github.job }}-${{ github.sha }}
           path: artifacts
           retention-days: 7
 
