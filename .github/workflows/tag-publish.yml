@@ -173,11 +173,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: cargo publish
+      - name: npm publish
         run: |
           npm install
           npm run build
           cd npm_dist/
+          ls -al
           npm publish --dry-run
 
   #
@@ -214,5 +215,6 @@ jobs:
           npm install;
           npm run build;
           cd npm_dist/;
+          ls -al
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc;
           npm publish --access public;
