@@ -15,26 +15,11 @@ env:
 
 jobs:
 
-  info:
-    runs-on: ubuntu-latest
-    container:
-      image: "paritytech/ci-linux:production"
-    steps:
-      - name: info
-        run: |
-          rustup show
-          cargo --version
-          rustup +nightly show
-          cargo +nightly --version
-          bash --version
-
   #
   #
   #
   lint:
     runs-on: ubuntu-latest
-    #container:
-    #  image: "paritytech/ci-linux:production"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -54,12 +39,14 @@ jobs:
   #
   deny:
     runs-on: ubuntu-latest
-    container:
-      image: "paritytech/ci-linux:production"
     needs: [lint]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: "${{ env.RUST_TOOLCHAIN }}, ${{ env.RUST_TOOLCHAIN_NIGHTLY }}"
+          components: "rustfmt, clippy"
 
       - name: Deny
         run: |
@@ -80,12 +67,14 @@ jobs:
   #
   test:
     runs-on: ubuntu-latest
-    container:
-      image: "paritytech/ci-linux:production"
     needs: [lint]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: "${{ env.RUST_TOOLCHAIN }}, ${{ env.RUST_TOOLCHAIN_NIGHTLY }}"
+          components: "rustfmt, clippy"
 
       - name: Test
         run: cargo test --all  --verbose
@@ -159,13 +148,15 @@ jobs:
 
   cargo-publish-dry-run:
     runs-on: ubuntu-latest
-    container:
-      image: "paritytech/ci-linux:production"
     needs: [deny, test]
     if: ${{ github.event_name == 'pull_request' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: "${{ env.RUST_TOOLCHAIN }}, ${{ env.RUST_TOOLCHAIN_NIGHTLY }}"
+          components: "rustfmt, clippy"
 
       - name: cargo publish
         run: cargo publish --dry-run
@@ -202,6 +193,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: "${{ env.RUST_TOOLCHAIN }}, ${{ env.RUST_TOOLCHAIN_NIGHTLY }}"
+          components: "rustfmt, clippy"
 
       - name: Publish
         run: |
