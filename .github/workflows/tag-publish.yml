@@ -175,6 +175,7 @@ jobs:
 
       - name: npm publish
         run: |
+          ls -al
           npm install
           npm run build
           cd npm_dist/
