@@ -912,12 +912,12 @@
     },
     {
       "prefix": 1110,
-      "network": "efinity",
-      "displayName": "Efinity",
-      "symbols": ["EFI"],
+      "network": "matrixchain",
+      "displayName": "Enjin Matrixchain",
+      "symbols": ["ENJ"],
       "decimals": [18],
       "standardAccount": "*25519",
-      "website": "https://efinity.io/"
+      "website": "https://enjin.io/"
     },
     {
       "prefix": 1221,
@@ -1062,6 +1062,15 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://chainflip.io/"
+    },
+    {
+      "prefix": 2135,
+      "network": "enjin",
+      "displayName": "Enjin Relaychain",
+      "symbols": ["ENJ"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://enjin.io/"
     },
     {
       "prefix": 2199,
