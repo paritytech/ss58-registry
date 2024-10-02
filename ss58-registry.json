@@ -830,6 +830,15 @@
       "website": "https://parallel.fi/"
     },
     {
+      "prefix": 204,
+      "network": "Selendra",
+      "displayName": "Selendra Network",
+      "symbols": ["SEL"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://portal.selendra.org/"
+    },
+    {
       "prefix": 252,
       "network": "social-network",
       "displayName": "Social Network",
