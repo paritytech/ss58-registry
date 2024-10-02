@@ -1064,6 +1064,15 @@
       "website": "https://chainflip.io/"
     },
     {
+      "prefix": 2137,
+      "network": "bigsb",
+      "displayName": "BigSB",
+      "symbols": ["USDC"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://bigshortbets.com/"
+    },
+    {
       "prefix": 2199,
       "network": "moonsama",
       "displayName": "Moonsama",
