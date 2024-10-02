@@ -1350,6 +1350,15 @@
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://xcavate.io/"
-    }
+    },
+    {
+      "prefix": 535,
+      "network": "sustainable-eco-society",
+      "displayName": "Sustainable eco Society",
+      "symbols": ["SeS", "SeNT"],
+      "decimals": [18],
+      "standardAccount": "secp256k1",
+      "website": "https://sustainable-eco-society.com"
+     }
   ]
 }
