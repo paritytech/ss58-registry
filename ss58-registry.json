@@ -65,13 +65,13 @@
       "website": "https://astar.network"
     },
     {
-      "prefix": 6,
+      "prefix": 0,
       "network": "bifrost",
       "displayName": "Bifrost",
       "symbols": ["BNC"],
       "decimals": [12],
       "standardAccount": "*25519",
-      "website": "https://bifrost.finance/"
+      "website": "https://bifrost.io/"
     },
     {
       "prefix": 7,
