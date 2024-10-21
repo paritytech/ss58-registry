@@ -1,0 +1,231 @@
+name: CI
+run-name: CI for ${{ github.ref_name }}
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+env:
+  CARGO_INCREMENTAL: 0
+  RUST_TOOLCHAIN: "1.70.0"
+  RUST_TOOLCHAIN_NIGHTLY: "nightly-2023-05-23"
+
+
+jobs:
+
+  #
+  #
+  #
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: "${{ env.RUST_TOOLCHAIN_NIGHTLY }}, ${{ env.RUST_TOOLCHAIN }}"
+          components: "rustfmt, clippy"
+
+      - name: fmt
+        run: cargo +${{ env.RUST_TOOLCHAIN_NIGHTLY }} fmt --all -- --check
+      - name: clippy
+        run: cargo clippy --all --verbose
+
+  #
+  #
+  #
+  deny:
+    runs-on: ubuntu-latest
+    needs: [lint]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: "${{ env.RUST_TOOLCHAIN }}, ${{ env.RUST_TOOLCHAIN_NIGHTLY }}"
+          components: "rustfmt, clippy"
+
+      - name: Deny
+        run: |
+          cargo install cargo-deny@0.13.9 --locked
+          cargo deny check --hide-inclusion-graph -c scripts/ci/deny.toml
+          mkdir -p ./artifacts
+          echo "___Complete logs can be found in the artifacts___"
+          cargo deny check --hide-inclusion-graph -c scripts/ci/deny.toml 2> artifacts/cargo_deny.log
+
+      - name: upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.job }}-${{ github.sha }}
+          path: artifacts
+          retention-days: 7
+
+  #
+  #
+  #
+  test:
+    runs-on: ubuntu-latest
+    needs: [lint]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: "${{ env.RUST_TOOLCHAIN }}, ${{ env.RUST_TOOLCHAIN_NIGHTLY }}"
+          components: "rustfmt, clippy"
+
+      - name: Test
+        run: cargo test --all  --verbose
+
+  #
+  #
+  #
+  tag:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs: [deny, test]
+    if: ${{ github.event_name != 'pull_request' }}
+    outputs:
+      TAG: ${{ steps.versions.outputs.TAG }}
+      PKG_VER: ${{ steps.versions.outputs.PKG_VER }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-tags: 'true'
+          fetch-depth: 0
+
+      - name: Versions
+        id: versions
+        run: |
+          export CURRENT_TAG=$(git describe --tags --abbrev=0)
+          export PKG_VER=v$(cat Cargo.toml | grep -A 5 package] | grep version | cut -d '=' -f 2 | tr -d '"' | tr -d " ")
+          echo "Current tag $CURRENT_TAG"
+          echo "Package version $PKG_VER"
+          #
+          echo "PKG_VER=$PKG_VER" >> $GITHUB_OUTPUT
+          if [ $CURRENT_TAG == $PKG_VER  ];
+            then
+              echo "Tag is up to date. Nothing to do.";
+              export TAG=old;
+            else
+              echo "Tag was updated.";
+              export TAG=new;
+            fi
+          echo "TAG=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Create/update tag
+        id: tag
+        if: ${{ steps.versions.outputs.TAG == 'new' }}
+        uses: actions/github-script@v7
+        with:
+          result-encoding: string
+          script: |
+            try {
+              await github.rest.git.createRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: 'refs/tags/${{ steps.versions.outputs.PKG_VER }}',
+                sha: context.sha
+              })
+            } catch (err) {
+              if (err.status !== 422) throw err;
+              console.log("Tag already exists, updating")
+              await github.rest.git.updateRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: 'tags/${{ steps.versions.outputs.PKG_VER }}',
+                sha: context.sha
+              });
+            }
+
+  #
+  # Dry run
+  #
+
+  cargo-publish-dry-run:
+    runs-on: ubuntu-latest
+    needs: [deny, test]
+    if: ${{ github.event_name == 'pull_request' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: "${{ env.RUST_TOOLCHAIN }}, ${{ env.RUST_TOOLCHAIN_NIGHTLY }}"
+          components: "rustfmt, clippy"
+
+      - name: cargo publish
+        run: cargo publish --dry-run
+
+  npm-publish-dry-run:
+    runs-on: ubuntu-latest
+    needs: [deny, test]
+    if: ${{ github.event_name == 'pull_request' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '16'
+
+      - name: npm publish
+        run: |
+          ls -al
+          npm install
+          npm run build
+          cd npm_dist/
+          ls -al
+          npm publish --dry-run
+
+  #
+  # Publish
+  #
+
+  cargo-publish:
+    runs-on: ubuntu-latest
+    environment: Main
+    needs: [tag]
+    if: ${{ needs.tag.outputs.TAG == 'new' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: "${{ env.RUST_TOOLCHAIN }}, ${{ env.RUST_TOOLCHAIN_NIGHTLY }}"
+          components: "rustfmt, clippy"
+
+      - name: Publish
+        run: |
+          echo "tag result:   ${{ needs.tag.outputs.TAG }}"
+          echo "pkg version:  ${{ needs.tag.outputs.PKG_VER }}"
+          echo "Publishing to crates.io";
+          cargo publish --token ${{ secrets.CARGO_REGISTRY_TOKEN }};
+
+  npm-publish:
+    runs-on: ubuntu-latest
+    environment: Main
+    needs: [tag]
+    if: ${{ needs.tag.outputs.TAG == 'new' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '16'
+
+      - name: Publish
+        run: |
+          echo "tag result:   ${{ needs.tag.outputs.TAG }}"
+          echo "pkg version:  ${{ needs.tag.outputs.PKG_VER }}"
+          npm install;
+          npm run build;
+          cd npm_dist/;
+          ls -al
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc;
+          npm publish --access public;

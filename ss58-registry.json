@@ -1028,6 +1028,15 @@
       "website": "https://logion.network"
     },
     {
+      "prefix": 2024,
+      "network": "vow-chain",
+      "displayName": "Enigmatic Smile",
+      "symbols": ["VOW"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://www.vow.foundation/"
+    },
+    {
       "prefix": 2032,
       "network": "interlay",
       "displayName": "Interlay",
@@ -1137,12 +1146,12 @@
     },
     {
       "prefix": 6094,
-      "network": "subspace",
-      "displayName": "Subspace",
-      "symbols": ["SSC"],
+      "network": "autonomys",
+      "displayName": "Autonomys",
+      "symbols": ["AI3"],
       "decimals": [18],
       "standardAccount": "*25519",
-      "website": "https://subspace.network"
+      "website": "https://autonomys.xyz"
     },
     {
       "prefix": 7007,
