@@ -650,6 +650,15 @@
       "website": "https://sora.org"
     },
     {
+      "prefix": 87,
+      "network": "Uomi",
+      "displayName": "Uomi mainnet",
+      "symbols": ["UOMI"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://uomi.ai"
+    },
+    {
       "prefix": 88,
       "network": "polkadex",
       "displayName": "Polkadex Mainnet",
@@ -1326,14 +1335,14 @@
     },
     {
       "prefix": 14998,
-        "network": "mosaic-chain",
-        "displayName": "Mosaic Chain",
-        "symbols": ["MOS"],
-        "decimals": [18],
-        "standardAccount": "*25519",
-        "website": "https://mosaicchain.io"
-      },
-      {
+      "network": "mosaic-chain",
+      "displayName": "Mosaic Chain",
+      "symbols": ["MOS"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://mosaicchain.io"
+    },
+    {
       "prefix": 29972,
       "network": "mythos",
       "displayName": "Mythos",
