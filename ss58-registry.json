@@ -767,6 +767,15 @@
       "website": "https://invarch.network"
     },
     {
+      "prefix": 125,
+      "network": "balance-ai",
+      "displayName": "BalanceAI",
+      "symbols": ["BAI"],
+      "decimals": [9],
+      "standardAccount": "*25519",
+      "website": "https://balanceai.network/"
+    },
+    {
       "prefix": 126,
       "network": "joystream",
       "displayName": "Joystream",
