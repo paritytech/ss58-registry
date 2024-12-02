@@ -1127,6 +1127,15 @@
       "website": "https://humanode.io"
     },
     {
+      "prefix": 5589,
+      "network": "jamton",
+      "displayName": "JAMTON",
+      "symbols": ["DOTON"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://jamton.network"
+    },
+    {
       "prefix": 5845,
       "network": "tangle",
       "displayName": "Tangle Network",
