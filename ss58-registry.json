@@ -974,6 +974,24 @@
       "website": "https://ajuna.io"
     },
     {
+      "prefix": 1338,
+      "network": "atlantis",
+      "displayName": "Atlantis Network",
+      "symbols": ["ELY"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://elysiumchain.tech"
+    },
+    {
+      "prefix": 1339,
+      "network": "elysium",
+      "displayName": "Elysium Network",
+      "symbols": ["ELY"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://elysiumchain.tech"
+    },
+    {
       "prefix": 1516,
       "network": "societal",
       "displayName": "Societal",
