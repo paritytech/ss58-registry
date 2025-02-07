@@ -291,12 +291,12 @@
     },
     {
       "prefix": 31,
-      "network": "litentry",
-      "displayName": "Litentry Network",
-      "symbols": ["LIT"],
-      "decimals": [12],
+      "network": "heima",
+      "displayName": "Heima Network",
+      "symbols": ["HEI"],
+      "decimals": [18],
       "standardAccount": "*25519",
-      "website": "https://litentry.com/"
+      "website": "https://heima.network/"
     },
     {
       "prefix": 32,
@@ -792,15 +792,6 @@
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://dorafactory.org"
-    },
-    {
-      "prefix": 131,
-      "network": "litmus",
-      "displayName": "Litmus Network",
-      "symbols": ["LIT"],
-      "decimals": [12],
-      "standardAccount": "*25519",
-      "website": "https://litentry.com/"
     },
     {
       "prefix": 136,
