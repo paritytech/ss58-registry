@@ -857,6 +857,15 @@
       "website": "https://bit.country"
     },
     {
+      "prefix": 355,
+      "network": "gen6",
+      "displayName": "Gen6 Public Chain",
+      "symbols": ["GSX"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://g6.network"
+    },
+    {
       "prefix": 420,
       "network": "sora_kusama_para",
       "displayName": "SORA Kusama Parachain",
