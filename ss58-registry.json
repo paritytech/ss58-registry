@@ -1350,6 +1350,15 @@
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://xcavate.io/"
+    },
+    {
+      "prefix": 88711,
+      "network": "wuminbi",
+      "displayName": "Wuminbi",
+      "symbols": ["WMB"],
+      "decimals": [2],
+      "standardAccount": "*25519",
+      "website": "https://www.wuminbi.com"
     }
   ]
 }
