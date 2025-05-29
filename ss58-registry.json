@@ -1350,6 +1350,22 @@
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://xcavate.io/"
-    }
+    },
+    {
+  "prefix": 84,
+  "network": "SILA Network",
+  "displayName": "SILA",
+  "symbols": ["SILA"],
+  "flag": "SILA",
+  "logo": "sila",
+  "decimals": [12],
+  "standardAccount": "*25519",
+  "website": "https://sila.org",
+  "email": "admin@sila.org",
+  "dns": ["sila.org"],
+  "documentation": ["https://docs.sila.org"],
+  "description": "SILA is a public PoS blockchain that allows users to build and launch their own coins and dApps."
+}
+
   ]
 }
