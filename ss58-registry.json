@@ -1351,15 +1351,14 @@
       "standardAccount": "*25519",
       "website": "https://xcavate.io/"
     },
-    {
+   {
   "prefix": 84,
-  "network": "SILA Network",
+  "network": "sila",
   "displayName": "SILA",
   "symbols": ["SILA"],
-  "flag": "SILA",
   "logo": "sila",
   "decimals": [12],
-  "standardAccount": "*25519",
+  "standardAccount": ["ed25519", "sr25519"],
   "website": "https://sila.org",
   "email": "admin@sila.org",
   "dns": ["sila.org"],
