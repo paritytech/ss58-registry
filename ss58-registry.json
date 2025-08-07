@@ -1356,7 +1356,7 @@
   "network": "SILA Network",
   "displayName": "SILA",
   "symbols": ["SILA"],
-  "logo": "sila",
+  "logo": "sila a",
   "decimals": [12],
   "standardAccount": ["ed25519", "sr25519"],
   "website": "https://sila.org",
