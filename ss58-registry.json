@@ -1163,6 +1163,24 @@
       "website": "https://gmordie.com"
     },
     {
+      "prefix": 7140,
+      "network": "talaria-test",
+      "displayName": "Talaria Testnet",
+      "symbols": ["tTAL"],
+      "decimals": [5],
+      "standardAccount": "*25519",
+      "website": "https://talaria.chat"
+    },
+    {
+      "prefix": 7141,
+      "network": "talaria",
+      "displayName": "Talaria Network",
+      "symbols": ["TAL"],
+      "decimals": [5],
+      "standardAccount": "*25519",
+      "website": "https://talaria.chat"
+    },
+    {
       "prefix": 7306,
       "network": "krigan",
       "displayName": "Krigan Network",
