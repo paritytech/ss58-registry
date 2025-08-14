@@ -648,6 +648,7 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://sora.org"
+
     },
     {
       "prefix": 88,
@@ -1350,6 +1351,16 @@
       "decimals": [12],
       "standardAccount": "*25519",
       "website": "https://xcavate.io/"
-    }
+    },
+    {
+  "prefix": 84,
+  "network": "sila",
+  "displayName": "SILA Network",
+  "symbols": ["SILA"],
+  "decimals": [12],
+  "standardAccount": "*25519",
+  "website": "https://github.com/ahmed202225/sila-chain"
+}
+
   ]
 }
