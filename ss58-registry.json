@@ -982,6 +982,16 @@
       "standardAccount": "*25519",
       "website": "https://www.sctl.xyz"
     },
+
+    {
+  "prefix": 1954,
+  "network": "drariux",
+  "displayName": "Drariux Network",
+  "symbols": ["DRC"],
+  "decimals": [18],
+  "standardAccount": "*25519",
+  "website": "https://DrariuxNetwork.com"
+    },
     {
       "prefix": 1985,
       "network": "seals",
