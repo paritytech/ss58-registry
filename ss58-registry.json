@@ -830,6 +830,15 @@
       "website": "https://parallel.fi/"
     },
     {
+      "prefix": 240,
+      "network": "orbinum",
+      "displayName": "Orbinum Network",
+      "symbols": ["ORB"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://orbinum.network"
+    },
+    {
       "prefix": 252,
       "network": "social-network",
       "displayName": "Social Network",
