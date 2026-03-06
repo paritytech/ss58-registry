@@ -1244,6 +1244,15 @@
       "website": "https://bsx.fi"
     },
     {
+      "prefix": 11096,
+      "network": "esx-global-identity",
+      "displayName": "ESX Global Identity",
+      "symbols": ["ESXID"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://esx.network"
+    },
+    {
       "prefix": 11330,
       "network": "cess-testnet",
       "displayName": "CESS Testnet",
@@ -1262,6 +1271,15 @@
       "website": "https://cess.cloud"
     },
     {
+      "prefix": 11352,
+      "network": "esx-oceania",
+      "displayName": "ESX Oceania",
+      "symbols": ["ESXOC"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://esx.network"
+    },
+    {
       "prefix": 11486,
       "network": "luhn",
       "displayName": "Luhn Network",
@@ -1271,6 +1289,15 @@
       "website": "https://luhn.network"
     },
     {
+      "prefix": 11608,
+      "network": "esx-middle-east",
+      "displayName": "ESX Middle East",
+      "symbols": ["ESXME"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://esx.network"
+    },
+    {
       "prefix": 11820,
       "network": "contextfree",
       "displayName": "Automata ContextFree",
@@ -1278,6 +1305,24 @@
       "decimals": [18],
       "standardAccount": "*25519",
       "website": "https://ata.network"
+    },
+    {
+      "prefix": 11864,
+      "network": "esx-asia",
+      "displayName": "ESX Asia",
+      "symbols": ["ESXAS"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://esx.network"
+    },
+    {
+      "prefix": 12120,
+      "network": "esx-africa",
+      "displayName": "ESX Africa",
+      "symbols": ["ESXAF"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://esx.network"
     },
     {
       "prefix": 12155,
@@ -1298,6 +1343,24 @@
       "website": "https://nftmart.io"
     },
     {
+      "prefix": 12376,
+      "network": "esx-europe",
+      "displayName": "ESX Europe",
+      "symbols": ["ESXEU"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://esx.network"
+    },
+    {
+      "prefix": 12632,
+      "network": "esx-south-america",
+      "displayName": "ESX South America",
+      "symbols": ["ESXSA"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://esx.network"
+    },
+    {
       "prefix": 12850,
       "network": "analog-timechain",
       "displayName": "Analog Timechain",
@@ -1307,6 +1370,15 @@
       "website": "https://analog.one"
     },
     {
+      "prefix": 12888,
+      "network": "esx-north-america",
+      "displayName": "ESX North America",
+      "symbols": ["ESXNA"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://esx.network"
+    },
+    {
       "prefix": 13116,
       "network": "bittensor",
       "displayName": "Bittensor",
@@ -1314,6 +1386,15 @@
       "decimals": [9],
       "standardAccount": "*25519",
       "website": "https://bittensor.com"
+    },
+    {
+      "prefix": 13144,
+      "network": "esx-global-unity",
+      "displayName": "ESX Global Unity",
+      "symbols": ["ESX"],
+      "decimals": [18],
+      "standardAccount": "*25519",
+      "website": "https://esx.network"
     },
     {
       "prefix": 14697,
