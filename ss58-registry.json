@@ -542,6 +542,24 @@
       "website": "http://www.ysknfr.cn/"
     },
     {
+      "prefix": 59,
+      "network": "vuniti_global",
+      "displayName": "VuNiti Global",
+      "symbols": ["VU"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://vuniti.com"
+    },
+    {
+      "prefix": 60,
+      "network": "vuniti_china",
+      "displayName": "VuNiti China",
+      "symbols": ["Vu"],
+      "decimals": [12],
+      "standardAccount": "*25519",
+      "website": "https://vuniti.cn"
+    },
+    {
       "prefix": 63,
       "network": "hydradx",
       "displayName": "Hydration",
