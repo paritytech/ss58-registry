@@ -121,7 +121,7 @@ jobs:
       - name: Create/update tag
         id: tag
         if: ${{ steps.versions.outputs.TAG == 'new' }}
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           result-encoding: string
           script: |
