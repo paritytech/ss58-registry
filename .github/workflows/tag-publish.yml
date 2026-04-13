@@ -57,7 +57,7 @@ jobs:
           cargo deny check --hide-inclusion-graph -c scripts/ci/deny.toml 2> artifacts/cargo_deny.log
 
       - name: upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ github.job }}-${{ github.sha }}
           path: artifacts
